@@ -16,7 +16,7 @@ clone master branch về để chạy code trên VSCode
 + Khi commit phải có commit message
 + Đảm bảo code được commit phải chạy được
 + trường hợp muốn commit code bi lỗi lên, hãy đưa nó vào branch error
-+ commit xong code thì update file Readme2 này như cấu trúc bên dưới.
++ commit xong code thì update file README này như cấu trúc bên dưới.
 
 ----------------------------------------------------------------------------------
 Update (5:25, 9/4/2024)
