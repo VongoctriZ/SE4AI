@@ -1,15 +1,9 @@
 Code tham khảo trên: youtube
-full frontend fe: (1)
+full frontend fe: (1) https://www.youtube.com/watch?v=jbfuzcrfjqQ&t=7s
 
-https://www.youtube.com/watch?v=jbfuzcrfjqQ&t=7s
+tham khảo reactjs: (2) https://www.youtube.com/watch?v=ONnlXF4mpIg&list=PLncHg6Kn2JT4C0enPGQPK7ZIlEoZ1ZvRy
 
-tham khảo reactjs: (2)
-
-https://www.youtube.com/watch?v=ONnlXF4mpIg&list=PLncHg6Kn2JT4C0enPGQPK7ZIlEoZ1ZvRy
-
-Nên tìm hiểu sơ về HTML, CSS, JavaScript trong việc build web: (3)
-
-https://www.youtube.com/watch?v=QK7t5Aodgik
+Nên tìm hiểu sơ về HTML, CSS, JavaScript trong việc build web: (3) https://www.youtube.com/watch?v=QK7t5Aodgik
 
 ----------------------------------------------------------------------------------
 - Môi trường code: VS Code
