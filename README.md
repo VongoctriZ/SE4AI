@@ -11,11 +11,11 @@ Nên tìm hiểu sơ về HTML, CSS, JavaScript trong việc build web: (3) http
 clone master branch về để chạy code trên VSCode 
 (hướng dẫn ở video #3.2 ở list (2))
 - Lưu ý: 
-+ Đây là first commit nên tui push lên all file, về sau khi làm, chỉ nên push những file cần thay đổi
-+ Khi commit phải có commit message
-+ Đảm bảo code được commit phải chạy được
-+ trường hợp muốn commit code bi lỗi lên, hãy đưa nó vào branch error
-+ commit xong code thì update file README này như cấu trúc bên dưới.
+  + Đây là first commit nên tui push lên all file, về sau khi làm, chỉ nên push những file cần thay đổi
+  + Khi commit phải có commit message
+  + Đảm bảo code được commit phải chạy được
+  + trường hợp muốn commit code bi lỗi lên, hãy đưa nó vào branch error
+  + commit xong code thì update file README này như cấu trúc bên dưới.
 
 ----------------------------------------------------------------------------------
 Update (5:25, 9/4/2024)
