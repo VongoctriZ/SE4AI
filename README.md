@@ -23,4 +23,8 @@ Update (5:25, 9/4/2024)
 - Có tổ chức lại các thư mục như trong source code, nên chú ý khi tham khảo code video vào code gốc
 
 ----------------------------------------------------------------------------------
-Update (...)
+Update (19/04/2024)
+
+- Hoàn thiện cơ bản front-end theo nguồn.
+
+- Làm xong back-end trước ngày 22/04/2024.
