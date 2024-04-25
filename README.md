@@ -28,3 +28,13 @@ Update (19/04/2024)
 - Hoàn thiện cơ bản front-end theo nguồn.
 
 - Làm xong back-end trước ngày 22/04/2024.
+
+---
+
+Update 25/04/2024
+
+backend:
+
+extension:
+- MongoDB
+- Thunder Client
