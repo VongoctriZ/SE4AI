@@ -40,3 +40,12 @@ extension:
 - Thunder Client
 
 **Xong backend**
+---
+Update: 9h sáng 05/04/2024
+
+Xây dựng admin
+
+Các chức năng:
+- Thêm sản phẩm
+- Xem danh sách sản phẩm
+- Kết nối với cơ sở dữ liệu và gửi thông tin sản phẩm lên.
