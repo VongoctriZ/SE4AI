@@ -49,3 +49,9 @@ Các chức năng:
 - Thêm sản phẩm
 - Xem danh sách sản phẩm
 - Kết nối với cơ sở dữ liệu và gửi thông tin sản phẩm lên.
+
+---
+Update 16h - 05/10/2024
+
+- Full tutorial
+- Login/SignUp/Admin/User/Cart
