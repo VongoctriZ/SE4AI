@@ -55,3 +55,9 @@ Update 16h - 05/10/2024
 
 - Full tutorial
 - Login/SignUp/Admin/User/Cart
+
+
+**Cách chạy web**
+- Frontend: npm start
+- Backend: node ./index.js (nhớ kết nối mongodb)
+- Admin: npm run dev
