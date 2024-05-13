@@ -232,7 +232,6 @@ app.get('/allproducts', async (req, res) => {
     res.send(products);
 })
 
-
 // creating endpoint for new collection data
 app.get('/newcollections', async (req, res) => {
     let products = await Product.find({});

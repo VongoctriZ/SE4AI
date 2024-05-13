@@ -66,12 +66,16 @@ Update 16h - 05/10/2024
 6h40 - 13/05/2024
 
 Quy trình:
-|Giao đoạn|Hoàn thành|Deadline|Công cụ|
-|-|-|-|-|
-|Thiết kế UI/UX|Chưa bắt đầu|15/03/2024|Figma|
-|Thiết kết Database|Đang thực hiện|14/03/2024|MongoDB Compass/Atlas|
-|Xây dựng API|Đang thực hiện|31/05/2024|NodeJS, Thunder Client|
-|Xây dựng frontend|Đang thực hiện|31/05/2024|ReactJS,...|
-|Xây dựng Admin, phân quyền|Đang thực hiện|31/05/2024|...|
-|Xây dựng AI use case|Chưa bắt đầu|31/05/2024|Python,...|
-|Kiểm thử|Chưa bắt đầu|03/06/2024|Thủ công|
+|Giao đoạn|Hoàn thành|Deadline|Công cụ|Phụ trách|
+|-|-|-|-|-|
+|Thiết kế UI/UX|Chưa bắt đầu|16/03/2024|Figma|Hân, Trí|
+|Thiết kết Database|Đang thực hiện|14/03/2024|MongoDB Compass/Atlas|Cường|
+|Xây dựng API|Đang thực hiện|31/05/2024|NodeJS, Thunder Client|Cả nhóm|
+|Xây dựng frontend|Đang thực hiện|31/05/2024|ReactJS,...|Huy, Hân, Trí|
+|Xây dựng Admin, phân quyền|Đang thực hiện|31/05/2024|...|Huy, 
+|Xây dựng AI use case|Chưa bắt đầu|31/05/2024|Python,...|Hân, Huy, Toàn|
+|Kiểm thử|Chưa bắt đầu|03/06/2024|Thủ công|Cả nhóm|
+
+
+
+**Trình bày trước lớp: 14/06/2024**
