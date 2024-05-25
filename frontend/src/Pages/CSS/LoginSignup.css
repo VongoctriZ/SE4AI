@@ -1,6 +1,6 @@
-.login-signup{
+/* .login-signup{
     width: 100%;
-    /* height: 80vh; */
+    height: 80vh;
     background: #fce3fe;
     padding-top: 100px;
 }
@@ -127,5 +127,107 @@
     .login-signup-container button{
         height: 50px;
         font-size: 16px;
+    }
+} */
+
+
+.login-signup {
+    width: 100%;
+    background: #fce3fe;
+    padding-top: 50px; /* Adjusted padding-top for better spacing */
+}
+
+.login-signup-container {
+    width: 100%;
+    max-width: 580px; /* Adjusted max-width for better responsiveness */
+    background: white;
+    margin: auto;
+    padding: 40px 60px;
+}
+
+.login-signup-container h1 {
+    margin: 20px 0;
+    font-size: 28px; /* Increased font size for better readability */
+}
+
+.login-signup-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Reduced gap for better spacing */
+    margin-top: 20px; /* Reduced margin-top for better alignment */
+}
+
+.login-signup-fields input {
+    height: 50px; /* Reduced input height for better form appearance */
+    width: 100%;
+    padding: 0 20px; /* Adjusted padding for better alignment */
+    border: 1px solid #c9c9c9;
+    outline: none;
+    color: #6a6a6a;
+    font-size: 16px; /* Reduced font size for better fit */
+}
+
+.login-signup-container button {
+    width: 100%;
+    height: 50px;
+    color: white;
+    background: #ff4141;
+    margin-top: 20px;
+    font-size: 18px; /* Increased font size for better visibility */
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.login-signup-login {
+    margin-top: 20px;
+    color: #5c5c5c;
+    font-size: 16px;
+}
+
+.login-signup-login span {
+    color: #ff4141;
+    font-weight: 600;
+}
+
+.login-signup-agree {
+    display: flex;
+    align-items: center;
+    margin-top: 15px; /* Reduced margin-top for better alignment */
+    gap: 10px;
+    color: #5c5c5c;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@media (max-width: 1280px) {
+    .login-signup-container h1 {
+        font-size: 24px;
+    }
+
+    .login-signup-fields input {
+        height: 45px; /* Reduced input height for smaller screens */
+    }
+
+    .login-signup-container button {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 800px) {
+    .login-signup-container {
+        padding: 20px;
+    }
+
+    .login-signup-container h1 {
+        font-size: 22px; /* Reduced font size for smaller screens */
+    }
+
+    .login-signup-fields input {
+        height: 40px; /* Further reduced input height for smaller screens */
+    }
+
+    .login-signup-container button {
+        height: 45px; /* Increased button height for better tap targets */
+        font-size: 14px; /* Reduced font size for smaller screens */
     }
 }
