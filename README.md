@@ -76,6 +76,10 @@ Quy trình:
 |Xây dựng AI use case|Chưa bắt đầu|31/05/2024|Python,...|Hân, Huy, Toàn|
 |Kiểm thử|Chưa bắt đầu|03/06/2024|Thủ công|Cả nhóm|
 
+---
+25/05/2024
 
+- Đã chia source code theo mô hình `MVC` (user, product, cart).
+- Nhóm use-case về `account`: chưa thực hiện `reset password`.
 
 **Trình bày trước lớp: 14/06/2024**

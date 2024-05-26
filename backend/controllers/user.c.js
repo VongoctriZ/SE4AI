@@ -1,78 +1,15 @@
-// const jwt = require('jsonwebtoken')
-// const Users = require('../models/user.m');
-
-// // creating endpoint for registering the user
-// const SignUp = async (req,res) => {
-//     let check = await Users.findOne({ email: req.body.email });
-//     if (check) {
-//         return res.status(400).json({ success: false, errors: "Existing user found with same email address" })
-//     }
-
-//     let cart = {};
-//     for (let i = 0; i < 300; i++) {
-//         cart[i] = 0;
-//     }
-
-//     const user = new Users({
-//         name: req.body.username,
-//         email: req.body.email,
-//         password: req.body.password,
-//         cartData: cart,
-//     })
-
-//     await user.save();
-
-//     const data = {
-//         user: {
-//             id: user.id
-//         }
-//     }
-
-//     const token = jwt.sign(data, 'secret_ecom');
-//     res.json({ success: true, token })
-// }
-
-
-// // creating endpoint for user point
-
-// const Login = async (req, res) => {
-//     let user = await Users.findOne({ email: req.body.email });
-
-//     if (user) {
-//         const passComp = req.body.password === user.password;
-
-//         if (passComp) {
-//             const data = {
-//                 user: {
-//                     id: user.id
-//                 }
-//             }
-
-//             const token = jwt.sign(data, 'secret_ecom');
-//             res.json({ success: true, token });
-//         }
-//         else {
-//             res.json({ success: false, errors: "wrong password!" });
-//         }
-//     }
-//     else {
-//         res.json({ success: false, errors: "Wrong Email Id!" });
-//     }
-// }
-
-// module.exports = {Login,SignUp};
-
+const maxItemInCart = 300;
 
 const jwt = require('jsonwebtoken');
 // const bcrypt = require('bcrypt');
-const Users = require('../models/user.m');
+const User = require('../models/user.m');
 
 // creating endpoint for registering the user
 const SignUp = async (req, res) => {
-    const { fullName, phoneNumber, emailAddress, password, confirmPassword } = req.body;
+    const { fullName, phoneNumber, email, password, confirmPassword,address } = req.body;
 
     // Validate required fields
-    if (!fullName || !phoneNumber || !emailAddress || !password || !confirmPassword) {
+    if (!fullName || !phoneNumber || !email || !password || !confirmPassword || !address) {
         return res.status(400).json({ success: false, errors: "All fields are required" });
     }
 
@@ -82,14 +19,14 @@ const SignUp = async (req, res) => {
     }
 
     // Check if user already exists
-    let existingUser = await Users.findOne({ emailAddress });
+    let existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.status(400).json({ success: false, errors: "Existing user found with the same email address" });
     }
 
     // Initialize cart data
     let cart = {};
-    for (let i = 0; i < 300; i++) {
+    for (let i = 0; i < maxItemInCart; i++) {
         cart[i] = 0;
     }
 
@@ -98,12 +35,13 @@ const SignUp = async (req, res) => {
     const hashedPassword = password;
 
     // Create new user
-    const user = new Users({
+    const user = new User({
         fullName,
         phoneNumber,
-        emailAddress,
+        email,
         password: hashedPassword,
         cartData: cart,
+        address,
     });
 
     await user.save();
@@ -115,27 +53,32 @@ const SignUp = async (req, res) => {
     };
 
     const token = jwt.sign(payload, 'secret_ecom', { expiresIn: '24h' });
-    res.json({ success: true, token });
+    res.json({
+        success: true, token, user: {
+            email: user.email,
+            fullName: user.fullName,
+        }
+    });
 };
 
 // creating endpoint for user login
 const Login = async (req, res) => {
-    const { emailAddress, password } = req.body;
+    const { email, password } = req.body;
 
     // Validate required fields
-    if (!emailAddress || !password) {
+    if (!email || !password) {
         return res.status(400).json({ success: false, errors: "All fields are required" });
     }
 
     // Check if user exists
-    let user = await Users.findOne({ emailAddress });
+    let user = await User.findOne({ email });
     if (!user) {
         return res.status(400).json({ success: false, errors: "Invalid email address or password" });
     }
 
     // Compare hashed passwords
     // const isMatch = await bcrypt.compare(password, user.password);
-    
+
     const isMatch = password === user.password;
     if (!isMatch) {
         return res.status(400).json({ success: false, errors: "Invalid email address or password" });
@@ -148,7 +91,53 @@ const Login = async (req, res) => {
     };
 
     const token = jwt.sign(payload, 'secret_ecom', { expiresIn: '24h' });
-    res.json({ success: true, token });
+    res.json({
+        success: true, token, user: {
+            email: user.email,
+            fullName: user.fullName,
+        }
+    });
 };
 
-module.exports = { SignUp, Login };
+
+const Update = async (req,res) => {
+    const {fullName,email,password} = req.body;
+
+    let toUpdateUser;
+    try {
+        toUpdateUser = await User.findById(req.user.id);
+    } catch (error) {
+        res.status(500);
+        res.json({message : "note found"})
+        
+    }
+    
+
+    if(fullName){
+        toUpdateUser.fullName = fullName;
+    }
+
+    if(email){
+        toUpdateUser.email = email;
+    }
+
+    if(password){
+        toUpdateUser.password = password;
+    }
+    try {
+        await toUpdateUser.save();
+        console.log('saved')
+        res.json({ user : {
+            fullName : toUpdateUser.fullName,
+            email : toUpdateUser.email
+        }})
+        
+    } catch (error) {
+
+        res.status(505);
+        res.json({message : "Update update"})
+    }
+
+};
+
+module.exports = { SignUp, Login,Update };

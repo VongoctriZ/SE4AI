@@ -18,7 +18,9 @@ const ShopContextProvider = (props) => {
     const [all_product, setAll_Product] = useState([]);
 
     const [cartItems, setCartItems] = useState(getDefaultCart());
-    
+
+    const [user, setUser] = useState();
+
     useEffect(() => {
         fetch('http://localhost:4000/product/allproducts')
             .then((response) => response.json())
@@ -36,7 +38,12 @@ const ShopContextProvider = (props) => {
             })
                 .then((response) => response.json())
                 .then((data) => setCartItems(data));
+
+            const userData = JSON.parse(localStorage.getItem('user'));
+
+            setUser(userData);
         }
+
     }, [])
 
     const addToCart = (itemId) => {
@@ -94,7 +101,7 @@ const ShopContextProvider = (props) => {
         return totalItem;
     }
 
-    const contextValue = { getTotalCartItems, getTotalCartAmount, all_product, cartItems, addToCart, removeFromCart };
+    const contextValue = { getTotalCartItems, getTotalCartAmount, all_product, cartItems, addToCart, removeFromCart ,user};
 
     return (
         <ShopContext.Provider value={contextValue}>

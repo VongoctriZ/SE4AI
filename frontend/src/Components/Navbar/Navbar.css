@@ -82,6 +82,8 @@
     color: white;
 }
 
+
+
 .nav-dropdown {
     display: none;
 }
@@ -194,10 +196,6 @@
 
     .nav-login-cart{
         transform: scale(0.8);
-    }
-
-    .nav-login-cart{
-        
     }
 }
 
