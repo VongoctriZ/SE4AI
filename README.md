@@ -82,4 +82,5 @@ Quy trình:
 - Đã chia source code theo mô hình `MVC` (user, product, cart).
 - Nhóm use-case về `account`: chưa thực hiện `reset password`.
 
+---
 **Trình bày trước lớp: 14/06/2024**
