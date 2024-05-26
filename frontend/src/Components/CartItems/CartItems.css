@@ -40,7 +40,7 @@
     border: 2px solid #ebebeb;
 }
 
-.cart-items-down{
+.cart-items-down {
     display: flex;
     margin: 100px 0px;
 }
@@ -89,7 +89,7 @@
     background: #eaeaea;
 }
 
-.cart-items-promobox input{
+.cart-items-promobox input {
     border: none;
     outline: none;
     background: transparent;
@@ -97,7 +97,7 @@
     height: 50px;
 }
 
-.cart-items-promobox button{
+.cart-items-promobox button {
     width: 170px;
     height: 58px;
     font-size: 16px;
@@ -106,70 +106,70 @@
     cursor: pointer;
 }
 
-@media(max-width:1280px){
-    .cart-items{
+@media(max-width:1280px) {
+    .cart-items {
         margin: 60px 50px;
     }
 
-    .cart-items-format-main{
+    .cart-items-format-main {
         grid-template-columns: 0.5fr 3fr 0.5fr 0.5fr 0.5fr 0.5fr;
         gap: 20px;
         padding: 15px 0px;
         font-size: 15px;
     }
 
-    .cart-icon-product-icon{
+    .cart-icon-product-icon {
         height: 50px;
     }
 
-    .cart-icon-remove-icon{
+    .cart-icon-remove-icon {
         margin: auto;
     }
 
-    .cart-items-quantity{
+    .cart-items-quantity {
         width: 40px;
         height: 30px;
     }
 
-    .cart-items-down{
+    .cart-items-down {
         margin: 80px 0px;
         flex-direction: column;
         gap: 80px;
     }
 
-    .cart-items-total{
+    .cart-items-total {
         margin: 0;
     }
 
-    .cart-items-total button{
+    .cart-items-total button {
         max-width: 200px;
         height: 45px;
         font-size: 13px;
     }
 
-    .cart-items-promobox{
+    .cart-items-promobox {
         width: auto;
         max-width: 500px;
     }
 
-    .cart-items-promobox input{
+    .cart-items-promobox input {
         width: 100%;
     }
 
-    .cart-items-promobox button{
+    .cart-items-promobox button {
         width: 120px;
         margin-left: -125px;
     }
 }
 
-@media(max-width:500px){
-    .cart-items-format-main{
+@media(max-width:500px) {
+    .cart-items-format-main {
         display: none;
         grid-template-columns: 0.5fr 3fr 0.5fr;
         gap: 10px;
     }
 
-    .cart-items-format{
+    .cart-items-format {
         display: grid;
     }
 }

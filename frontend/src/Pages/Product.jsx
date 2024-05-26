@@ -13,9 +13,9 @@ const Product = () => {
   return (
     <div>
       <Breadcrumbs product={product} />
-      <ProductDisplay product={product}/>
-      <DescriptionBox/>
-      <RelatedProducts/>
+      <ProductDisplay product={product} />
+      <DescriptionBox />
+      <RelatedProducts />
     </div>
   )
 }

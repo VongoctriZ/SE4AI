@@ -1,4 +1,4 @@
-.breadcrumbs{
+.breadcrumbs {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -10,28 +10,28 @@
 }
 
 @media (max-width:1280px) {
-    .breadcrumbs{
+    .breadcrumbs {
         margin: 30px 50px;
         font-size: 14px;
     }
 }
 
 @media (max-width:1024px) {
-    .breadcrumbs{
+    .breadcrumbs {
         margin: 30px 30px;
         font-size: 13px;
     }
 }
 
 @media (max-width:800px) {
-    .breadcrumbs{
+    .breadcrumbs {
         margin: 30px 10px;
         font-size: 12px;
     }
 }
 
 @media (max-width:500px) {
-    .breadcrumbs{
+    .breadcrumbs {
         font-size: 10px;
     }
 }

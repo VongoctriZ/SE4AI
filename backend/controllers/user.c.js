@@ -6,7 +6,7 @@ const User = require('../models/user.m');
 
 // creating endpoint for registering the user
 const SignUp = async (req, res) => {
-    const { fullName, phoneNumber, email, password, confirmPassword,address } = req.body;
+    const { fullName, phoneNumber, email, password, confirmPassword, address } = req.body;
 
     // Validate required fields
     if (!fullName || !phoneNumber || !email || !password || !confirmPassword || !address) {
@@ -100,44 +100,53 @@ const Login = async (req, res) => {
 };
 
 
-const Update = async (req,res) => {
-    const {fullName,email,password} = req.body;
+const Update = async (req, res) => {
+    const { fullName, email, password } = req.body;
 
     let toUpdateUser;
     try {
         toUpdateUser = await User.findById(req.user.id);
+        if (!toUpdateUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        console.log("User found:", req.body);
     } catch (error) {
-        res.status(500);
-        res.json({message : "note found"})
-        
+        console.error("Error finding user:", error);
+        return res.status(500).json({ message: "Error finding user" });
     }
-    
 
-    if(fullName){
+    if (fullName) {
         toUpdateUser.fullName = fullName;
+        console.log("Full name updated");
     }
 
-    if(email){
+    if (email) {
         toUpdateUser.email = email;
+        console.log("Email updated");
     }
 
-    if(password){
+    if (password) {
+        // Ensure password is hashed before saving
+        // const hashedPassword = await bcrypt.hash(password, 10);
         toUpdateUser.password = password;
+        console.log("Password updated");
     }
+
     try {
+        console.log("Attempting to save user...");
         await toUpdateUser.save();
-        console.log('saved')
-        res.json({ user : {
-            fullName : toUpdateUser.fullName,
-            email : toUpdateUser.email
-        }})
-        
+        console.log('User saved successfully');
+        res.json({
+            user: {
+                fullName: toUpdateUser.fullName,
+                email: toUpdateUser.email
+            }
+        });
     } catch (error) {
-
-        res.status(505);
-        res.json({message : "Update update"})
+        console.error("Error saving user:", error);
+        res.status(500).json({ message: "Error updating user" });
     }
-
 };
 
-module.exports = { SignUp, Login,Update };
+
+module.exports = { SignUp, Login, Update };

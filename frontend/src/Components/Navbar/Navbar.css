@@ -186,17 +186,17 @@
         width: 8px 0px;
         gap: 0;
     }
-    .nav-logo{
+
+    .nav-logo {
         transform: scale(0.8);
     }
-    .nav-menu{
+
+    .nav-menu {
         height: 70px;
         top: 50px;
     }
 
-    .nav-login-cart{
+    .nav-login-cart {
         transform: scale(0.8);
     }
 }
-
-

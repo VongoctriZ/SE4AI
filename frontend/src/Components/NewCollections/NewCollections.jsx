@@ -4,14 +4,14 @@ import new_collections from '../Assets/new_collections'
 import Item from '../Item/Item'
 
 const NewCollections = () => {
-    
-    const [new_collections,setNew_Collections] = useState([]);
-    
-    useEffect(()=>{
-fetch('http://localhost:4000/product/newcollections')
-.then((response)=>response.json())
-.then((data)=>setNew_Collections(data));
-    },[])
+
+    const [new_collections, setNew_Collections] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:4000/product/newcollections')
+            .then((response) => response.json())
+            .then((data) => setNew_Collections(data));
+    }, [])
 
     return (
         <div className="new-collections">
