@@ -51,7 +51,7 @@ const Profile = () => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                emailAddress: formData.emailAddress,
+                email: formData.email,
                 fullName: formData.fullName,
                 password: formData.password
             }),
