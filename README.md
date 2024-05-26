@@ -59,7 +59,7 @@ Update 16h - 05/10/2024
 
 **Cách chạy web**
 - Frontend: npm start
-- Backend: node ./index.js (nhớ kết nối mongodb)
+- Backend: npm start (nhớ kết nối mongodb)
 - Admin: npm run dev
 
 ---
