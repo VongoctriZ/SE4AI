@@ -53,13 +53,9 @@ app.post("/upload", upload.single('product'), (req, res) => {
 })
 
 
-
-
-
-
-app.use('/user',UserRoute);
-app.use('/product',ProductRoute);
-app.use('/cart',CartRoute);
+app.use('/user', UserRoute);
+app.use('/product', ProductRoute);
+app.use('/cart', CartRoute);
 
 // server listening
 app.listen(port, (error) => {
