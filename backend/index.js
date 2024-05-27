@@ -14,10 +14,9 @@ const path = require("path");
 const cors = require("cors");
 
 // import route
-const UserRoute = require('./routes/user.r');
-const ProductRoute = require('./routes/product.r');
-const CartRoute = require('./routes/cart.r');
-
+const UserRoute = require("./routes/user.r");
+const ProductRoute = require("./routes/product.r");
+const CartRoute = require("./routes/cart.r");
 
 const { type } = require("express/lib/response");
 const { log } = require("console");
@@ -30,38 +29,39 @@ app.use(express.json());
 app.use(cors());
 
 // Database Connection with MongoDB
-mongoose.connect("mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/shoper")
+mongoose.connect(
+  "mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/shoper"
+);
 
 // API Creation
 
 app.get("/", (req, res) => {
-    res.send("Express App is running")
-})
+  res.send("Express App is running");
+});
 
 // Image Storage Engine
 
 // Create upload endpoint for images
-app.use('/images', express.static('upload/images'))
+app.use("/images", express.static("upload/images"));
 
-const upload = require('./middleware/upload');
+const upload = require("./middleware/upload");
 
-app.post("/upload", upload.single('product'), (req, res) => {
-    res.json({
-        success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
-    })
-})
+app.post("/upload", upload.single("product"), (req, res) => {
+  res.json({
+    success: 1,
+    image_url: `http://localhost:${port}/images/${req.file.filename}`,
+  });
+});
 
-
-app.use('/user', UserRoute);
-app.use('/product', ProductRoute);
-app.use('/cart', CartRoute);
+app.use("/user", UserRoute);
+app.use("/product", ProductRoute);
+app.use("/cart", CartRoute);
 
 // server listening
 app.listen(port, (error) => {
-    if (!error) {
-        console.log("Server Running on Port " + port)
-    } else {
-        console.log("Error: " + error)
-    }
-})
+  if (!error) {
+    console.log("Server Running on Port " + port);
+  } else {
+    console.log("Error: " + error);
+  }
+});

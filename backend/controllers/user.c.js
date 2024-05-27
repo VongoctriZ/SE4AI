@@ -148,5 +148,4 @@ const Update = async (req, res) => {
     }
 };
 
-
 module.exports = { SignUp, Login, Update };
