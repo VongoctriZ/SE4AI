@@ -6,7 +6,7 @@ const User = require('../models/user.m');
 
 // creating endpoint for registering the user
 const SignUp = async (req, res) => {
-    const { fullName, phoneNumber, email, password, confirmPassword, address } = req.body;
+    const { fullName, phoneNumber, email, password, confirmPassword, address} = req.body;
 
     // Validate required fields
     if (!fullName || !phoneNumber || !email || !password || !confirmPassword || !address) {
@@ -24,6 +24,13 @@ const SignUp = async (req, res) => {
         return res.status(400).json({ success: false, errors: "Existing user found with the same email address" });
     }
 
+    // create id for custom schema
+    let users = await User.find({}).sort({ Id: -1 }).limit(1);
+
+    
+
+    let Id = users.length > 0 ? users[0].Id + 1 : 1;
+    console.log("Id: ",Id);
     // Initialize cart data
     let cart = {};
     for (let i = 0; i < maxItemInCart; i++) {
@@ -36,6 +43,7 @@ const SignUp = async (req, res) => {
 
     // Create new user
     const user = new User({
+        Id,
         fullName,
         phoneNumber,
         email,
@@ -55,6 +63,7 @@ const SignUp = async (req, res) => {
     const token = jwt.sign(payload, 'secret_ecom', { expiresIn: '24h' });
     res.json({
         success: true, token, user: {
+            Id: user.Id,
             email: user.email,
             fullName: user.fullName,
         }
@@ -93,6 +102,7 @@ const Login = async (req, res) => {
     const token = jwt.sign(payload, 'secret_ecom', { expiresIn: '24h' });
     res.json({
         success: true, token, user: {
+            Id: user.Id,
             email: user.email,
             fullName: user.fullName,
         }

@@ -11,23 +11,6 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-        default: "",
-    },
-    rating: {
-        type: Number,
-        default: 0,
-    },
-    images: {
-        type: [String],
-        required: true,
-    },
-    category: {
-        type: String,
-        required: true,
-        enum: ['men', 'women', 'kids'], // Ensuring it only takes these values
-    },
     new_price: {
         type: Number,
         required: true,
@@ -40,22 +23,45 @@ const ProductSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    rating: {
+        type: Number,
+        default: 0,
+    },
+    thumbnail_url: {
+        type: String,
+        default: "",
+    },
+    description: {
+        type: String,
+        default: "",
+    },
     review_counts: {
         type: Number,
         default: 0,
     },
+
     all_time_quantity_sold: {
         type: Number,
         default: 0,
-    },
-    date: {
-        type: Date,
-        default: Date.now,
     },
     available: {
         type: Boolean,
         default: true,
     },
+    gallery: {
+        type: [String],
+        // required: true,
+    },
+    category: {
+        type: String,
+        required: true,
+        // enum: ['men', 'women', 'kids'], // Ensuring it only takes these values
+    },
+    date: {
+        type: Date,
+        default: Date.now,
+    },
+
 })
 
 const Product = mongoose.model('Product', ProductSchema);
