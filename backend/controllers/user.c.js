@@ -8,6 +8,8 @@ const User = require('../models/user.m');
 const SignUp = async (req, res) => {
     const { fullName, phoneNumber, email, password, confirmPassword, address} = req.body;
 
+    console.log(req.body.Id);
+
     // Validate required fields
     if (!fullName || !phoneNumber || !email || !password || !confirmPassword || !address) {
         return res.status(400).json({ success: false, errors: "All fields are required" });
@@ -25,12 +27,13 @@ const SignUp = async (req, res) => {
     }
 
     // create id for custom schema
-    let users = await User.find({}).sort({ Id: -1 }).limit(1);
 
-    
+    // let users = await User.find({}).sort({ Id: -1 }).limit(1);
+    // let Id = users.length > 0 ? users[0].Id + 1 : 1;
+    // console.log("Id: ",Id);
 
-    let Id = users.length > 0 ? users[0].Id + 1 : 1;
-    console.log("Id: ",Id);
+    let Id = req.body.id;
+
     // Initialize cart data
     let cart = {};
     for (let i = 0; i < maxItemInCart; i++) {

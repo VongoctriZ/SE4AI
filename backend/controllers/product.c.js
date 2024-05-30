@@ -8,16 +8,16 @@ const addProduct = async (req, res) => {
         // {}       - does not filter any documents, retrieve all from the collection
         // sort({id:-1})    - sort by id field in descending order  
         // limit(1) - restrict the number of documents returned by the query
-        let products = await Product.find({}).sort({ id: -1 }).limit(1);
-
-        // if there is no existing product, set id for added product as 1
-        let id = products.length > 0 ? products[0].id + 1 : 1;
-
+        // let products = await Product.find({}).sort({ id: -1 }).limit(1);
+        // console.log(products.length);
+        // // if there is no existing product, set id for added product as 1
+        // let id = products.length > 0 ? products[0].id + 1 : 1;
+        // console.log(id);
         // Get thumbnail URL from request or use the first image in the images array
         const thumbnail_url = req.body.thumbnail_url || (req.body.images && req.body.images.length > 0 ? req.body.images[0] : '');
 
         const product = new Product({
-            id: id,
+            id: req.body.id,
             name: req.body.name,
             description: req.body.description || '',
             rating: req.body.rating || 0,
