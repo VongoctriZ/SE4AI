@@ -13,18 +13,23 @@ const addProduct = async (req, res) => {
         // if there is no existing product, set id for added product as 1
         let id = products.length > 0 ? products[0].id + 1 : 1;
 
+        // Get thumbnail URL from request or use the first image in the images array
+        const thumbnail_url = req.body.thumbnail_url || (req.body.images && req.body.images.length > 0 ? req.body.images[0] : '');
+
         const product = new Product({
             id: id,
             name: req.body.name,
             description: req.body.description || '',
             rating: req.body.rating || 0,
-            images: req.body.images,
+            images: [],
             category: req.body.category,
             new_price: req.body.new_price,
             old_price: req.body.old_price,
             discount: req.body.discount || 0,
             review_counts: req.body.review_counts || 0,
             all_time_quantity_sold: req.body.all_time_quantity_sold || 0,
+            thumbnail_url: '',
+            available: req.body.available !== undefined ? req.body.available : 'not available',
         });
 
         // save document in the collection
@@ -140,6 +145,53 @@ const newCollections = async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Error fetching new collections',
+        });
+    }
+};
+
+// API for updating a product
+const updateProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const updateData = req.body;
+
+        // Map and extract base_url values from images array if provided
+        if (updateData.images) {
+            updateData.images = updateData.images.map(image => image.base_url);
+        }
+
+        // Get thumbnail URL from request or use the first image in the images array
+        if (updateData.images && updateData.images.length > 0) {
+            updateData.thumbnail_url = updateData.thumbnail_url || updateData.images[0];
+        }
+
+        // Update the product with the provided data
+        const updatedProduct = await Product.findOneAndUpdate({ id: productId }, updateData, {
+            new: true, // Return the updated document
+            runValidators: true // Ensure validation rules are enforced
+        });
+
+        if (!updatedProduct) {
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found',
+            });
+        }
+
+        // status code: 200 OK
+        // The request was successful and the resource was updated.
+        res.status(200).json({
+            success: true,
+            product: updatedProduct,
+        });
+    } catch (error) {
+        console.error("Error updating product:", error);
+        // status code: 500 Internal Server Error
+        // The request was not completed
+        // The server met an unexpected condition
+        res.status(500).json({
+            success: false,
+            message: 'Error updating product',
         });
     }
 };

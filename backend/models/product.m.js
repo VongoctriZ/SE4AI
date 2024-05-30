@@ -45,10 +45,10 @@ const ProductSchema = new mongoose.Schema({
         default: 0,
     },
     available: {
-        type: Boolean,
-        default: true,
+        type: String,
+        default: 'not available',
     },
-    gallery: {
+    images: {
         type: [String],
         // required: true,
     },
