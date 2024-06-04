@@ -12,11 +12,17 @@ const ProductSchema = new Schema({
         type: String,
         required: true,
     },
-    new_price: {
+
+    url_key: { type: String },
+    url_path: { type: String },
+
+    short_description: { type: String },
+
+    price: {
         type: Number,
         required: true,
     },
-    old_price: {
+    original_price: {
         type: Number,
         required: true,
     },
@@ -32,39 +38,31 @@ const ProductSchema = new Schema({
         type: String,
         default: "",
     },
-    description: {
-        type: String,
-        default: "",
-    },
     review_counts: {
         type: Number,
         default: 0,
     },
 
+    inventory_status: { type: String },
+
     all_time_quantity_sold: {
         type: Number,
         default: 0,
     },
-    available: {
+
+    description: {
         type: String,
-        default: 'not available',
+        default: "",
     },
+
     images: {
-        type: [String],
-        // required: true,
+        type: Array,
     },
-    category: {
-        type: String,
-        required: true,
-        // enum: ['men', 'women', 'kids'], // Ensuring it only takes these values
-    },
-    date: {
-        type: Date,
-        default: Date.now,
-    },
+
+    brand: { type: Object },
+
+    configuration_option: { type: Array },
 
 })
 
-const Product = mongoose.model('Product', ProductSchema);
-
-module.exports = Product;
+module.exports = mongoose.model('Product', ProductSchema, 'QuanNuNguoiLon');

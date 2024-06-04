@@ -1,4 +1,4 @@
-const Product = require('../models/product.m')
+const Product = require('../models/productQuanNuNguoiLon.m')
 
 
 // API for adding a product
@@ -119,12 +119,17 @@ const removeAllProducts = async (req, res) => {
 };
 
 // API for getting popular products in the women section
-const popularInWomen = async (req, res) => {
+const popularInWomen = async (req, res, next) => {
     try {
         // find top 4 of the most popular products in the women section by rating (descending order)
-        let products = await Product.find({ category: "women" }).sort({ rating: -1 }).limit(4);
-        console.log("Popular in women fetched:", products);
-        res.status(200).json(products);
+        // let products = await Product.find({ category: "women" }).sort({ rating: -1 }).limit(4);
+        // console.log("Popular in women fetched:", products);
+        // res.json(products);
+        Product.find({}).limit(4)
+            .then((products) => {
+                res.json(products)
+            })
+            .catch(next);
     } catch (error) {
         console.error("Error fetching popular products in women:", error);
         res.status(500).json({
