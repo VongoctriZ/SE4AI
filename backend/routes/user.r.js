@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const { Login, SignUp, Update } = require('../controllers/user.c');
+const userController = require('../controllers/user.c');
 const fetchUser = require('../middleware/fetch-user')
-router.post('/login', Login);
-router.post('/signup', SignUp);
-router.post('/update', fetchUser, Update);
+
+router.post('/login', userController.login);
+
+router.post('/signup', userController.signUp);
+
+router.post('/update', fetchUser, userController.update);
+
 module.exports = router;

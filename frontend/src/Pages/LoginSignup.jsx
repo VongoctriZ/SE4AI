@@ -31,7 +31,9 @@ const LoginSignup = () => {
         email: formData.email,
         password: formData.password
       }),
-    }).then((response) => response.json()).then((data) => responseData = data);
+    })
+      .then((response) => response.json())
+      .then((data) => responseData = data);
 
     if (responseData.success) {
       localStorage.setItem('auth-token', responseData.token);

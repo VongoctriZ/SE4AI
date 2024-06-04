@@ -13,10 +13,7 @@ const path = require("path");
 // Imports CORS (Cross-Origin Resource Sharing) middleware for enabling cross-origin requests.
 const cors = require("cors");
 
-// import route
-const UserRoute = require("./routes/user.r");
-const ProductRoute = require("./routes/product.r");
-const CartRoute = require("./routes/cart.r");
+const routes = require("./routes");
 
 const { type } = require("express/lib/response");
 const { log } = require("console");
@@ -53,9 +50,9 @@ app.post("/upload", upload.single("product"), (req, res) => {
   });
 });
 
-app.use("/user", UserRoute);
-app.use("/product", ProductRoute);
-app.use("/cart", CartRoute);
+
+// Route 
+routes(app);
 
 // server listening
 app.listen(port, (error) => {
