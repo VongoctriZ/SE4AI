@@ -3,6 +3,7 @@ import './CSS/LoginSignup.css';
 
 const LoginSignup = () => {
   const [state, setState] = useState("Login");
+
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -75,6 +76,7 @@ const LoginSignup = () => {
       localStorage.setItem('auth-token', responseData.token);
       localStorage.setItem('user', JSON.stringify(responseData.user));
       window.location.replace("/");
+
     } else {
       alert(responseData.errors);
     }

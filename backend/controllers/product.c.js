@@ -11,13 +11,18 @@ const addProduct = async (req, res) => {
         // let products = await Product.find({}).sort({ id: -1 }).limit(1);
         // console.log(products.length);
         // // if there is no existing product, set id for added product as 1
-        // let id = products.length > 0 ? products[0].id + 1 : 1;
+        let id = req.body.id;
+
+        if (id === null) {
+            id = products.length > 0 ? products[0].id + 1 : 1;
+        }
+
         // console.log(id);
         // Get thumbnail URL from request or use the first image in the images array
         const thumbnail_url = req.body.thumbnail_url || (req.body.images && req.body.images.length > 0 ? req.body.images[0] : '');
 
         const product = new Product({
-            id: req.body.id,
+            id: id,
             name: req.body.name,
             description: req.body.description || '',
             rating: req.body.rating || 0,
