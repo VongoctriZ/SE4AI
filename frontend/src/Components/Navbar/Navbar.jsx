@@ -132,7 +132,7 @@ const Navbar = () => {
       ) : (
         <Button>
           <Link
-            to="/login"
+            to="/user/login"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             Login
