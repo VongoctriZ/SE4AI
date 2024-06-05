@@ -85,5 +85,8 @@ Quy trình:
 ---
 **Trình bày trước lớp: 14/06/2024**
 
---
-Hello abc
+---
+
+15:30 05/06/2024
+
+cap nhat backend va frontend theo thiet ke moi cho Product
