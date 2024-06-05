@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useState } from "react";
 import "./Navbar.css";
 import logo from "../Assets/Image_Header/logo.png";
-import cart_icon from "../Assets/cart_icon.png";
-import profile_icon from "../Assets/profile.jpg";
+// import cart_icon from "../Assets/cart_icon.png";
+// import profile_icon from "../Assets/profile.jpg";
 import { Link, Navigate } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import nav_dropdown from "../Assets/circle-arrow-up-svgrepo-com.png";

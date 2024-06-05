@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { ShopContext } from '../Context/ShopContext';
 import { useParams } from 'react-router-dom';
 import Breadcrumbs from '../Components/Breadcrumbs/Breadcrumbs';
@@ -8,8 +8,14 @@ import RelatedProducts from '../Components/RelatedProducts/RelatedProducts';
 
 const Product = () => {
   const { all_product } = useContext(ShopContext);
+  console.log("Product: ",all_product.length)
   const { productId } = useParams();
   const product = all_product.find((e) => e.id === Number(productId));
+
+  if (!product) {
+    return <div>Product not found</div>;
+  }
+
   return (
     <div>
       <Breadcrumbs product={product} />
@@ -17,7 +23,7 @@ const Product = () => {
       <DescriptionBox />
       <RelatedProducts />
     </div>
-  )
+  );
 }
 
 export default Product;

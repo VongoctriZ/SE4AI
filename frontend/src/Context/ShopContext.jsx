@@ -15,6 +15,8 @@ const getDefaultCart = () => {
 
 const ShopContextProvider = (props) => {
 
+    console.log("ShopContextProvider: ", props);
+
     const [all_product, setAll_Product] = useState([]);
 
     const [cartItems, setCartItems] = useState(getDefaultCart());
@@ -22,9 +24,18 @@ const ShopContextProvider = (props) => {
     const [user, setUser] = useState();
 
     useEffect(() => {
-        fetch('http://localhost:4000/product/allproducts')
-            .then((response) => response.json())
-            .then((data) => setAll_Product(data));
+        // fetch('http://localhost:4000/product/allproducts')
+        //     .then((response) => response.json())
+        //     .then((data) => setAll_Product(data));
+
+        // fetch by category
+
+        if (props.category) {
+            fetch(`http://localhost:4000/product/category/${props.category}`)
+                .then((response) => response.json())
+                .then((data) => setAll_Product(data))
+                .catch((error) => console.error("Error fetching products:", error));
+        }
 
         if (localStorage.getItem('auth-token')) {
             fetch('http://localhost:4000/cart/getcart', {

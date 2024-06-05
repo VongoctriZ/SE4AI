@@ -13,13 +13,13 @@ const ProductDisplay = (props) => {
         <div className="product-display">
             <div className="product-display-left">
                 <div className="product-display-img-list">
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
-                    <img src={product.image} alt="" />
+                    <img src={product.thumbnail_url} alt="" />
+                    <img src={product.thumbnail_url} alt="" />
+                    <img src={product.thumbnail_url} alt="" />
+                    <img src={product.thumbnail_url} alt="" />
                 </div>
                 <div className="product-display-img">
-                    <img className="product-display-main-img" src={product.image} alt="" />
+                    <img className="product-display-main-img" src={product.thumbnail_url} alt="" />
                 </div>
             </div>
 
