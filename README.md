@@ -90,3 +90,8 @@ Quy trình:
 15:30 05/06/2024
 
 cap nhat backend va frontend theo thiet ke moi cho Product
+
+chi tiet:
+- bug voi api popular for women and related products
+- khi request san pham theo phan loai (men, women, kids), frontend render tam on, khong nhat thiet phai chia database Product thanh 3 phan
+- trang hien thi san pham cho tung danh muc khon hien anh, chua tim ra bug
