@@ -6,7 +6,10 @@ import { ShopContext } from '../../Context/ShopContext'
 
 const ProductDisplay = (props) => {
 
+
     const { product } = props;
+    // console.log("Product Display: ",product.id);
+
     const { addToCart } = useContext(ShopContext);
 
     return (

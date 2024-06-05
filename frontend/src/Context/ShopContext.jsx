@@ -1,6 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-import all_product from '../Components/Assets/all_product';
-import Item from "../Components/Item/Item";
 
 export const ShopContext = createContext(null);
 
@@ -18,24 +16,27 @@ const ShopContextProvider = (props) => {
     console.log("ShopContextProvider: ", props);
 
     const [all_product, setAll_Product] = useState([]);
-
     const [cartItems, setCartItems] = useState(getDefaultCart());
-
     const [user, setUser] = useState();
 
     useEffect(() => {
-        // fetch('http://localhost:4000/product/allproducts')
-        //     .then((response) => response.json())
-        //     .then((data) => setAll_Product(data));
+        // Fetch products based on category or all products
+        const fetchProducts = async () => {
+            try {
+                let response;
+                if (props.category) {
+                    response = await fetch(`http://localhost:4000/product/category/${props.category}`);
+                } else {
+                    response = await fetch('http://localhost:4000/product/allproducts');
+                }
+                const data = await response.json();
+                setAll_Product(data);
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
 
-        // fetch by category
-
-        if (props.category) {
-            fetch(`http://localhost:4000/product/category/${props.category}`)
-                .then((response) => response.json())
-                .then((data) => setAll_Product(data))
-                .catch((error) => console.error("Error fetching products:", error));
-        }
+        fetchProducts();
 
         if (localStorage.getItem('auth-token')) {
             fetch('http://localhost:4000/cart/getcart', {
@@ -51,13 +52,12 @@ const ShopContextProvider = (props) => {
                 .then((data) => setCartItems(data));
 
             const userData = JSON.parse(localStorage.getItem('user'));
-
             setUser(userData);
         }
-
-    }, [])
+    }, [props.category]);
 
     const addToCart = (itemId) => {
+    console.log("add to cart: ",itemId);
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
         if (localStorage.getItem('auth-token')) {
             fetch('http://localhost:4000/cart/addtocart', {
@@ -75,7 +75,7 @@ const ShopContextProvider = (props) => {
     }
 
     const removeFromCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }))
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
         if (localStorage.getItem('auth-token')) {
             fetch('http://localhost:4000/cart/removefromcart', {
                 method: 'POST',
@@ -93,8 +93,11 @@ const ShopContextProvider = (props) => {
 
     const getTotalCartAmount = () => {
         let totalAmount = 0;
+        console.log("length: ",cartItems.length);
         for (const item in cartItems) {
             if (cartItems[item] > 0) {
+                // console.log(product);
+                console.log(item);
                 let itemInfo = all_product.find((product) => product.id === Number(item));
                 totalAmount += itemInfo.new_price * cartItems[item];
             }
@@ -122,4 +125,3 @@ const ShopContextProvider = (props) => {
 }
 
 export default ShopContextProvider;
-

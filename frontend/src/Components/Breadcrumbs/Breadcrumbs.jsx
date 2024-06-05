@@ -8,9 +8,9 @@ const Breadcrumbs = (props) => {
 
     return (
         <div className="breadcrumbs">
-            HOME <img src={arrow_icon} alt="" /> SHOP <img src={arrow_icon} alt="" /> {product.category} <img src={arrow_icon} alt="" /> {product.name}
+            HOME <img src={arrow_icon} alt="" /> SHOP <img src={arrow_icon} alt="" /> {product.category[0]} <img src={arrow_icon} alt="" /> {product.name}
         </div>
     )
 }
 
-export default Breadcrumbs
+export default Breadcrumbs;
