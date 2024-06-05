@@ -25,16 +25,17 @@ class ProductController {
             const product = new Product({
                 id: id,
                 name: req.body.name,
+                short_description: req.body.short_description || '',
                 description: req.body.description || '',
                 rating: req.body.rating || 0,
-                images: [],
+                images: req.body.images || [],
                 category: req.body.category,
                 new_price: req.body.new_price,
                 old_price: req.body.old_price,
                 discount: req.body.discount || 0,
                 review_counts: req.body.review_counts || 0,
                 all_time_quantity_sold: req.body.all_time_quantity_sold || 0,
-                thumbnail_url: '',
+                thumbnail_url: thumbnail_url || '',
                 available: req.body.available !== undefined ? req.body.available : 'not available',
             });
 
@@ -75,6 +76,24 @@ class ProductController {
             res.status(500).json({
                 success: false,
                 message: "Error fetching products",
+            });
+        }
+    };
+
+    // API for getting products by category
+    async productsByCategory(req, res) {
+        try {
+            const category = req.params.category;
+            const products = await Product.find({ "category.0": category });
+            console.log(`Products fetched for category: ${category}`);
+            res.status(200).json(products);
+
+            console.log("Fetched Compleletely!!!");
+        } catch (error) {
+            console.error(`Error fetching products for category ${category}:`, error);
+            res.status(500).json({
+                success: false,
+                message: `Error fetching products for category ${category}`,
             });
         }
     };
@@ -131,11 +150,22 @@ class ProductController {
             // let products = await Product.find({ category: "women" }).sort({ rating: -1 }).limit(4);
             // console.log("Popular in women fetched:", products);
             // res.json(products);
-            Product.find({}).limit(4)
-                .then((products) => {
-                    res.json(products)
-                })
-                .catch(next);
+
+            // Product.find({}).limit(4)
+            //     .then((products) => {
+            //         res.json(products)
+            //     })
+            //     .catch(next);
+
+            const products = await Product.find({ "category.0": "women" })
+                .sort({ rating: -1 })
+                .limit(4);
+
+            console.log("Popular in women fetched:", products);
+            res.json(products);
+
+            console.log("Fetched Completely!!!")
+
         } catch (error) {
             console.error("Error fetching popular products in women:", error);
             res.status(500).json({

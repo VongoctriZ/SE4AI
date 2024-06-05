@@ -9,6 +9,9 @@ router.post('/addproduct', productController.addProduct);
 // Endpoint to get all products
 router.get('/allproducts', productController.allProducts);
 
+// Endpoint for get all products by category (process first for main categories)
+router.get('/category/:category', productController.productsByCategory);
+
 // Endpoint to remove a specific product
 router.post('/removeproduct', productController.removeProduct);
 

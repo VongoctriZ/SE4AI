@@ -32,6 +32,10 @@ const ProductSchema = new Schema({
         type: String,
         default: "",
     },
+    short_description: {
+        type: String,
+        default: "",
+    },
     description: {
         type: String,
         default: "",
@@ -50,13 +54,13 @@ const ProductSchema = new Schema({
         default: 'not available',
     },
     images: {
-        type: [String],
+        type: Object,
         // required: true,
+        default: null,
     },
     category: {
-        type: String,
+        type: [String],
         required: true,
-        // enum: ['men', 'women', 'kids'], // Ensuring it only takes these values
     },
     date: {
         type: Date,
