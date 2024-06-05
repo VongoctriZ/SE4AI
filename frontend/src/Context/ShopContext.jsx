@@ -93,7 +93,7 @@ const ShopContextProvider = (props) => {
 
     const getTotalCartAmount = () => {
         let totalAmount = 0;
-        console.log("length: ",cartItems.length);
+        console.log("length: ",typeof cartItems);
         for (const item in cartItems) {
             if (cartItems[item] > 0) {
                 // console.log(product);

@@ -75,11 +75,13 @@ const LoginSignup = () => {
     }).then((response) => response.json()).then((data) => responseData = data);
 
     if (responseData.success) {
+      console.log("SignUp Successful!!!");
       localStorage.setItem('auth-token', responseData.token);
       localStorage.setItem('user', JSON.stringify(responseData.user));
       window.location.replace("/");
 
     } else {
+      console.log("failed to create new account!!!");
       alert(responseData.errors);
     }
   };
