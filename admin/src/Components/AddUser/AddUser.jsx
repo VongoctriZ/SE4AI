@@ -1,48 +1,21 @@
 import { useState } from 'react';
 import './AddUser.css';
-import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 
-
-const AddUser = () => {
-    const [image, setImage] = useState(null);
+const AddProduct = () => {
     const [productDetails, setProductDetails] = useState({
         name: "",
+        address: "",
         category: "",
-        new_price: "",
-        old_price: "",
-        thumbnail_url: "",
+        phonenumber: "",
+        email: "",
+        password: "",
     });
-
-    const imageHandler = (e) => {
-        setImage(e.target.files[0]);
-    };
 
     const changeHandler = (e) => {
         setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
     };
 
-    const Add_User = async () => {
-        let responseData;
-
-        if (image) {
-            const formData = new FormData();
-            formData.append('product', image);
-
-            await fetch('http://localhost:4000/upload', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                },
-                body: formData,
-            })
-                .then((resp) => resp.json())
-                .then((data) => { responseData = data; });
-
-            if (responseData.success) {
-                productDetails.thumbnail_url = responseData.image_url;
-            }
-        }
-
+    const Add_Product = async () => {
         await fetch('http://localhost:4000/product/addproduct', {
             method: 'POST',
             headers: {
@@ -58,44 +31,38 @@ const AddUser = () => {
     };
 
     return (
-        <div className="add-product">
-            <div className="addproduct-itemfield">
-                <p>Product Name</p>
-                <input value={productDetails.name} onChange={changeHandler} type="text" name='name' placeholder='Type here' />
-            </div>
-
-            <div className="addproduct-price">
+        <div className="container">
+            <div className="add-product">
                 <div className="addproduct-itemfield">
-                    <p>New Price</p>
-                    <input value={productDetails.old_price} onChange={changeHandler} type="text" name='old_price' placeholder='Type here' />
+                    <p>Full Name</p>
+                    <input value={productDetails.name} onChange={changeHandler} type="text" name='name' placeholder='Type here' />
                 </div>
+
                 <div className="addproduct-itemfield">
-                    <p>Old Price</p>
-                    <input value={productDetails.new_price} onChange={changeHandler} type="text" name='new_price' placeholder='Type here' />
+                    <p>Address</p>
+                    <input value={productDetails.address} onChange={changeHandler} type="text" name='address' placeholder='Type here' />
                 </div>
-            </div>
 
-            <div className="addproduct-itemfield">
-                <p>Product Category</p>
-                <select value={productDetails.category} onChange={changeHandler} name='category' className='add-product-selector'>
-                    <option value="women">Women</option>
-                    <option value="men">Men</option>
-                    <option value="kids">Kids</option>
-                </select>
-            </div>
+                <div className="addproduct-itemfield">
+                    <p>Email</p>
+                    <input value={productDetails.email} onChange={changeHandler} type="text" name='email' placeholder='Type here' />
+                </div>
 
-            <div className="addproduct-itemfield">
-                <label htmlFor="file-input">
-                    <img src={image ? URL.createObjectURL(image) : (
-                        <InsertPhotoOutlinedIcon />
-                    )} alt="" className="addproduct-thumbnail-img" />
-                </label>
-                <input onChange={imageHandler} type="file" name='image' id='file-input' hidden />
-            </div>
+                <div className="addproduct-itemfield">
+                    <p>Password</p>
+                    <input value={productDetails.password} onChange={changeHandler} type="text" name='pass-word' placeholder='Type here' />
+                </div>
 
-            <button onClick={() => { Add_User() }} className="addproduct-btn">Add</button>
+                <div className="addproduct-itemfield">
+                    <p>Phone Number</p>
+                    <input value={productDetails.phonenumber} onChange={changeHandler} type="text" name='phone_number' placeholder='Type here' />
+                </div>
+
+
+                <button onClick={() => { Add_Product() }} className="addproduct-btn">Add</button>
+            </div>
         </div>
     );
 };
 
-export default AddUser;
+export default AddProduct;

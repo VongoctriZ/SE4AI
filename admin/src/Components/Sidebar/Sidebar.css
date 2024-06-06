@@ -7,6 +7,8 @@
     max-width: 250px;
     height: 100vh;
     background: white;
+    overflow-x: hidden;
+    transition: width 0.5s;
 }
 
 .sidebar-items {
