@@ -95,3 +95,16 @@ chi tiet:
 - bug voi api popular for women and related products
 - khi request san pham theo phan loai (men, women, kids), frontend render tam on, khong nhat thiet phai chia database Product thanh 3 phan. (Tại sao lại không cần thiết trong khi m có thể dễ kiếm soát và m duyệt nó nhanh hơn thay vì ngôi 800 cái ????, biết là dùng thư viện rồi nhưng sao ko chia lại gộp làm gì ????, sau này cả 5000 sản phẩm thì cũng ngồi duyệt à ???)
 - trang hien thi san pham cho tung danh muc khon hien anh, chua tim ra bug
+
+---
+
+01:00 07/06/2024
+
+Cap nhat frontend cho header va footer, dang cap nhat homepage view theo thiet ke moi
+
+Chi tiet:
+- Tao component moi la 'Header' thay the cho 'NavBar' truoc do, co anh dai dien cua nguoi dung (avatar), luc chua dang nhap thi avatar mac dinh, (nen sua thanh dang show-hide, nhung chua tim hieu nen hien tai la hard code bang cach de 1 avatar mac dinh cho nguoi dung chua dang nhap)
+- Sua lai noi dung footer
+- Home page vua tao duoc component 'SideBar' de dieu huong den cac trang san pham
+- Home page can them anh san pham tieu bieu vao ben canh 'SideBar'
+---

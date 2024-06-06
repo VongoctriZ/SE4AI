@@ -1,67 +1,75 @@
-import { useEffect, useState } from 'react'
-import './ListProduct.css'
+import * as React from 'react';
+import { DataGrid } from '@mui/x-data-grid';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
-
 const ListProduct = () => {
-
-  const [allproducts, setAllProducts] = useState([]);
+  const [allProducts, setAllProducts] = React.useState([]);
 
   const fetchInfo = async () => {
-    await fetch('http://localhost:4000/product/allproducts')
-      .then((res) => res.json())
-      .then((data) => { setAllProducts(data) });
-  }
+    try {
+      const response = await fetch('http://localhost:4000/product/allproducts');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      setAllProducts(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchInfo();
-  }, [])
+  }, []);
 
+  const removeProduct = async (id) => {
+    try {
+      await fetch('http://localhost:4000/product/removeproduct', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id })
+      });
+      fetchInfo();
+    } catch (error) {
+      console.error('Error removing product:', error);
+    }
+  };
 
-  const remove_product = async (id) => {
-    console.log(id);
-    await fetch('http://localhost:4000/product/removeproduct', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: id })
-    })
-    await fetchInfo();
-  }
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 130, align: 'center', headerAlign: 'center' },
+    { field: 'name', headerName: 'Name', width: 130, align: 'center', headerAlign: 'center' },
+    { field: 'old_price', headerName: 'Old Price', width: 130, align: 'center', headerAlign: 'center' },
+    { field: 'new_price', headerName: 'New Price', width: 130, align: 'center', headerAlign: 'center' },
+    { field: 'category', headerName: 'Category', width: 130, align: 'center', headerAlign: 'center' },
+    {
+      field: 'remove',
+      headerName: 'Remove',
+      width: 130,
+      align: 'center',
+      headerAlign: 'center',
+      sortable: false,
+      renderCell: (params) => (
+        <strong>
+          <HighlightOffIcon onClick={() => removeProduct(params.row.id)} />
+        </strong>
+      ),
+    },
+  ];
 
   return (
-    <div className="list-products">
-      <h1>All Products List</h1>
-      <div className="listproduct-format-main">
-        <p>Products</p>
-        <p>Title</p>
-        <p>Old Price</p>
-        <p>New Price</p>
-        <p>Category</p>
-        <p>Remove</p>
-      </div>
-      <div className="listproduct-allproducts">
-        <hr />
-        {allproducts.map((product, index) => {
-          return <>
-            <div key={index} className="listproduct-format-main listproduct-format">
-              <img src={product.thumbnail_url} alt="" className="listproduct-product-icon" />
-              <p>{product.name}</p>
-              <p>${product.old_price}</p>
-              <p>${product.new_price}</p>
-              <p>{product.category.join(', ')}</p>
-              <div onClick={() => { remove_product(product.id) }} className="listproduct-remove-icon">
-                <HighlightOffIcon />
-              </div>
-            </div>
-            <hr />
-          </>
-        })}
-      </div>
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid
+        rows={allProducts}
+        columns={columns}
+        pageSize={5}
+        checkboxSelection={false}
+      />
     </div>
-  )
-}
 
-export default ListProduct 
+  );
+};
+
+export default ListProduct;

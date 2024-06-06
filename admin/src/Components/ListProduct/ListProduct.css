@@ -1,62 +1,49 @@
+/* ListProduct.css */
 .list-products {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 740px;
-    padding: 10px 50px;
-    margin: 30px;
-    border-radius: 6px;
-    background: white;
+    height: 100vh;
+    /* Chiều cao toàn màn hình để căn giữa theo chiều dọc */
+    background-color: #f5f5f5;
+    /* Màu nền tùy chọn */
 }
 
-.listproduct-format-main{
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-    padding: 20px 0px;
-    color: #454545;
-    font-size: 15px;
-    font-weight: 600;
+.list-product-table {
+    height: 400px;
+    width: 80%;
+    /* Chiều rộng tùy chọn, có thể điều chỉnh */
+    max-width: 1200px;
+    /* Để tránh bảng quá lớn trên màn hình rộng */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.listproduct-format{
+.MuiDataGrid-root {
+    border: none;
+}
+
+.MuiDataGrid-cell {
+    display: flex;
     align-items: center;
-    font-weight: 500;
 }
 
-.listproduct-product-icon{
-    height: 100px;
+.MuiDataGrid-columnHeaders {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
 }
 
-.listproduct-remove-icon{
-    margin: auto;
-    cursor: pointer;
+.MuiDataGrid-columnHeaderTitle {
+    font-weight: bold;
 }
 
-.listproduct-allproducts{
-    overflow-y: auto;
+.MuiDataGrid-row:hover {
+    background-color: #f1f1f1;
 }
 
-@media(max-width:800px){
-    .list-products{
-        box-sizing: border-box;
-        width: 95%;
-        height: 100%;
-        padding: 10px 30px;
-        margin: 20px auto;
-    }
-
-    .listproduct-format-main{
-        padding: 15px 0px;
-        color: #454545;
-        font-size: 12px;
-    }
-
-    .listproduct-product-icon{
-        height: 60px;
-    }
-
-
+.MuiDataGrid-footerContainer {
+    border-top: 1px solid #ddd;
+    background-color: #f5f5f5;
 }
