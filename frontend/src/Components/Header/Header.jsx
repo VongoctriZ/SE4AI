@@ -124,7 +124,7 @@ const Header = () => {
         <Button>
           <div className="cart-container">
             <div className="cart-count">
-              <Link to="/login" style={{textDecoration: "none", color: "inherit"}}>
+              <Link to="/user/login" style={{textDecoration: "none", color: "inherit"}}>
                 Login
               </Link>
             </div>
