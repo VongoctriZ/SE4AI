@@ -33,7 +33,7 @@ const ListProduct = () => {
 
   return (
     <div className="list-products">
-      <h1>ALl Products List</h1>
+      <h1>All Products List</h1>
       <div className="listproduct-format-main">
         <p>Products</p>
         <p>Title</p>
@@ -47,11 +47,11 @@ const ListProduct = () => {
         {allproducts.map((product, index) => {
           return <>
             <div key={index} className="listproduct-format-main listproduct-format">
-              <img src={product.image} alt="" className="listproduct-product-icon" />
+              <img src={product.thumbnail_url} alt="" className="listproduct-product-icon" />
               <p>{product.name}</p>
               <p>${product.old_price}</p>
               <p>${product.new_price}</p>
-              <p>{product.category}</p>
+              <p>{product.category.join(', ')}</p>
               <div onClick={() => { remove_product(product.id) }} className="listproduct-remove-icon">
                 <HighlightOffIcon />
               </div>
