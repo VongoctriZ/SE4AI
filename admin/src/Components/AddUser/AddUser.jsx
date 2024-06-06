@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import './AddProduct.css';
-import insertPicture from '../../assets/insertPicture.png';
+import './AddUser.css';
+import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 
-const AddProduct = () => {
+
+const AddUser = () => {
     const [image, setImage] = useState(null);
     const [productDetails, setProductDetails] = useState({
         name: "",
-        description: "",
         category: "",
         new_price: "",
         old_price: "",
@@ -21,7 +21,7 @@ const AddProduct = () => {
         setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
     };
 
-    const Add_Product = async () => {
+    const Add_User = async () => {
         let responseData;
 
         if (image) {
@@ -64,11 +64,6 @@ const AddProduct = () => {
                 <input value={productDetails.name} onChange={changeHandler} type="text" name='name' placeholder='Type here' />
             </div>
 
-            <div className="addproduct-itemfield">
-                <p>Description</p>
-                <input value={productDetails.description} onChange={changeHandler} type="text" name='description' placeholder='Type here' />
-            </div>
-
             <div className="addproduct-price">
                 <div className="addproduct-itemfield">
                     <p>New Price</p>
@@ -90,34 +85,17 @@ const AddProduct = () => {
             </div>
 
             <div className="addproduct-itemfield">
-                <p>Insert Image</p>
-                <label htmlFor="file-input" className="addproduct-thumbnail-label">
-                    {image ? (
-                        <img
-                            src={URL.createObjectURL(image)}
-                            alt="Preview"
-                            className="addproduct-thumbnail-img"
-                        />
-                    ) : (
-                        <img
-                            src={insertPicture}
-                            alt="Insert Placeholder"
-                            className="addproduct-placeholder-img"
-                        />
-                    )}
+                <label htmlFor="file-input">
+                    <img src={image ? URL.createObjectURL(image) : (
+                        <InsertPhotoOutlinedIcon />
+                    )} alt="" className="addproduct-thumbnail-img" />
                 </label>
-                <input
-                    onChange={imageHandler}
-                    type="file"
-                    name="image"
-                    id="file-input"
-                    hidden
-                />
+                <input onChange={imageHandler} type="file" name='image' id='file-input' hidden />
             </div>
 
-            <button onClick={() => { Add_Product() }} className="addproduct-btn">Add</button>
+            <button onClick={() => { Add_User() }} className="addproduct-btn">Add</button>
         </div>
     );
 };
 
-export default AddProduct;
+export default AddUser;

@@ -1,18 +1,11 @@
 .add-product {
-    margin-top: 10px;
     box-sizing: border-box;
     width: 100%;
     max-width: 800px;
     padding: 30px 50px;
     margin: 20px 30px;
-    border-radius: 10px;
+    border-radius: 6px;
     background: white;
-
-    /* Căn giữa theo cả hai chiều */
-    position: absolute;
-    top: 65%;
-    left: 55%;
-    transform: translate(-50%, -50%);
 }
 
 .addproduct-itemfield {
@@ -58,31 +51,22 @@
 }
 
 .addproduct-btn {
+    margin-top: 20px;
     width: 160px;
     height: 50px;
-    border-radius: 10px;
+    border-radius: 6px;
     background: #6079ff;
     border: none;
     cursor: pointer;
     color: white;
-    font-weight: 900;
-
-    /* Căn giữa theo cả hai chiều */
-    position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: 500;
 }
 
-.addproduct-itemfield p {
-    font-weight: 1000;
-    color: black;
-}
-
-.addproduct-placeholder-img {
-    height: 150px;
-    width: 150px;
-    border-radius: 10px;
-    object-fit: contain;
-    margin: 15px 0px;
+@media(max-width:800px){
+    .add-product{
+        width: auto;
+        padding: 30px;
+        margin: 20px;
+    }
 }
