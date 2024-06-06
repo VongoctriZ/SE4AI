@@ -13,11 +13,14 @@ import kids_banner from './Components/Assets/banner_kids.png'
 import Profile from './Pages/Profile';
 import ShopContextProvider from './Context/ShopContext';
 
+import Header from './Components/Header/Header';
+
 function App() {
   return (
     <div>
       <BrowserRouter>
-        <Navbar />
+        <Header />
+        {/* <Navbar /> */}
         <Routes>
           <Route path='/' element={<Shop />} />
           <Route path='/men' element={
