@@ -31,7 +31,7 @@ class ProductController {
             await product.save();
 
             // Log the saved product for debugging purposes
-            console.log("Product saved:", product);
+            // console.log("Product saved:", product);
 
             // Send a response with status code 201 (Created)
             res.status(201).json({

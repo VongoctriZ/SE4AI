@@ -12,12 +12,6 @@
     gap: 10px;
 }
 
-.logo-image {
-    width: 60px;
-    height: 62px;
-    object-fit: cover;
-}
-
 .nav-logo p {
     color: #171717;
     font-size: 38px;

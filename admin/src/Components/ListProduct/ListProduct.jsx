@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './ListProduct.css'
-import cross_icon from '../../assets/cart_cross_icon.png'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
 
 const ListProduct = () => {
 
@@ -51,7 +52,9 @@ const ListProduct = () => {
               <p>${product.old_price}</p>
               <p>${product.new_price}</p>
               <p>{product.category}</p>
-              <img onClick={() => { remove_product(product.id) }} src={cross_icon} alt="" className="listproduct-remove-icon" />
+              <div onClick={() => { remove_product(product.id) }} className="listproduct-remove-icon">
+                <HighlightOffIcon />
+              </div>
             </div>
             <hr />
           </>
