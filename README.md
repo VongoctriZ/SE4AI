@@ -98,7 +98,7 @@ chi tiet:
 
 ---
 
-12:40 07/06/2024
+01:00 07/06/2024
 
 Cap nhat frontend cho header va footer, dang cap nhat homepage view theo thiet ke moi
 
