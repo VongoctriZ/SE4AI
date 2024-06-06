@@ -13,10 +13,19 @@ const CartSchema = new Schema({
         required: true,
         unique: true, // Each user has a unique cart
     },
-    productIds: {
-        type: [Number],
-        default: [],
-    }
+    products: [
+        {
+            productId: {
+                type: Number,
+                // required: true,
+            },
+            quantity: {
+                type: Number,
+                // required: true,
+                default: 0, // Default quantity is 1
+            }
+        }
+    ]
 });
 
 const Cart = mongoose.model('Cart', CartSchema);

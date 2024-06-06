@@ -27,8 +27,8 @@ app.use(cors());
 
 // Database Connection with MongoDB
 mongoose.connect("mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/shoper", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true,
 }
 );
 

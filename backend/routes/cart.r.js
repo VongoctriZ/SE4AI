@@ -10,4 +10,7 @@ router.use('/getcart', fetchUser, cartController.getCart);
 
 router.use('/removefromcart', fetchUser, cartController.removeFromCart);
 
+// Add a route for converting cart design
+router.post('/convert-cart-design', cartController.convertCartDesign);
+
 module.exports = router;

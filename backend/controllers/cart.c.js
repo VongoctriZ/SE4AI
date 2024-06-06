@@ -1,57 +1,3 @@
-// const User = require('../models/user.m');
-
-// class CartController {
-//     // Add a product to the cart
-//     async addToCart(req, res) {
-//         console.log("added", req.body.itemId);
-
-//         try {
-//             const user = await User.findById(req.user.Id);
-//             if (!user.cartData[req.body.itemId]) {
-//                 user.cartData[req.body.itemId] = 0;
-//             }
-//             user.cartData[req.body.itemId]++;
-//             await user.save();
-
-//             res.send({ message: 'Product added to cart successfully' });
-//         } catch (error) {
-//             res.status(500).send({ message: 'Error adding product to cart' });
-//         }
-//     }
-
-//     // Remove a product from the cart
-//     async removeFromCart(req, res) {
-//         console.log("removed", req.body.itemId);
-
-//         try {
-//             const user = await User.findById(req.user.Id);
-//             if (user.cartData[req.body.itemId] > 0) {
-//                 user.cartData[req.body.itemId]--;
-//                 await user.save();
-//             }
-
-//             res.send({ message: 'Product removed from cart successfully' });
-//         } catch (error) {
-//             res.status(500).send({ message: 'Error removing product from cart' });
-//         }
-//     }
-
-//     // Get the user's cart data
-//     async getCart(req, res) {
-//         console.log("get cart");
-
-//         try {
-//             const user = await User.findById(req.user.Id);
-//             res.json(user.cartData);
-//         } catch (error) {
-//             res.status(500).send({ message: 'Error getting cart data' });
-//         }
-//     }
-// }
-
-// module.exports = new CartController();
-
-
 const User = require('../models/user.m');
 const Cart = require('../models/cart.m');
 const Product = require('../models/product.m'); // Assuming you need this for validation
@@ -59,11 +5,12 @@ const Product = require('../models/product.m'); // Assuming you need this for va
 class CartController {
     // Add a product to the cart
     async addToCart(req, res) {
-        console.log("added", req);
+        console.log("added", req.body.itemId);
 
         try {
             // Find the user
-            const user = await User.findOne({ Id: req.user.Id });
+            const user = await User.findOne({ _id: req.user.id });
+
             if (!user) {
                 return res.status(404).send({ message: 'User not found' });
             }
@@ -83,9 +30,12 @@ class CartController {
                 return res.status(404).send({ message: 'Product not found' });
             }
 
-            // Add product to cart
-            if (!cart.productIds.includes(req.body.itemId)) {
-                cart.productIds.push(req.body.itemId);
+            // Add or update product in cart
+            const productIndex = cart.products.findIndex(p => p.productId === req.body.itemId);
+            if (productIndex > -1) {
+                cart.products[productIndex].quantity++;
+            } else {
+                cart.products.push({ productId: req.body.itemId, quantity: 1 });
             }
 
             await cart.save();
@@ -102,7 +52,7 @@ class CartController {
 
         try {
             // Find the user
-            const user = await User.findOne({ Id: req.user.Id });
+            const user = await User.findOne({ _id: req.user.id });
             if (!user) {
                 return res.status(404).send({ message: 'User not found' });
             }
@@ -113,8 +63,15 @@ class CartController {
                 return res.status(404).send({ message: 'Cart not found' });
             }
 
-            // Remove product from cart
-            cart.productIds = cart.productIds.filter(id => id !== req.body.itemId);
+            // Remove product from cart or decrease quantity
+            const productIndex = cart.products.findIndex(p => p.productId === req.body.itemId);
+            if (productIndex > -1) {
+                if (cart.products[productIndex].quantity > 1) {
+                    cart.products[productIndex].quantity--;
+                } else {
+                    cart.products.splice(productIndex, 1);
+                }
+            }
 
             await cart.save();
             res.send({ message: 'Product removed from cart successfully' });
@@ -126,11 +83,11 @@ class CartController {
 
     // Get the user's cart data
     async getCart(req, res) {
-        console.log("get cart");
+        console.log("get cart: ", req.body);
 
         try {
             // Find the user
-            const user = await User.findOne({ Id: req.user.Id });
+            const user = await User.findOne({ Id: req.body.userId });
             if (!user) {
                 return res.status(404).send({ message: 'User not found' });
             }
@@ -140,11 +97,50 @@ class CartController {
             if (!cart) {
                 return res.status(404).send({ message: 'Cart not found' });
             }
+            console.log("Products In Cart: ",cart.products);
 
-            res.json(cart.productIds);
+            res.json(cart.products);
         } catch (error) {
             console.error(error);
             res.status(500).send({ message: 'Error getting cart data' });
+        }
+    }
+
+     // Method to convert cart items from old design to new design
+     async convertCartDesign(req, res) {
+        try {
+            // Find all carts that still use the old design
+            const carts = await Cart.find({ 'productIds.0': { $type: 'number' } });
+
+            // Iterate through each cart and convert its design
+            for (let cart of carts) {
+                // Initialize a Map to count product IDs
+                const productCountMap = new Map();
+
+                // Count occurrences of each product ID
+                cart.productIds.forEach(productId => {
+                    if (productCountMap.has(productId)) {
+                        productCountMap.set(productId, productCountMap.get(productId) + 1);
+                    } else {
+                        productCountMap.set(productId, 1);
+                    }
+                });
+
+                // Create a new array with objects containing productId and quantity
+                const newProductIds = [];
+                productCountMap.forEach((quantity, productId) => {
+                    newProductIds.push({ productId, quantity });
+                });
+
+                // Update the cart with the new structure
+                cart.productIds = newProductIds;
+                await cart.save();
+            }
+
+            res.send({ message: 'Cart design conversion completed successfully' });
+        } catch (error) {
+            console.error("Error converting cart design:", error);
+            res.status(500).send({ message: 'Error converting cart design' });
         }
     }
 }
