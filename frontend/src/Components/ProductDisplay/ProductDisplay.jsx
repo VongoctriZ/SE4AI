@@ -8,7 +8,7 @@ const ProductDisplay = (props) => {
 
 
     const { product } = props;
-    console.log("Product Display: ",product.id);
+    // console.log("Product Display: ",product.id);
 
     const { addToCart } = useContext(ShopContext);
 

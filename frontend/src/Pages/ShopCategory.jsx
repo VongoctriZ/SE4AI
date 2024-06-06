@@ -6,8 +6,8 @@ import Item from '../Components/Item/Item'
 
 
 const ShopCategory = (props) => {
-  console.log("ShopCategory:", props);
-  const { all_product } = useContext(ShopContext);
+  // console.log("ShopCategory:", props);
+  const { allProduct } = useContext(ShopContext);
   return (
     <div className="shop-category">
       <img className="shop-category-banner" src={props.banner} alt="" />
@@ -20,7 +20,7 @@ const ShopCategory = (props) => {
         </div>
       </div>
       <div className="shop-category-products">
-        {all_product.map((item, i) => {
+        {allProduct.map((item, i) => {
           // console.log("props.category: ", props.category);
           // console.log("item.category: ", item.category[0]);
           if (props.category === item.category[0]) {
