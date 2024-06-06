@@ -4,65 +4,51 @@ class ProductController {
 
     // API for adding a product
     async addProduct(req, res) {
-        res.json({ message: "Hello from addProduct" });
-        // try {
-        //     // find()   - method from Mongoose to search for documents in the Product collection
-        //     // {}       - does not filter any documents, retrieve all from the collection
-        //     // sort({id:-1})    - sort by id field in descending order  
-        //     // limit(1) - restrict the number of documents returned by the query
-        //     // let products = await Product.find({}).sort({ id: -1 }).limit(1);
-        //     // console.log(products.length);
-        //     // // if there is no existing product, set id for added product as 1
-        //     // let id = products.length > 0 ? products[0].id + 1 : 1;
-        //     // console.log(id);
-        //     // Get thumbnail URL from request or use the first image in the images array
-        //     const thumbnail_url = req.body.thumbnail_url || (req.body.images && req.body.images.length > 0 ? req.body.images[0] : '');
+        try {
+            // Retrieve the latest product to determine the next product ID
+            let products = await Product.find({}).sort({ id: -1 }).limit(1);
+            let id = req.body.id || (products.length > 0 ? products[0].id + 1 : 1);
 
-        //     let id = req.body.id;
-        //     if (id === null) {
-        //         id = products.length > 0 ? products[0].id + 1 : 1;
-        //     }
+            // Create a new product object
+            const product = new Product({
+                id: id,
+                name: req.body.name,
+                short_description: req.body.short_description || '',
+                description: req.body.description || '',
+                rating: req.body.rating || 0,
+                images: req.body.images || [],
+                category: req.body.category,
+                new_price: req.body.new_price,
+                old_price: req.body.old_price,
+                discount: req.body.discount || 0,
+                review_counts: req.body.review_counts || 0,
+                all_time_quantity_sold: req.body.all_time_quantity_sold || 0,
+                thumbnail_url: req.body.thumbnail_url || '',
+                available: req.body.available !== undefined ? req.body.available : 'not available',
+            });
 
-        //     const product = new Product({
-        //         id: id,
-        //         name: req.body.name,
-        //         short_description: req.body.short_description || '',
-        //         description: req.body.description || '',
-        //         rating: req.body.rating || 0,
-        //         images: req.body.images || [],
-        //         category: req.body.category,
-        //         new_price: req.body.new_price,
-        //         old_price: req.body.old_price,
-        //         discount: req.body.discount || 0,
-        //         review_counts: req.body.review_counts || 0,
-        //         all_time_quantity_sold: req.body.all_time_quantity_sold || 0,
-        //         thumbnail_url: thumbnail_url || '',
-        //         available: req.body.available !== undefined ? req.body.available : 'not available',
-        //     });
+            // Save the new product to the database
+            await product.save();
 
-        //     // save document in the collection
-        //     await product.save();
-        //     // for debug
-        //     console.log("Product saved:", product);
+            // Log the saved product for debugging purposes
+            console.log("Product saved:", product);
 
-        //     // status code: 201 Created 
-        //     // The request has been fulfilled, 
-        //     // and a new resource is created.
-        //     res.status(201).json({
-        //         success: true,
-        //         product: product,
-        //     });
-        // } catch (error) {
-        //     console.error("Error adding product:", error);
-        //     // status code: 500 Internal Server Error
-        //     // The request was not completed
-        //     // The server met an expected condition
-        //     res.status(500).json({
-        //         success: false,
-        //         message: 'Error adding product',
-        //     });
-        // }
+            // Send a response with status code 201 (Created)
+            res.status(201).json({
+                success: true,
+                product: product,
+            });
+        } catch (error) {
+            console.error("Error adding product:", error);
+
+            // Send a response with status code 500 (Internal Server Error)
+            res.status(500).json({
+                success: false,
+                message: 'Error adding product',
+            });
+        }
     };
+
 
     // API for getting all products
     async allProducts(req, res) {

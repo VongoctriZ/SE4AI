@@ -26,8 +26,10 @@ app.use(express.json());
 app.use(cors());
 
 // Database Connection with MongoDB
-mongoose.connect(
-  "mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/shoper"
+mongoose.connect("mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/shoper", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}
 );
 
 // API Creation
@@ -43,11 +45,21 @@ app.use("/images", express.static("upload/images"));
 
 const upload = require("./middleware/upload");
 
-app.post("/upload", upload.single("product"), (req, res) => {
+app.use('/images', express.static('upload/images'));
+
+app.post('/upload', upload.single('product'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: 0,
+      message: 'No file uploaded',
+    });
+  }
+
   res.json({
     success: 1,
     image_url: `http://localhost:${port}/images/${req.file.filename}`,
   });
+  
 });
 
 

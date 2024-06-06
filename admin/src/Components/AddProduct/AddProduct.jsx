@@ -1,72 +1,60 @@
-import React, { useState } from 'react'
-import './AddProduct.css'
-// tao anh sau
-import upload_area from '../../assets/star_icon.png'
+import { useState } from 'react';
+import './AddProduct.css';
+import upload_area from '../../assets/star_icon.png';
 
 const AddProduct = () => {
-
-    console.log("AddProduct activated");
-    console.log("AddProduct activated");
-
-
-    const [image, setImage] = useState(false);
+    const [image, setImage] = useState(null);
     const [productDetails, setProductDetails] = useState({
         name: "",
-        image: "",
         category: "",
         new_price: "",
-        old_price: ""
-    })
+        old_price: "",
+        thumbnail_url: "",
+    });
 
     const imageHandler = (e) => {
         setImage(e.target.files[0]);
-    }
+    };
 
     const changeHandler = (e) => {
-        setProductDetails({ ...productDetails, [e.target.name]: e.target.value })
-    }
+        setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
+    };
 
     const Add_Product = async () => {
-        console.log(productDetails);
-
-        console.log("Database");
-        // send data to database
         let responseData;
-        let product = productDetails;
 
-        let formData = new FormData();
+        if (image) {
+            const formData = new FormData();
+            formData.append('product', image);
 
-        formData.append('product', image);
-
-        await fetch('http://localhost:4000/upload', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-            },
-            body: formData,
-        })
-            .then((resp) => resp.json())
-            .then((data) => { responseData = data });
-
-        console.log(responseData);
-
-        if (responseData.success) {
-            product.image = responseData.image_url;
-            console.log(product);
-            await fetch('http://localhost:4000/product/addproduct', {
+            await fetch('http://localhost:4000/upload', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
-                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(product),
+                body: formData,
             })
                 .then((resp) => resp.json())
-                .then((data) => {
-                    data.success ? alert("Product Added") : alert("Failed")
-                })
+                .then((data) => { responseData = data; });
+
+            if (responseData.success) {
+                productDetails.thumbnail_url = responseData.image_url;
+            }
         }
-    }
+
+        await fetch('http://localhost:4000/product/addproduct', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productDetails),
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                data.success ? alert("Product Added") : alert("Failed");
+            });
+    };
 
     return (
         <div className="add-product">
@@ -100,7 +88,7 @@ const AddProduct = () => {
             </div>
             <button onClick={() => { Add_Product() }} className="addproduct-btn">Add</button>
         </div>
-    )
-}
+    );
+};
 
-export default AddProduct 
+export default AddProduct;
