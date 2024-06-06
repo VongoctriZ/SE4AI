@@ -1,16 +1,15 @@
-import React from 'react'
+// import React from 'react'
 import './Navbar.css'
-import logo from '../../assets/logo.png'
-import navProfile from '../../assets/profile.jpg'
+import logo from '../../assets/Image_Header/logo.png'
+// import navProfile from '../../assets/profile.jpg'
 const Navbar = () => {
   return (
     <div className="navbar">
       <div className="nav-logo">
         <img src={logo} alt="" />
-        <p>SHOPER</p>
-        <p>huy</p>
+        <p>DeepFashion</p>
       </div>
-      <img src={navProfile} alt="" className="nav-profile" />
+      <img src={'https://assets.leetcode.com/users/cuonghacknao2003/avatar_1717211947.png'} alt="" className="nav-profile" />
     </div>
 
   )

@@ -5,6 +5,10 @@ import upload_area from '../../assets/star_icon.png'
 
 const AddProduct = () => {
 
+    console.log("AddProduct activated");
+    console.log("AddProduct activated");
+
+
     const [image, setImage] = useState(false);
     const [productDetails, setProductDetails] = useState({
         name: "",
@@ -40,23 +44,27 @@ const AddProduct = () => {
                 Accept: 'application/json',
             },
             body: formData,
-        }).then((resp) => resp.json()).then((data) => { responseData = data });
+        })
+            .then((resp) => resp.json())
+            .then((data) => { responseData = data });
 
         console.log(responseData);
 
         if (responseData.success) {
             product.image = responseData.image_url;
             console.log(product);
-            await fetch('http://localhost:4000/addproduct', {
+            await fetch('http://localhost:4000/product/addproduct', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(product),
-            }).then((resp) => resp.json()).then((data) => {
-                data.success ? alert("Product Added") : alert("Failed")
             })
+                .then((resp) => resp.json())
+                .then((data) => {
+                    data.success ? alert("Product Added") : alert("Failed")
+                })
         }
     }
 

@@ -1,4 +1,4 @@
-.navbar{
+.navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -21,25 +21,23 @@
     font-weight: 600;
 }
 
-/* Navbar.css */
-.profile-icon {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
+.nav-profile {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;  /* Makes the image round */
 }
 
-
-@media(max-width:800px){
-    .navbar{
+@media (max-width: 800px) {
+    .navbar {
         padding: 15px 30px;
     }
 
-    .nav-logo{
+    .nav-logo {
         width: 150px;
     }
 
-    .nav-profile{
-        width: 60px;
+    .nav-profile {
+        width: 20px;
+        height: 20px;
     }
 }
-
