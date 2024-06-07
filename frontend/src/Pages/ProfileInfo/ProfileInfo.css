@@ -1,0 +1,189 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 80px 0;
+}
+
+.profile-header {
+    display: flex;
+    width: 100%;
+    max-width: 854px;
+    flex-direction: column;
+    font-size: 24px;
+    color: #426b1f;
+    font-weight: 500;
+    letter-spacing: -0.24px;
+    line-height: 100%;
+}
+
+.profile-title {
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Newsreader, sans-serif;
+}
+
+.divider {
+    border: 2px solid rgba(230, 230, 230, 1);
+    background-color: #e6e6e6;
+    margin-top: 21px;
+    height: 2px;
+}
+
+.form-wrapper {
+    margin-top: 13px;
+    width: 100%;
+    max-width: 854px;
+}
+
+.form-container {
+    display: flex;
+    gap: 20px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+    line-height: 150%;
+}
+
+.flex-row {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    white-space: nowrap;
+}
+
+
+@media (max-width: 991px) {
+    .container {
+        padding: 0 20px;
+    }
+    .profile-header {
+        max-width: 100%;
+    }
+    .profile-title {
+        max-width: 100%;
+    }
+    .divider {
+        max-width: 100%;
+    }
+    .form-wrapper {
+        max-width: 100%;
+    }
+    .form-container {
+        flex-direction: column;
+        gap: 0px;
+    }
+    .column {
+        width: 100%;
+    }
+    .input-container {
+        margin-top: 40px;
+    }
+    .flex-row {
+        flex-wrap: wrap;
+    }
+}
+/* ----------------------------- */
+.input-label {
+    margin: auto 0;
+    font-family: Inter, sans-serif;
+    text-overflow: ellipsis;
+}
+
+.input-field {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    height: 36px;
+    width: 445px;
+}
+
+.birthday-input-field {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    height: 36px;
+    width: 60px;
+}
+
+.action-buttons {
+    display: flex;
+    margin-top: 10px;
+    gap: 18px;
+}
+
+.form-label {
+    font-family: Inter, sans-serif;
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+}
+
+.birthday-label {
+    margin-top: 53px;
+}
+@media (max-width: 991px) {
+    .birthday-label {
+    margin-top: 40px;
+    }
+}
+
+.submit-button {
+    background-color: #426b1f;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    padding: 17px;
+    font-family: Inter, sans-serif;
+    font-weight: 600;
+    line-height: 130%;
+    margin-top: 33px;
+}
+
+/* ----------------------------- */
+.avatar-upload-container {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 991px) {
+    .avatar-wrapper {
+    margin-top: 40px;
+    }
+
+    .avatar-upload-container {
+    width: 100%;
+    }
+}
+
+.avatar {
+    width: 200px;
+    aspect-ratio: 1;
+    border: 1px solid rgba(66, 107, 31, 0.5);
+    border-radius: 50%;
+}
+.upload-button {
+    background-color: #426b1f;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    padding: 18px;
+    font-family: Inter, sans-serif;
+    font-weight: 600;
+    margin-top: 18px;
+}

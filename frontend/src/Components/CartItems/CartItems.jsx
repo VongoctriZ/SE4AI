@@ -12,10 +12,11 @@ const formatPrice = (price) => {
 };
 
 const CartItems = () => {
-    const { getTotalCartAmount, allProduct, cartItems, removeFromCart } = useContext(ShopContext);
+    const { getTotalCartAmount, getTotalCartItems, allProduct, cartItems, removeFromCart } = useContext(ShopContext);
 
     console.log("All Products: ", allProduct);
     console.log("Cart Items: ", cartItems);
+    // console.log("Total Cart Items: ", getTotalCartItems);
 
     return (
         <div className="cart-items">

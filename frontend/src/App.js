@@ -13,6 +13,7 @@ import kids_banner from './Components/Assets/banner_kids.png'
 import Profile from './Pages/Profile';
 import ShopContextProvider from './Context/ShopContext';
 
+import ProfileInfo from './Pages/ProfileInfo/ProfileInfo';
 import Header from './Components/Header/Header';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/user/login' element={<LoginSignup />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/info' element={<ProfileInfo />} />
         </Routes>
         <Footer />
       </BrowserRouter>

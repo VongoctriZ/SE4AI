@@ -124,6 +124,18 @@ const ShopContextProvider = (props) => {
         }
     }
 
+    const getTotalCartItems = () => {
+        console.log('---------------> testing :')
+        let totalItem = 0;
+        for (const item in cartItems) {
+            console.log('item:', item, cartItems[item])
+            if (cartItems[item] > 0) {
+                totalItem += cartItems[item];
+            }
+        }
+        return totalItem;
+    };
+    
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const itemId in cartItems) {
@@ -139,15 +151,7 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     };
 
-    const getTotalCartItems = () => {
-        let totalItem = 0;
-        for (const item in cartItems) {
-            if (cartItems[item] > 0) {
-                totalItem += cartItems[item];
-            }
-        }
-        return totalItem;
-    }
+    
 
     const contextValue = { getTotalCartItems, getTotalCartAmount, allProduct, cartItems, addToCart, removeFromCart, user };
 

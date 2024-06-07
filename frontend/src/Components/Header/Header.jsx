@@ -66,6 +66,12 @@ const Header = () => {
             </Link>
             {menu === "kids" ? <hr /> : <></>}
           </li>
+          <li onClick={() => { setMenu("For you"); }} >
+            <Link style={{ textDecoration: "none" }} to="/Foryou">
+              For You
+            </Link>
+            {menu === "kids" ? <hr /> : <></>}
+          </li>
         </ul>
       </div>
       {localStorage.getItem("auth-token") ? (
@@ -74,7 +80,7 @@ const Header = () => {
             <Link to="/cart" style={{textDecoration: "none", color: "inherit"}}>
             {/* <img src={cart_icon} alt="" className="cart-icon" /> */}
             <div className="cart-count">
-              { getTotalCartItems > 0 ? ( <p>Cart ({getTotalCartItems})</p>
+              { (getTotalCartItems > 0) ? ( <p>Cart ({getTotalCartItems})</p>
               ) : ( <p>Cart</p> ) }
             </div>
             </Link>
