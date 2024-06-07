@@ -4,6 +4,14 @@ import star_icon from '../Assets/star_icon.png';
 import star_dull_icon from '../Assets/star_dull_icon.png';
 import { ShopContext } from '../../Context/ShopContext';
 
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        minimumFractionDigits: 0
+    }).format(price);
+};
+
 const ProductDisplay = (props) => {
     const { product } = props;
     const { addToCart } = useContext(ShopContext);
@@ -40,12 +48,12 @@ const ProductDisplay = (props) => {
                     <p>({product.review_counts})</p>
                 </div>
                 <div className="product-display-right-prices">
-                    <div className="product-display-right-price-old">${product.old_price}</div>
-                    <div className="product-display-right-price-new">${product.new_price}</div>
+                    <div className="product-display-right-price-old">{formatPrice(product.old_price)}</div>
+                    <div className="product-display-right-price-new">{formatPrice(product.new_price)}</div>
                 </div>
-                <div className="product-display-right-description">
+                {/* <div className="product-display-right-description">
                     <p>{product.description}</p>
-                </div>
+                </div> */}
                 <div className="product-display-right-size">
                     <h1>Select Size</h1>
                     <div className="product-display-right-sizes">

@@ -89,6 +89,8 @@ const ShopContextProvider = (props) => {
                     },
                     body: JSON.stringify({ itemId: itemId }),
                 });
+
+                console.log("added successfully!");
             } catch (error) {
                 console.error("Error adding to cart:", error);
             }

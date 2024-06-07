@@ -8,7 +8,6 @@ import RelatedProducts from '../Components/RelatedProducts/RelatedProducts';
 
 const Product = () => {
   const { allProduct } = useContext(ShopContext);
-  // console.log("Product: ",allProduct.length)
   const { productId } = useParams();
   const product = allProduct.find((e) => e.id === Number(productId));
 
@@ -20,7 +19,7 @@ const Product = () => {
     <div>
       <Breadcrumbs product={product} />
       <ProductDisplay product={product} />
-      <DescriptionBox />
+      <DescriptionBox {...product} />
       <RelatedProducts />
     </div>
   );

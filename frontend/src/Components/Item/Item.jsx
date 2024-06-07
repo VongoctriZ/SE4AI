@@ -2,6 +2,14 @@ import React from 'react';
 import './Item.css';
 import { Link } from 'react-router-dom';
 
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+        minimumFractionDigits: 0
+    }).format(price);
+};
+
 const Item = (props) => {
     // console.log("Item.props: ", props);
 
@@ -12,10 +20,10 @@ const Item = (props) => {
                 <p className="item-name">{props.name}</p>
                 <div className="item-prices">
                     <div className="item-price-new">
-                        ${props.new_price}
+                        {formatPrice(props.new_price)}
                     </div>
                     <div className="item-price-old">
-                        ${props.old_price}
+                        {formatPrice(props.old_price)}
                     </div>
                 </div>
             </Link>
