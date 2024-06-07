@@ -21,37 +21,36 @@ class UserController {
 
         let newUser;
 
-        if (Id) {
-            // If an ID is provided, check if it already exists
-            const existingUser = await User.findOne({ Id });
-            if (existingUser) {
-                // If a user with the provided ID exists, return an error
-                return res.status(400).json({ success: false, errors: "User with the provided ID already exists" });
-            }
-            newUser = new User({ Id });
-        } else {
-            // If no ID is provided, generate a new one
-            const lastUser = await User.findOne().sort({ Id: -1 });
-            const lastId = lastUser ? lastUser.Id : 0;
-            newUser = new User({ Id: lastId + 1 });
-        }
-
-        // Hash the password
-        const hashedPassword = password;
-
-        // Create new user
-        newUser.fullName = fullName;
-        newUser.phoneNumber = phoneNumber;
-        newUser.email = email;
-        newUser.password = hashedPassword;
-        newUser.address = address;
-
         try {
+            if (Id) {
+                // If an ID is provided, check if it already exists
+                const existingUser = await User.findOne({ Id });
+                if (existingUser) {
+                    // If a user with the provided ID exists, return an error
+                    return res.status(400).json({ success: false, errors: "User with the provided ID already exists" });
+                }
+                newUser = new User({ Id });
+            } else {
+                // If no ID is provided, generate a new one
+                const lastUser = await User.findOne().sort({ Id: -1 });
+                const lastId = lastUser ? lastUser.Id : 0;
+                newUser = new User({ Id: lastId + 1 });
+            }
+
+            // Hash the password
+            const hashedPassword = password;
+
+            // Create new user
+            newUser.fullName = fullName;
+            newUser.phoneNumber = phoneNumber;
+            newUser.email = email;
+            newUser.password = hashedPassword;
+            newUser.address = address;
+
             await newUser.save();
 
             try {
                 // Create a new cart for the user
-
                 const lastCart = await Cart.findOne().sort({ id: -1 });
                 const lastCartId = lastCart ? lastCart.id : 0;
                 let newCart = new Cart({ id: lastCartId + 1, userId: newUser.Id });
@@ -64,7 +63,7 @@ class UserController {
 
             } catch (error) {
                 console.error("Error saving cart:", error);
-                res.status(500).json({ message: "Error creating user" });
+                return res.status(500).json({ success: false, errors: "Error creating cart for user" });
             }
 
             const payload = {
@@ -83,9 +82,10 @@ class UserController {
             });
         } catch (error) {
             console.error("Error saving user:", error);
-            res.status(500).json({ message: "Error creating user" });
+            res.status(500).json({ success: false, errors: "Error creating user" });
         }
     }
+
 
 
     async login(req, res) {
@@ -170,6 +170,51 @@ class UserController {
         } catch (error) {
             console.error("Error saving user:", error);
             res.status(500).json({ message: "Error updating user" });
+        }
+    }
+
+    // API for getting all products
+    async allUsers(req, res) {
+        try {
+            let users = await User.find({});
+            // Status code: 200 OK
+            // The request is OK (the standard response for successful HTTP requests)
+            res.status(200).json(users);
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: "Error fetching products",
+            });
+        }
+    };
+
+    async removeUser(req, res) {
+        console.log("Request body:", req.body); // Log the request body
+        try {
+            const { _id } = req.body;
+            if (!_id) {
+                return res.status(400).json({ success: false, message: 'ID is required' });
+            }
+
+            const result = await User.findByIdAndDelete(_id);
+            console.log("Database result:", result); // Log the database result
+            if (result) {
+                res.status(200).json({
+                    success: true,
+                    user: result,
+                });
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: 'User not found',
+                });
+            }
+        } catch (error) {
+            console.error("Error removing user:", error);
+            res.status(500).json({
+                success: false,
+                message: 'Error removing user',
+            });
         }
     }
 }

@@ -24,7 +24,7 @@ const ListProduct = () => {
 
   const removeProduct = async (id) => {
     try {
-      await fetch('http://localhost:4000/product/removeproduct', {
+      const response = await fetch('http://localhost:4000/product/removeproduct', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -32,7 +32,13 @@ const ListProduct = () => {
         },
         body: JSON.stringify({ id: id })
       });
-      fetchInfo();
+
+      if (!response.ok) {
+        throw new Error('Failed to remove product');
+      }
+
+      // Xóa sản phẩm từ state mà không cần gọi lại fetchInfo
+      setAllProducts(prevProducts => prevProducts.filter(product => product.id !== id));
     } catch (error) {
       console.error('Error removing product:', error);
     }

@@ -53,7 +53,19 @@ const AddProduct = () => {
         })
             .then((resp) => resp.json())
             .then((data) => {
-                data.success ? alert("Product Added") : alert("Failed");
+                if (data.success) {
+                    // Hiển thị form thông báo thành công
+                    alert("Product Added Successfully");
+
+                    // Chuyển hướng về trang home
+                    window.location.href = '/addproduct';
+                } else {
+                    alert("Product Addition Failed!!!");
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("An error occurred while adding the product.");
             });
     };
 

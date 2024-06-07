@@ -10,4 +10,8 @@ router.post('/signup', userController.signUp);
 
 router.post('/update', fetchUser, userController.update);
 
+router.get('/allusers', userController.allUsers);
+
+router.post('/removeuser', userController.removeUser);
+
 module.exports = router;

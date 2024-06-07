@@ -1,32 +1,44 @@
 import { useState } from 'react';
 import './AddUser.css';
 
-const AddProduct = () => {
-    const [productDetails, setProductDetails] = useState({
-        name: "",
+const AddUser = () => {
+    const [userDetails, setProductDetails] = useState({
+        fullName: "",
         address: "",
-        category: "",
-        phonenumber: "",
+        phoneNumber: "",
         email: "",
+        confirmPassword: "",
         password: "",
     });
 
     const changeHandler = (e) => {
-        setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
+        setProductDetails({ ...userDetails, [e.target.fullName]: e.target.value });
     };
 
-    const Add_Product = async () => {
-        await fetch('http://localhost:4000/product/addproduct', {
+    const Add_User = async () => {
+        await fetch('http://localhost:4000/user/signup', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(productDetails),
+            body: JSON.stringify(userDetails),
         })
             .then((resp) => resp.json())
             .then((data) => {
-                data.success ? alert("Product Added") : alert("Failed");
+                if (data.success) {
+                    // Hiển thị form thông báo thành công
+                    alert("User Added Successfully");
+
+                    // Chuyển hướng về trang home
+                    window.location.href = '/adduser';
+                } else {
+                    alert("User Addition Failed!!!");
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("An error occurred while adding the user.");
             });
     };
 
@@ -35,34 +47,38 @@ const AddProduct = () => {
             <div className="add-product">
                 <div className="addproduct-itemfield">
                     <p>Full Name</p>
-                    <input value={productDetails.name} onChange={changeHandler} type="text" name='name' placeholder='Type here' />
+                    <input value={userDetails.fullName} onChange={changeHandler} type="text" name='fullName' placeholder='Type here' />
                 </div>
 
                 <div className="addproduct-itemfield">
                     <p>Address</p>
-                    <input value={productDetails.address} onChange={changeHandler} type="text" name='address' placeholder='Type here' />
+                    <input value={userDetails.address} onChange={changeHandler} type="text" name='address' placeholder='Type here' />
                 </div>
 
                 <div className="addproduct-itemfield">
                     <p>Email</p>
-                    <input value={productDetails.email} onChange={changeHandler} type="text" name='email' placeholder='Type here' />
+                    <input value={userDetails.email} onChange={changeHandler} type="text" name='email' placeholder='Type here' />
                 </div>
 
                 <div className="addproduct-itemfield">
                     <p>Password</p>
-                    <input value={productDetails.password} onChange={changeHandler} type="text" name='pass-word' placeholder='Type here' />
+                    <input value={userDetails.password} onChange={changeHandler} type="text" name='password' placeholder='Type here' />
+                </div>
+
+                <div className="addproduct-itemfield">
+                    <p>Confirm Password</p>
+                    <input value={userDetails.confirmPassword} onChange={changeHandler} type="password" name='confirmPassword' placeholder='Type here' />
                 </div>
 
                 <div className="addproduct-itemfield">
                     <p>Phone Number</p>
-                    <input value={productDetails.phonenumber} onChange={changeHandler} type="text" name='phone_number' placeholder='Type here' />
+                    <input value={userDetails.phoneNumber} onChange={changeHandler} type="text" name='phoneNumber' placeholder='Type here' />
                 </div>
 
-
-                <button onClick={() => { Add_Product() }} className="addproduct-btn">Add</button>
+                <button onClick={() => { Add_User() }} className="addproduct-btn">Add</button>
             </div>
         </div>
     );
 };
 
-export default AddProduct;
+export default AddUser;

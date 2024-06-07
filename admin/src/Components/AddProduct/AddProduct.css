@@ -1,12 +1,4 @@
 /* Container centering */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 103vh;
-    /* Adjusted to 100vh for full-screen height */
-    width: 100%;
-}
 
 /* Add Product Form Styling */
 .add-product {
@@ -19,6 +11,7 @@
     background: white;
     position: relative;
     box-shadow: 0 1px 3px -2px #000;
+    height: 85vh;
 }
 
 /* Item field styling */
