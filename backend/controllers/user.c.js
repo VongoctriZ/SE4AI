@@ -86,8 +86,6 @@ class UserController {
         }
     }
 
-
-
     async login(req, res) {
         const { email, password } = req.body;
 
@@ -196,12 +194,24 @@ class UserController {
                 return res.status(400).json({ success: false, message: 'ID is required' });
             }
 
-            const result = await User.findByIdAndDelete(_id);
-            console.log("Database result:", result); // Log the database result
-            if (result) {
+            // Find user by ID
+            const user = await User.findById(_id);
+            if (!user) {
+                return res.status(404).json({ success: false, message: 'User not found' });
+            }
+
+            // Delete the user's cart
+            const cartResult = await Cart.findOneAndDelete({ userId: user.Id });
+            console.log("Cart deletion result:", cartResult);
+
+            // Delete the user
+            const userResult = await User.findByIdAndDelete(_id);
+            console.log("User deletion result:", userResult);
+
+            if (userResult) {
                 res.status(200).json({
                     success: true,
-                    user: result,
+                    user: userResult,
                 });
             } else {
                 res.status(404).json({

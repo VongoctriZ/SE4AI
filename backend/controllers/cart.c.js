@@ -13,6 +13,8 @@ class CartController {
 
             if (!user) {
                 return res.status(404).send({ message: 'User not found' });
+            }else{
+                console.log("user: ",user);
             }
 
             // Find the user's cart or create a new one if it doesn't exist
