@@ -54,7 +54,8 @@ const ProductDisplay = (props) => {
                 {/* <div className="product-display-right-description">
                     <p>{product.description}</p>
                 </div> */}
-                <div className="product-display-right-size">
+
+                {/* <div className="product-display-right-size">
                     <h1>Select Size</h1>
                     <div className="product-display-right-sizes">
                         <div>S</div>
@@ -62,15 +63,20 @@ const ProductDisplay = (props) => {
                         <div>L</div>
                         <div>XL</div>
                         <div>XXL</div>
-                    </div>
+                    </div>                
                 </div>
+                 */}
+
                 <button onClick={() => { addToCart(product.id) }}>ADD TO CART</button>
                 <p className="product-display-right-category">
                     <span>Category :</span> {product.category.join(', ')}
                 </p>
-                <p className="product-display-right-category">
+
+                {/* <p className="product-display-right-category">
                     <span>Tags :</span>Modern, Latest
                 </p>
+             */}
+
             </div>
         </div>
     );

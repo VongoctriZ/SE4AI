@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap&subset=vietnamese');
+
 .product-display {
     display: flex;
     margin: 0px 120px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .product-display-left {
@@ -16,7 +19,7 @@
 
 .product-display-img-list img {
     height: 160px;
-    cursor: pointer; /* Add cursor pointer to indicate clickability */
+    cursor: pointer;
 }
 
 .product-display-main-img {
@@ -28,6 +31,7 @@
     margin: 0px 70px;
     display: flex;
     flex-direction: column;
+    font-family: 'Roboto', sans-serif;
 }
 
 .product-display-right h1 {
@@ -261,7 +265,8 @@
     }
 
     .product-display-right-sizes h1 {
-        margin-top: 10px;
+        margin-top:
+            10px;
     }
 
     .product-display-right-sizes div {
@@ -270,7 +275,7 @@
 
     .product-display-right button {
         width: 100px;
-        font-size: 10px; /* Corrected typo */
+        font-size: 10px;
     }
 
     .product-display-right-category {

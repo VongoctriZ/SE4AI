@@ -11,7 +11,7 @@ const formatPrice = (price) => {
 };
 
 const Item = (props) => {
-    // console.log("Item.props: ", props);
+    console.log("Item.props: ", props);
 
     return (
         <div className="item">
