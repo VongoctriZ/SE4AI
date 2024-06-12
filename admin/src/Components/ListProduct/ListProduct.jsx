@@ -47,8 +47,10 @@ const ListProduct = () => {
   const columns = [
     { field: 'id', headerName: 'ID', width: 130, align: 'center', headerAlign: 'center' },
     { field: 'name', headerName: 'Name', width: 130, align: 'center', headerAlign: 'center' },
-    { field: 'old_price', headerName: 'Old Price', width: 130, align: 'center', headerAlign: 'center' },
     { field: 'new_price', headerName: 'New Price', width: 130, align: 'center', headerAlign: 'center' },
+    { field: 'rating', headerName: 'Rating', width: 110 },
+    { field: 'review_counts', headerName: 'Review Counts', width: 150 },
+    { field: 'all_time_quantity_sold', headerName: 'Quantity Sold', width: 150 },
     { field: 'category', headerName: 'Category', width: 130, align: 'center', headerAlign: 'center' },
     {
       field: 'remove',

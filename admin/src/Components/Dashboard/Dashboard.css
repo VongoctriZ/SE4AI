@@ -1,0 +1,62 @@
+.chart-title {
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center;
+    /* Center the stats container */
+    margin-top: 20px;
+    width: 100%;
+    /* Ensure the container takes full width */
+}
+
+.stat-card {
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    width: 150px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 10px;
+    /* Add margin to create space between cards */
+}
+
+.stat-card h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.stat-card p {
+    margin: 10px 0 0;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.percentage-change {
+    font-size: 1em;
+}
+
+.dashboard-chart {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+    /* Ensure maximum width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the content inside this container */
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

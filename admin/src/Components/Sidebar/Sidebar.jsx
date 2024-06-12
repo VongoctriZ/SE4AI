@@ -9,6 +9,13 @@ import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 function Sidebar() {
   return (
     <div className="sidebar">
+      <Link to={'/dashboard'} style={{ textDecoration: "none" }}>
+        <div className="sidebar-items">
+          <AddShoppingCartOutlinedIcon fontSize="large"></AddShoppingCartOutlinedIcon>
+          <p>Dashboard</p>
+        </div>
+
+      </Link>
       <Link to={'/addproduct'} style={{ textDecoration: "none" }}>
         <div className="sidebar-items">
           <AddShoppingCartOutlinedIcon fontSize="large"></AddShoppingCartOutlinedIcon>
@@ -28,7 +35,7 @@ function Sidebar() {
           <PersonAddAltOutlinedIcon fontSize="large"></PersonAddAltOutlinedIcon>
           <p>Add User</p>
         </div>
-      </Link> 
+      </Link>
 
       <Link to={'/listuser'} style={{ textDecoration: "none" }}>
         <div className="sidebar-items">
