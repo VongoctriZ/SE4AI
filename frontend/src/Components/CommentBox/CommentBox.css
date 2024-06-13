@@ -1,47 +1,153 @@
-/* CommentBox.css */
 .comment-box {
     margin: 20px;
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* max-width: 800px; */
+    /* Added max-width to limit the comment box width */
+    margin-left: auto;
+    /* Center align */
+    margin-right: auto;
+    /* Center align */
 }
 
 .comment {
-    border: 1px solid #d0d0d0;
+    border: 1px solid #e0e0e0;
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: #f7f7f7;
+    transition: all 0.3s;
+    max-height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.comment.expanded {
+    max-height: none;
+}
+
+.comment:hover {
+    background-color: #e9ecef;
+    /* Added hover effect */
+    transform: scale(1.01);
+    /* Slightly enlarge on hover */
 }
 
 .user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
-    font-weight: 600;
+    font-weight: 700;
     color: #333;
 }
 
 .user-info p {
     margin: 0;
-    font-size: 16px;
+    font-size: 18px;
+}
+
+.rating {
+    display: flex;
+}
+
+.rating svg {
+    margin-left: 5px;
+}
+
+.created-at {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 10px;
 }
 
 .content p {
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.6;
     margin: 10px 0 0 0;
     color: #555;
 }
 
-@media(max-width: 1280px) {
+.show-more {
+    color: #007bff;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.show-more:hover {
+    text-decoration: underline;
+    /* Added underline on hover */
+}
+
+.images {
+    margin-top: 10px;
+}
+
+.images img {
+    max-width: 100px;
+    max-height: 100px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: transform 0.3s;
+    /* Added transition for hover effect */
+}
+
+.images img:hover {
+    transform: scale(1.1);
+    /* Slightly enlarge on hover */
+}
+
+.toggle-comments-btn {
+    display: block;
+    margin: 0 auto 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    /* Added transform transition */
+}
+
+.toggle-comments-btn:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+    /* Slightly enlarge on hover */
+}
+
+@media (max-width: 1280px) {
     .comment-box {
-        margin: 20px;
+        margin: 15px;
+    }
+
+    .comment {
+        padding: 18px;
+    }
+
+    .user-info p {
+        font-size: 16px;
+    }
+
+    .content p {
+        font-size: 14px;
+    }
+
+    .images img {
+        max-width: 80px;
+        max-height: 80px;
     }
 }
 
-@media(max-width: 800px) {
+@media (max-width: 800px) {
     .comment-box {
         margin: 10px;
         padding: 15px;
@@ -56,6 +162,15 @@
     }
 
     .content p {
+        font-size: 12px;
+    }
+
+    .images img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+
+    .created-at {
         font-size: 12px;
     }
 }

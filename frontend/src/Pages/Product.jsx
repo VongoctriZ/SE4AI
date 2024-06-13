@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ShopContext } from '../Context/ShopContext';
 import Breadcrumbs from '../Components/Breadcrumbs/Breadcrumbs';
@@ -12,8 +12,18 @@ const Product = () => {
     const { productId } = useParams();
     const product = allProduct.find((e) => e.id === Number(productId));
     const [displayContent, setDisplayContent] = useState('description');
+    const [averageRating, setAverageRating] = useState(0);
 
     const comments = allComments.filter((comment) => comment.product_id === Number(productId)); // Assuming comments have a 'product_id' field
+
+    useEffect(() => {
+        if (comments.length > 0) {
+            const totalRating = comments.reduce((sum, comment) => sum + comment.rating, 0);
+            setAverageRating(totalRating / comments.length);
+        }
+    }, [comments]);
+
+    // console.log("avg rating: ",averageRating);
 
     if (!product) {
         return <div>Product not found</div>;
@@ -34,7 +44,7 @@ const Product = () => {
     return (
         <div>
             <Breadcrumbs product={product} />
-            <ProductDisplay product={product} />
+            <ProductDisplay product={product} rating={averageRating} />
             <div className="product-details">
                 <div className="product-details-nav">
                     <div
@@ -47,7 +57,7 @@ const Product = () => {
                         className={`product-details-nav-button ${displayContent === 'comments' ? 'active' : ''}`}
                         onClick={handleCommentsClick}
                     >
-                        Reviews ({product.review_counts})
+                        Reviews ({comments.length})
                     </div>
                 </div>
                 <div className="product-details-content">

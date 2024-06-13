@@ -1,31 +1,3 @@
-/* .product-details {
-    margin: 20px;
-}
-
-.product-details-nav {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.product-details-nav-button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.product-details-nav-button.active {
-    background-color: #ccc;
-}
-
-.product-details-content {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
-} */
-
 .product-details {
     margin: 120px 170px;
 }

@@ -108,3 +108,8 @@ Chi tiet:
 - Home page vua tao duoc component 'SideBar' de dieu huong den cac trang san pham
 - Home page can them anh san pham tieu bieu vao ben canh 'SideBar'
 ---
+
+
+19:00 13/06/2024
+
+- `npm install react-icons date-fns` trong muc frontend de hien thi rating

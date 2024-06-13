@@ -1,71 +1,58 @@
-/* DescriptionBox.css */
 .description-box {
     margin: 20px;
-}
-
-.description-box-navigator {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.description-box-nav-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 600;
-    width: 171px;
-    height: 70px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 0 10px;
-}
-
-.description-box-nav-box.fade {
-    background: #FBFBFB;
-    color: #555;
-}
-
-.description-box-nav-box.active {
-    background-color: #ccc;
-}
-
-.description-box-description {
-    border: 1px solid #ccc;
     padding: 20px;
-    border-radius: 5px;
-    margin-top: 20px;
-    font-family: 'Roboto', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* max-width: 800px; */
+    /* Added max-width to limit the description box width */
+    margin-left: auto;
+    /* Center align */
+    margin-right: auto;
+    /* Center align */
+    overflow: hidden;
+    position: relative;
 }
 
-@media(max-width:1280px) {
+.description-box p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 10px 0 0 0;
+    color: #555;
+    transition: all 0.3s;
+}
+
+.show-more {
+    color: #007bff;
+    cursor: pointer;
+    margin-left: 5px;
+    display: block;
+    text-align: center;
+}
+
+.show-more:hover {
+    text-decoration: underline;
+    /* Added underline on hover */
+}
+
+@media (max-width: 1280px) {
     .description-box {
-        margin: 20px;
+        margin: 15px;
     }
 
-    .description-box-nav-box {
-        width: auto;
-        padding: 10px 20px;
-    }
-
-    .description-box-description {
+    .description-box p {
         font-size: 14px;
     }
 }
 
-@media(max-width:800px) {
+@media (max-width: 800px) {
     .description-box {
-        margin: 20px;
+        margin: 10px;
+        padding: 15px;
     }
 
-    .description-box-nav-box {
-        width: auto;
-        padding: 10px 20px;
-    }
-
-    .description-box-description {
-        font-size: 14px;
+    .description-box p {
+        font-size: 12px;
     }
 }
