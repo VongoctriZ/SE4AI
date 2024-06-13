@@ -1,0 +1,61 @@
+/* CommentBox.css */
+.comment-box {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.comment {
+    border: 1px solid #d0d0d0;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+}
+
+.user-info {
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+.user-info p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.content p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 10px 0 0 0;
+    color: #555;
+}
+
+@media(max-width: 1280px) {
+    .comment-box {
+        margin: 20px;
+    }
+}
+
+@media(max-width: 800px) {
+    .comment-box {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .comment {
+        padding: 15px;
+    }
+
+    .user-info p {
+        font-size: 14px;
+    }
+
+    .content p {
+        font-size: 12px;
+    }
+}

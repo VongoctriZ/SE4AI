@@ -66,12 +66,12 @@ const Header = () => {
             </Link>
             {menu === "kids" ? <hr /> : <></>}
           </li>
-          <li onClick={() => { setMenu("For you"); }} >
+          {/* <li onClick={() => { setMenu("For you"); }} >
             <Link style={{ textDecoration: "none" }} to="/Foryou">
               For You
             </Link>
             {menu === "kids" ? <hr /> : <></>}
-          </li>
+          </li> */}
         </ul>
       </div>
       {localStorage.getItem("auth-token") ? (

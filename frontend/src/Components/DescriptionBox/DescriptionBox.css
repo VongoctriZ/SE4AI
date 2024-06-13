@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap&subset=vietnamese');
-
+/* DescriptionBox.css */
 .description-box {
-    margin: 120px 170px;
+    margin: 20px;
 }
 
 .description-box-navigator {
     display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .description-box-nav-box {
@@ -16,7 +17,10 @@
     font-weight: 600;
     width: 171px;
     height: 70px;
-    border: 1px solid #d0d0d0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 10px;
 }
 
 .description-box-nav-box.fade {
@@ -24,25 +28,41 @@
     color: #555;
 }
 
+.description-box-nav-box.active {
+    background-color: #ccc;
+}
+
 .description-box-description {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    border: 1px solid #D0D0D0;
-    padding: 48px;
-    padding-bottom: 70px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
     font-family: 'Roboto', sans-serif;
 }
 
 @media(max-width:1280px) {
     .description-box {
-        margin: 60px;
+        margin: 20px;
+    }
+
+    .description-box-nav-box {
+        width: auto;
+        padding: 10px 20px;
+    }
+
+    .description-box-description {
+        font-size: 14px;
     }
 }
 
 @media(max-width:800px) {
     .description-box {
-        margin: 60px 20px;
+        margin: 20px;
+    }
+
+    .description-box-nav-box {
+        width: auto;
+        padding: 10px 20px;
     }
 
     .description-box-description {

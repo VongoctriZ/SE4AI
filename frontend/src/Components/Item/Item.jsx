@@ -11,7 +11,7 @@ const formatPrice = (price) => {
 };
 
 const Item = (props) => {
-    console.log("Item.props: ", props);
+    // console.log("Item.props: ", props);
 
     return (
         <div className="item">
@@ -22,9 +22,9 @@ const Item = (props) => {
                     <div className="item-price-new">
                         {formatPrice(props.new_price)}
                     </div>
-                    <div className="item-price-old">
+                    {props.new_price !== props.old_price && (<div className="item-price-old">
                         {formatPrice(props.old_price)}
-                    </div>
+                    </div>)}
                 </div>
             </Link>
         </div>

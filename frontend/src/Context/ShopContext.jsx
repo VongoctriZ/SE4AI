@@ -6,6 +6,10 @@ const ShopContextProvider = (props) => {
     console.log("ShopContextProvider: ", props);
 
     const [allProduct, setAllProduct] = useState([]);
+
+    // fectch all comments
+    const [allComments, setAllComments] = useState([]);
+
     const [cartItems, setCartItems] = useState({});
     const [user, setUser] = useState();
 
@@ -25,6 +29,19 @@ const ShopContextProvider = (props) => {
             console.error("Error fetching products:", error);
         }
     }, [props.category]);
+
+    // fetch comments
+    const fetchComments = useCallback(async () => {
+        try {
+            const response = await fetch('http://localhost:4000/comment/allcomments');
+            const data = await response.json();
+            // console.log("data: ",data);
+            setAllComments(data);
+            console.log("All Comments fetched");
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        }
+    }, []);
 
     // Fetch cart items for the user
     const fetchCart = useCallback(async () => {
@@ -66,11 +83,11 @@ const ShopContextProvider = (props) => {
 
     useEffect(() => {
         fetchProducts();
-    }, [fetchProducts]);
+        fetchComments();
+    }, [fetchProducts, fetchComments]);
 
     useEffect(() => {
         fetchCart();
-
         const userData = JSON.parse(localStorage.getItem('user'));
         setUser(userData);
     }, [fetchCart]);
@@ -135,7 +152,7 @@ const ShopContextProvider = (props) => {
         }
         return totalItem;
     };
-    
+
     const getTotalCartAmount = () => {
         let totalAmount = 0;
         for (const itemId in cartItems) {
@@ -151,9 +168,9 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     };
 
-    
 
-    const contextValue = { getTotalCartItems, getTotalCartAmount, allProduct, cartItems, addToCart, removeFromCart, user };
+
+    const contextValue = { getTotalCartItems, getTotalCartAmount, addToCart, removeFromCart, allProduct, allComments, cartItems, user };
 
     return (
         <ShopContext.Provider value={contextValue}>
