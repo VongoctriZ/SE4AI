@@ -165,7 +165,7 @@ class ProductController {
     // API for getting new collection data
     async newCollections(req, res) {
         try {
-            let products = await Product.find({}).sort({ date: -1 }).limit(8);
+            let products = await Product.find({}).sort({ date: -1 }).limit(4);
             console.log("New collections fetched:", products);
             res.status(200).json(products);
         } catch (error) {
