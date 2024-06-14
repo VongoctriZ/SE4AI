@@ -1,4 +1,3 @@
-// Search.js
 import React, { useState } from "react";
 import "./Search.css";
 import SearchIcon from '@mui/icons-material/Search';

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CSS/LoginSignup.css';
 
 const LoginSignup = () => {
   const [state, setState] = useState("Login");
-
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -12,6 +12,8 @@ const LoginSignup = () => {
     confirmPassword: "",
     address: "",
   });
+
+  const navigate = useNavigate();
 
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,14 +49,9 @@ const LoginSignup = () => {
   const signup = async () => {
     console.log("Sign Up Function Executed!", formData);
 
-
-    // if(formData.confirmPassword.length < 8){
-    //   return alert("Password must be at")
-    // }
     if (formData.password !== formData.confirmPassword) {
       return alert("Passwords do not match!");
     }
-
 
     let responseData;
 
@@ -79,7 +76,6 @@ const LoginSignup = () => {
       localStorage.setItem('auth-token', responseData.token);
       localStorage.setItem('user', JSON.stringify(responseData.user));
       window.location.replace("/");
-
     } else {
       console.log("failed to create new account!!!");
       alert(responseData.errors);
@@ -87,31 +83,23 @@ const LoginSignup = () => {
   };
 
   const resetPassword = async () => {
+    console.log("Implement later, this task needs to interact with real e-mail");
+  };
 
-
-    console.log("Implement later, this task need interact with real e-mail");
-    // console.log("Reset Password Function Executed!", formData);
-    // let responseData;
-
-    // await fetch('http://localhost:4000/user/reset-password', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     email: formData.email,
-    //     password: formData.password
-    //   }),
-    // }).then((response) => response.json()).then((data) => responseData = data);
-
-    // if (responseData.success) {
-    //   localStorage.setItem('auth-token', responseData.token);
-    //   localStorage.setItem('user', JSON.stringify(responseData.user));
-    //   window.location.replace("/");
-    // } else {
-    //   alert(responseData.errors);
-    // }
+  const changeState = (newState) => {
+    setState(newState);
+    switch (newState) {
+      case 'Sign Up':
+        navigate('/user/signup');
+        break;
+      case 'Forgot Password':
+        navigate('/user/reset_password');
+        break;
+      case 'Login':
+      default:
+        navigate('/user/login');
+        break;
+    }
   };
 
   return (
@@ -142,7 +130,6 @@ const LoginSignup = () => {
                 type="text"
                 placeholder='Address'
               />
-
             </>
           )}
 
@@ -191,7 +178,7 @@ const LoginSignup = () => {
           ? (
             <>
               <p className="login-signup-login">
-                Already have an account? <span onClick={() => { setState("Login") }}>Login here</span>
+                Already have an account? <span onClick={() => { changeState("Login") }}>Login here</span>
               </p>
               <div className="login-signup-agree">
                 <input type="checkbox" />
@@ -201,19 +188,17 @@ const LoginSignup = () => {
           ) : state === "Login" ? (
             <>
               <p className="login-signup-login">
-                Create an account? <span onClick={() => { setState("Sign Up") }}>Click here</span>
+                Create an account? <span onClick={() => { changeState("Sign Up") }}>Click here</span>
               </p>
               <p className="login-signup-login">
-                Forgot your password? <span onClick={() => { setState("Forgot Password") }}>Reset here</span>
+                Forgot your password? <span onClick={() => { changeState("Forgot Password") }}>Reset here</span>
               </p>
             </>
           ) : (
             <p className="login-signup-login">
-              Remembered your password? <span onClick={() => { setState("Login") }}>Login here</span>
+              Remembered your password? <span onClick={() => { changeState("Login") }}>Login here</span>
             </p>
           )}
-
-
       </div>
     </div>
   );

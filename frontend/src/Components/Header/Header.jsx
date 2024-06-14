@@ -1,9 +1,10 @@
-import React, { useContext, useRef, useState } from "react";
+// Header.js
+import React, { useEffect, useContext, useRef, useState } from "react";
 import "./Header.css";
 import logo from "../Assets/Image_Header/logo.png";
 import avatar from "../Assets/Image_Header/avatar.png";
 import profile from "../Assets/Image_Header/profile.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -11,24 +12,33 @@ import MenuItem from "@mui/material/MenuItem";
 import Search from "../Search/Search";
 
 const Header = () => {
+
   const [menu, setMenu] = useState('');
   const { getTotalCartItems } = useContext(ShopContext);
-
+  const [searchQuery, setSearchQuery] = useState('');
   const menuRef = useRef();
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleSearch = (query) => {
-    console.log("Search query:", query);
-    // Implement search functionality here
+    setSearchQuery(query);
+    if (query.trim() !== '') {
+      navigate(`/search/${encodeURIComponent(query.trim())}`);
+    }
   };
+
+  useEffect(() => {
+    console.log("searched query: ", searchQuery); // Log searchQuery when it changes
+  }, [searchQuery]);
 
   const dropdown_toggle = (e) => {
     menuRef.current.classList.toggle("nav-menu-visible");
@@ -44,12 +54,8 @@ const Header = () => {
         </div>
       </Link>
 
-
       <div className="header-middle">
-        {/* <div className="search-container"> */}
-          <Search onSearch={handleSearch} />
-        
-        {/* </div> */}
+        <Search onSearch={handleSearch} />
         <nav className="navigation">
           <ul ref={menuRef} className="nav-links">
             <li className={`nav-item ${menu === "men" ? "active" : ""}`} onClick={() => setMenu("men")}>
@@ -63,11 +69,9 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-       
       </div>
 
       <div className="header-right">
-
         {localStorage.getItem("auth-token") ? (
           <div className="account">
             <div className="cart-container">
@@ -107,13 +111,10 @@ const Header = () => {
             </div>
           </Button>
         )}
-
       </div>
 
     </div>
   );
-
-
 };
 
 export default Header;

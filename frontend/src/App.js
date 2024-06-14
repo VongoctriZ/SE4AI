@@ -1,13 +1,10 @@
+// App.js
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css'
-
-// import Navbar from "./Components/Navbar/Navbar";
-
+import './App.css';
 
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
-
 
 import Shop from './Pages/Shop';
 import ShopCategory from './Pages/ShopCategory';
@@ -16,20 +13,19 @@ import LoginSignup from './Pages/LoginSignup';
 import Cart from './Pages/Cart';
 import Profile from './Pages/Profile';
 import ProfileInfo from './Pages/ProfileInfo/ProfileInfo';
+import SearchResults from './Pages/SearchResults';
 
-import men_banner from './Components/Assets/banner_mens.png'
-import women_banner from './Components/Assets/banner_women.png'
-import kids_banner from './Components/Assets/banner_kids.png'
+import men_banner from './Components/Assets/banner_mens.png';
+import women_banner from './Components/Assets/banner_women.png';
+import kids_banner from './Components/Assets/banner_kids.png';
 
 import ShopContextProvider from './Context/ShopContext';
-
 
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Header />
-        {/* <Navbar /> */}
         <Routes>
           <Route path='/' element={<Shop />} />
           <Route path='/men' element={
@@ -46,7 +42,6 @@ function App() {
             <ShopContextProvider category="kids">
               <ShopCategory banner={kids_banner} category="kids" />
             </ShopContextProvider>
-
           } />
           <Route path='/product/:productId' element={
             <ShopContextProvider>
@@ -55,8 +50,11 @@ function App() {
           } />
           <Route path='/cart' element={<Cart />} />
           <Route path='/user/login' element={<LoginSignup />} />
+          <Route path='/user/signup' element={<LoginSignup />} />
+          <Route path='/user/reset_password' element={<LoginSignup />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/info' element={<ProfileInfo />} />
+          <Route path='/search/:query' element={<SearchResults />} /> {/* Updated to directly render SearchResults */}
         </Routes>
         <Footer />
       </BrowserRouter>

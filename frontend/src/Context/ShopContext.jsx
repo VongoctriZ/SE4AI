@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState, useCallback } from "react";
 export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props) => {
-    console.log("ShopContextProvider: ", props);
+    // console.log("ShopContextProvider: ", props);
 
     const [allProduct, setAllProduct] = useState([]);
 
@@ -12,6 +12,9 @@ const ShopContextProvider = (props) => {
 
     const [cartItems, setCartItems] = useState({});
     const [user, setUser] = useState();
+
+    // for search engine
+    const [searchResults, setSearchResults] = useState([]);
 
     // Fetch products based on category or all products
     const fetchProducts = useCallback(async () => {
@@ -29,6 +32,20 @@ const ShopContextProvider = (props) => {
             console.error("Error fetching products:", error);
         }
     }, [props.category]);
+
+    // Fetch search results based on query
+    const fetchSearchResults = useCallback(async (query) => {
+        try {
+            console.log("query: ",query);
+            const response = await fetch(`http://localhost:4000/product/search?q=${query}`);
+            const data = await response.json();
+            setSearchResults(data);
+            console.log("Search Results fetched: ",data);
+        } catch (error) {
+            console.error("Error fetching search results:", error);
+        }
+    }, []);
+
 
     // fetch comments
     const fetchComments = useCallback(async () => {
@@ -170,7 +187,7 @@ const ShopContextProvider = (props) => {
 
 
 
-    const contextValue = { getTotalCartItems, getTotalCartAmount, addToCart, removeFromCart, allProduct, allComments, cartItems, user };
+    const contextValue = { getTotalCartItems, getTotalCartAmount, addToCart, removeFromCart, allProduct, allComments, cartItems, user, searchResults, fetchSearchResults };
 
     return (
         <ShopContext.Provider value={contextValue}>

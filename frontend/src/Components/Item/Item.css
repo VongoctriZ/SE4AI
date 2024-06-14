@@ -22,11 +22,16 @@
 }
 
 .item-name {
-    margin: 6px 0;
+    margin: 6px 10px; /* Added margin for some padding inside the container */
     color: #374151;
     font-size: 16px;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit the text to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .item-prices {

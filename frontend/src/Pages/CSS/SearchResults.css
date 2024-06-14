@@ -1,0 +1,126 @@
+.search-results-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.search-results-banner {
+    display: block;
+    margin: 30px auto;
+    width: 82%;
+}
+
+.search-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 170px;
+}
+
+.search-results-header p span {
+    font-weight: 600;
+}
+
+.search-results-sort {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 40px;
+    border: 1px solid #888;
+}
+
+.search-results-sort select {
+    margin-left: 10px;
+    padding: 5px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-results-grid {
+    margin: 20px 160px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 40px;
+    gap: 10px;
+}
+
+.search-results-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.search-results-pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: 1px solid #888;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-results-pagination button:hover {
+    background-color: #e0e0e0;
+}
+
+.search-results-pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.search-results-pagination span {
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+@media (max-width: 1280px) {
+    .search-results-banner {
+        margin: 20px auto;
+        width: 90%;
+    }
+
+    .search-results-header {
+        width: 90%;
+        margin: auto;
+    }
+
+    .search-results-sort {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .search-results-header p {
+        font-size: 12px;
+    }
+
+    .search-results-grid {
+        width: 90%;
+        margin: 10px auto;
+        row-gap: 20px;
+        gap: 5px;
+    }
+
+    .search-results-grid .item {
+        margin: auto;
+    }
+}
+
+@media (max-width: 800px) {
+    .search-results-banner {
+        width: 95%;
+    }
+
+    .search-results-grid {
+        width: 95%;
+    }
+}
+
+@media (max-width: 500px) {
+    .search-results-grid {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        gap: 5px;
+    }
+}
