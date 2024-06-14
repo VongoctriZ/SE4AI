@@ -113,3 +113,8 @@ Chi tiet:
 19:00 13/06/2024
 
 - `npm install react-icons date-fns` trong muc frontend de hien thi rating
+---
+11:30 14/06/2024
+
+- Hiện tại, các `use case` cơ bản của trang web đã hoàn thành (vẫn chưa tối ưu, nhưng đủ để demo).
+- Tui sẽ làm thêm một chút về backend để xử lý data cho `AI use case`.
