@@ -73,6 +73,7 @@ class ProductController {
             const category = req.params.category;
             const products = await Product.find({ "category.0": category });
             console.log(`Products fetched for category: ${category}`);
+            console.log(`Total products: ${products.length}`);
             res.status(200).json(products);
 
             console.log("Fetched Compleletely!!!");
@@ -84,6 +85,41 @@ class ProductController {
             });
         }
     };
+
+    // API for searching products by category
+    async searchProductsByCategory(req, res) {
+        try {
+            const categoryQuery = req.query.q;
+
+            console.log("query: ", categoryQuery);
+
+            // If categoryQuery is a single string, convert it to an array
+            const categories = Array.isArray(categoryQuery) ? categoryQuery : [categoryQuery];
+
+            console.log("Categories: ", categories);
+
+            // Use regex to make the search case insensitive for each category
+            const regexArray = categories.map(category => new RegExp(`^${category}$`, 'i'));
+
+            console.log("regexArray: ", regexArray);
+
+            // Find products that have any matching categories in their category array
+            const products = await Product.find({
+                category: { $elemMatch: { $in: regexArray } }
+            });
+
+            console.log(`Products fetched for categories: ${categories}`);
+            console.log("Total fetched products: ", products.length);
+            res.status(200).json(products);
+        } catch (error) {
+            console.error(`Error fetching products for categories ${categoryQuery}:`, error);
+            res.status(500).json({
+                success: false,
+                message: `Error fetching products for categories ${categoryQuery}`,
+            });
+        }
+    }
+
 
     // API for deleting a product
     async removeProduct(req, res) {
@@ -173,6 +209,24 @@ class ProductController {
             res.status(500).json({
                 success: false,
                 message: 'Error fetching new collections',
+            });
+        }
+    };
+
+    // API for retrieving top-seller products
+    async bestSellers(req, res) {
+        try {
+            const products = await Product.find({})
+                .sort({ all_time_quantity_sold: -1 })
+                .limit(4);
+
+            console.log("Best-seller products fetched:", products);
+            res.status(200).json(products);
+        } catch (error) {
+            console.error("Error fetching best-seller products:", error);
+            res.status(500).json({
+                success: false,
+                message: 'Error fetching best-seller products',
             });
         }
     };

@@ -12,6 +12,9 @@ router.get('/allproducts', productController.allProducts);
 // Endpoint for get all products by category (process first for main categories)
 router.get('/category/:category', productController.productsByCategory);
 
+// Route for searching products by category
+router.get('/search', productController.searchProductsByCategory);
+
 // Endpoint to remove a specific product
 router.post('/removeproduct', productController.removeProduct);
 
@@ -23,5 +26,8 @@ router.get('/popularinwomen', productController.popularInWomen);
 
 // Endpoint to get new collections
 router.get('/newcollections', productController.newCollections);
+
+// Route for retrieving top-seller products
+router.get('/best-sellers', productController.bestSellers);
 
 module.exports = router;
