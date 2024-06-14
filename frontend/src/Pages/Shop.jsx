@@ -8,12 +8,12 @@ import SideBar from "../Components/SideBar/SideBar";
 const Shop = () => {
     return (
         <div>
-            <SideBar/>
-            {/* <Hero /> */}
-            {/* <Popular /> */}
+            {/* <SideBar/> */}
+            <Hero />
+            <Popular />
             {/* <Offers /> */}
-            {/* <NewCollections /> */}
-            <NewsLetter />
+            <NewCollections />
+            {/* <NewsLetter /> */}
         </div>
     )
 }

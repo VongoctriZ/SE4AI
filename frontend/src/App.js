@@ -1,20 +1,28 @@
-import './App.css'
-import Navbar from "./Components/Navbar/Navbar";
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './App.css'
+
+// import Navbar from "./Components/Navbar/Navbar";
+
+
+import Header from './Components/Header/Header';
+import Footer from './Components/Footer/Footer';
+
+
 import Shop from './Pages/Shop';
 import ShopCategory from './Pages/ShopCategory';
 import Product from './Pages/Product';
 import LoginSignup from './Pages/LoginSignup';
 import Cart from './Pages/Cart';
-import Footer from './Components/Footer/Footer';
+import Profile from './Pages/Profile';
+import ProfileInfo from './Pages/ProfileInfo/ProfileInfo';
+
 import men_banner from './Components/Assets/banner_mens.png'
 import women_banner from './Components/Assets/banner_women.png'
 import kids_banner from './Components/Assets/banner_kids.png'
-import Profile from './Pages/Profile';
+
 import ShopContextProvider from './Context/ShopContext';
 
-import ProfileInfo from './Pages/ProfileInfo/ProfileInfo';
-import Header from './Components/Header/Header';
 
 function App() {
   return (
@@ -25,29 +33,21 @@ function App() {
         <Routes>
           <Route path='/' element={<Shop />} />
           <Route path='/men' element={
-            // <ShopCategory banner={men_banner} category="men" />
             <ShopContextProvider category="men">
               <ShopCategory banner={men_banner} category="men" />
             </ShopContextProvider>
           } />
           <Route path='/women' element={
-            // <ShopCategory banner={women_banner} category="women" />
             <ShopContextProvider category="women">
               <ShopCategory banner={women_banner} category="women" />
             </ShopContextProvider>
           } />
           <Route path='/kids' element={
-            // <ShopCategory banner={kids_banner} category="kid" />
             <ShopContextProvider category="kids">
               <ShopCategory banner={kids_banner} category="kids" />
             </ShopContextProvider>
 
           } />
-          {/* <Route path='/product' element={<Product />}>
-            <Route path=':productId' element={<Product />} />
-          </Route>
-           */}
-
           <Route path='/product/:productId' element={
             <ShopContextProvider>
               <Product />

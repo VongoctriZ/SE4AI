@@ -1,21 +1,26 @@
 .header {
     border-radius: 10px;
-    background-color: #fbf6f6;
+    background-color: #ffffff;
     display: flex;
-    padding: 0 11px;
+    padding: 10px 20px;
     gap: 20px;
     justify-content: space-between;
+    align-items: center;
 }
 
 @media (max-width: 991px) {
-.header {
-    flex-wrap: wrap;
-}
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        /* Center align items on smaller screens */
+    }
 }
 
 a {
     text-decoration: none;
 }
+
 .logo-container {
     display: flex;
     gap: 10px;
@@ -23,83 +28,143 @@ a {
     font-size: 32px;
     color: #426b1f;
     font-weight: 500;
-    white-space: nowrap;
     letter-spacing: -0.32px;
-    line-height: 100%;
 }
 
 @media (max-width: 991px) {
-.logo-container {
-    white-space: initial;
-}
+    .logo-container {
+        justify-content: center;
+        margin-bottom: 10px;
+        /* Add margin at bottom for spacing */
+    }
 }
 
 .logo {
-    width: 96px;
-    aspect-ratio: 0.85;
-    object-fit: auto;
-    object-position: center;
+    width: 120px;
+    aspect-ratio: auto;
+    /* object-fit: cover; */
 }
 
 .logo-text {
     font-family: 'Newsreader', sans-serif;
 }
 
-.navigation {
+
+.header-middle {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
     align-items: center;
-    font-size: 16px;
-    text-align: center;
-    line-height: 130%;
+    /* position: relative; */
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    /* margin-top: 22px; */
+    /* padding-top: 25px; */
 }
 
-@media (max-width: 991px) {
 .navigation {
-    max-width: 100%;
-    flex-wrap: wrap;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    text-align: center;
+    line-height: 100%;
+    width: 100%;
 }
+
+
+
+@media (max-width: 991px) {
+    .navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
+
 .nav-links {
     display: flex;
-    gap: 20px;
-    color: #000;
-    font-weight: 400;
-    white-space: nowrap;
+    gap: 50px;
+    /* color: #000; */
+    font-weight: 500;
+    font-size: 15px;
+    list-style: none;
+    /* Remove default bullet points */
+    padding: 0;
+    /* Remove default padding */
+    margin: 0;
+    /* Remove default margin */
 }
 
-@media (max-width: 991px) {
-.nav-links {
-    white-space: initial;
-}
-}
 .nav-item {
     font-family: 'Inter', sans-serif;
+    cursor: pointer;
 }
+
+.nav-item.active>a {
+    font-weight: 700;
+    font-size: 20px;
+    /* border-bottom: 2px solid #426b1f; */
+}
+
 .cart-container {
     display: flex;
     gap: 10px;
-    color: #fff;
-    font-weight: 600;
     align-items: center;
 }
+
+.cart-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 .cart-count {
-    border-radius: 4px;
+    border-radius: 5px;
     background-color: #426b1f;
-    padding: 17px 34px;
+    padding: 10px 20px;
+    color: #fff;
     font-family: 'Inter', sans-serif;
+    font-weight: 600;
 }
 
 @media (max-width: 991px) {
-.cart-count {
-    padding: 0 20px;
+    .cart-count {
+        padding: 10px;
+    }
 }
-}
+
 .avatar {
-    width: 75px;
+    width: 50px;
     aspect-ratio: 1;
-    object-fit: auto;
-    object-position: center;
+    object-fit: cover;
     border: 1px solid rgba(66, 107, 31, 0.5);
     border-radius: 50%;
+}
+
+.menu-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.login-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Add this to your existing CSS file */
+.navigation-container {
+    display: flex;
+    flex-direction: column;
+    /* Stack children vertically */
+    gap: 20px;
+    /* Adjust based on your preference */
+    width: 100%;
+    /* Take full width */
+}
+
+@media (min-width: 992px) {
+    .navigation-container {
+        flex-direction: row;
+        /* Align horizontally on larger screens */
+    }
 }
