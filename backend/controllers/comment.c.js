@@ -3,44 +3,43 @@ const Product = require('../models/product.m'); // Import the Product model
 
 class CommentController {
 
+    // API for creating a comment
     async createComment(req, res) {
         try {
-            const { id,product_id, rating, created_by, content, images } = req.body;
-
-            // console.log("req body: ",req.body);
-
-            // console.log("created_by: ",created_by);
+            const { id, product_id, rating, created_by, content, images } = req.body;
 
             // Validate required fields
             if (!product_id || !rating || !created_by || !content) {
                 return res.status(400).json({ success: false, errors: "Product ID, rating, created by, and content are required" });
             }
 
-            // const products = await Product.findOne({id : product_id});
-            // console.log("Product found by id: ",products.thumbnail_url);
-
             // Check if the product exists
-            const productExists = await Product.findOne({id: product_id});
+            const productExists = await Product.findOne({ id: product_id });
             if (!productExists) {
                 return res.status(404).json({ success: false, errors: "Product not found" });
             }
-            else{
-                console.log("Product found");
-            }
 
             // Extract paths from images
-            const imagePaths = images.map(image => image.full_path);
+            const imagePaths = images ? images.map(image => image.full_path) : [];
 
+            // Generate a new ID for the comment if not provided
+            let newId = id;
+            if (!newId) {
+                const latestComment = await Comment.find({}).sort({ id: -1 }).limit(1);
+                newId = latestComment.length > 0 ? latestComment[0].id + 1 : 1;
+            }
 
             // Create new comment
             const newComment = new Comment({
-                id,
+                id: newId,
                 product_id,
                 rating,
                 created_by,
                 content,
-                images:imagePaths
+                images: imagePaths
             });
+
+            console.log("new comment: ", newComment);
 
             await newComment.save();
 
@@ -51,11 +50,12 @@ class CommentController {
         }
     }
 
+
     async getAllComments(req, res) {
         try {
             const comments = await Comment.find();
             res.status(200).json(comments);
-            console.log("comments: ",comments);
+            console.log("comments: ", comments);
         } catch (error) {
             console.error("Error fetching comments:", error);
             res.status(500).json({ success: false, errors: "Error fetching comments" });
@@ -110,6 +110,20 @@ class CommentController {
             res.status(500).json({ success: false, errors: "Error deleting comment" });
         }
     }
+
+    // // API to delete a comment by ID
+    // async deleteComment(req, res) {
+    //     try {
+    //         const comment = await Comment.findByIdAndDelete(req.params.id);
+    //         if (!comment) {
+    //             return res.status(404).json({ success: false, errors: "Comment not found" });
+    //         }
+    //         res.status(200).json({ success: true, message: 'Comment deleted successfully' });
+    //     } catch (error) {
+    //         console.error("Error deleting comment:", error);
+    //         res.status(500).json({ success: false, errors: "Error deleting comment" });
+    //     }
+    // }
 }
 
 module.exports = new CommentController();

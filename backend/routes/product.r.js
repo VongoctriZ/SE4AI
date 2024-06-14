@@ -30,4 +30,10 @@ router.get('/newcollections', productController.newCollections);
 // Route for retrieving top-seller products
 router.get('/best-sellers', productController.bestSellers);
 
+// Route for cleaning up products
+router.post('/cleanup', productController.cleanUpProducts);
+
+// Route for exporting products
+router.get('/export', productController.exportProducts);
+
 module.exports = router;

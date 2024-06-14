@@ -1,53 +1,154 @@
+const { validationResult } = require('express-validator');
 const Product = require('../models/product.m')
-
+const fs = require('fs');
+const path = require('path');
 class ProductController {
 
-    // API for adding a product
+    // API for adding or updating a product
     async addProduct(req, res) {
         try {
-            // Retrieve the latest product to determine the next product ID
-            let products = await Product.find({}).sort({ id: -1 }).limit(1);
-            let id = req.body.id || (products.length > 0 ? products[0].id + 1 : 1);
+            // Validate request body
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    success: false,
+                    errors: errors.array()
+                });
+            }
+
+            // Extract product data from request body
+            const {
+                id,
+                name,
+                short_description,
+                description,
+                rating,
+                images,
+                category,
+                new_price,
+                old_price,
+                discount,
+                review_counts,
+                all_time_quantity_sold,
+                thumbnail_url,
+                available
+            } = req.body;
+
+            // Check if a product with the same id already exists
+            let existingProduct = await Product.findOne({ id });
+
+            if (existingProduct) {
+                // Merge the category arrays to include all unique categories
+                const mergedCategories = Array.from(new Set([...existingProduct.category, ...category]));
+
+                // Update the existing product with the merged categories
+                existingProduct.category = mergedCategories;
+
+                // Check if the fields match except id and category
+                const fieldsMatch = (
+                    existingProduct.name === name &&
+                    existingProduct.short_description === short_description &&
+                    existingProduct.description === description &&
+                    existingProduct.rating === rating &&
+                    JSON.stringify(existingProduct.images) === JSON.stringify(images) &&
+                    existingProduct.new_price === new_price &&
+                    existingProduct.old_price === old_price &&
+                    existingProduct.discount === discount &&
+                    existingProduct.review_counts === review_counts &&
+                    existingProduct.all_time_quantity_sold === all_time_quantity_sold &&
+                    existingProduct.thumbnail_url === thumbnail_url &&
+                    existingProduct.available === available
+                );
+
+                if (fieldsMatch) {
+                    await existingProduct.save();
+
+                    return res.status(200).json({
+                        success: true,
+                        message: 'Product updated with merged categories',
+                        product: existingProduct,
+                    });
+                } else {
+                    // Fields are different, update the existing product with a new id
+                    const latestProduct = await Product.findOne().sort({ id: -1 });
+                    const newId = latestProduct ? latestProduct.id + 1 : 1;
+
+                    existingProduct.id = newId;
+                    await existingProduct.save();
+                }
+            } else {
+                // Check if a product with the same fields but different id exists
+                const duplicateProduct = await Product.findOne({
+                    name,
+                    short_description,
+                    description,
+                    rating,
+                    images,
+                    new_price,
+                    old_price,
+                    discount,
+                    review_counts,
+                    all_time_quantity_sold,
+                    thumbnail_url,
+                    available
+                });
+
+                if (duplicateProduct) {
+                    // Merge the category arrays to include all unique categories
+                    const mergedCategories = Array.from(new Set([...duplicateProduct.category, ...category]));
+
+                    // Update the duplicate product with the merged categories
+                    duplicateProduct.category = mergedCategories;
+                    await duplicateProduct.save();
+
+                    // Delete the duplicate product with the old id
+                    await Product.deleteOne({ id });
+
+                    return res.status(200).json({
+                        success: true,
+                        message: 'Duplicate product found and merged with existing product',
+                        product: duplicateProduct,
+                    });
+                }
+            }
 
             // Create a new product object
             const product = new Product({
-                id: id,
-                name: req.body.name,
-                short_description: req.body.short_description || '',
-                description: req.body.description || '',
-                rating: req.body.rating || 0,
-                images: req.body.images || [],
-                category: req.body.category,
-                new_price: req.body.new_price,
-                old_price: req.body.old_price,
-                discount: req.body.discount || 0,
-                review_counts: req.body.review_counts || 0,
-                all_time_quantity_sold: req.body.all_time_quantity_sold || 0,
-                thumbnail_url: req.body.thumbnail_url || '',
-                available: req.body.available !== undefined ? req.body.available : 'not available',
+                id,
+                name,
+                short_description: short_description || '',
+                description: description || '',
+                rating: rating || 0,
+                images: images || [],
+                category,
+                new_price,
+                old_price,
+                discount: discount || 0,
+                review_counts: review_counts || 0,
+                all_time_quantity_sold: all_time_quantity_sold || 0,
+                thumbnail_url: thumbnail_url || '',
+                available: available !== undefined ? available : 'not available',
             });
 
             // Save the new product to the database
             await product.save();
 
-            // Log the saved product for debugging purposes
-            // console.log("Product saved:", product);
-
             // Send a response with status code 201 (Created)
             res.status(201).json({
                 success: true,
-                product: product,
+                product,
             });
         } catch (error) {
-            console.error("Error adding product:", error);
+            console.error('Error adding or updating product:', error);
 
             // Send a response with status code 500 (Internal Server Error)
             res.status(500).json({
                 success: false,
-                message: 'Error adding product',
+                message: 'Error adding or updating product',
             });
         }
     };
+
 
 
     // API for getting all products
@@ -274,6 +375,120 @@ class ProductController {
             res.status(500).json({
                 success: false,
                 message: 'Error updating product',
+            });
+        }
+    };
+
+    // API for cleaning up duplicate products
+    async cleanUpProducts(req, res) {
+        try {
+            // Fetch all products
+            let products = await Product.find({});
+
+            // Create a map to store unique products
+            let uniqueProductsMap = new Map();
+
+            products.forEach(product => {
+                // Create a unique key based on product fields (excluding 'date' and 'id')
+                let uniqueKey = JSON.stringify({
+                    name: product.name,
+                    short_description: product.short_description,
+                    description: product.description,
+                    rating: product.rating,
+                    images: product.images,
+                    category: product.category,
+                    new_price: product.new_price,
+                    old_price: product.old_price,
+                    discount: product.discount,
+                    review_counts: product.review_counts,
+                    all_time_quantity_sold: product.all_time_quantity_sold,
+                    thumbnail_url: product.thumbnail_url,
+                    available: product.available
+                });
+
+                // If the key doesn't exist, add the product to the map
+                if (!uniqueProductsMap.has(uniqueKey)) {
+                    uniqueProductsMap.set(uniqueKey, product);
+                }
+            });
+
+            // Get all unique products from the map
+            let uniqueProducts = Array.from(uniqueProductsMap.values());
+
+            // Remove all products from the database
+            await Product.deleteMany({});
+
+            // Insert unique products back into the database
+            await Product.insertMany(uniqueProducts);
+
+            console.log("Duplicate products removed. Unique products count:", uniqueProducts.length);
+            res.status(200).json({
+                success: true,
+                message: "Duplicate products removed successfully",
+                uniqueProductsCount: uniqueProducts.length
+            });
+        } catch (error) {
+            console.error("Error cleaning up products:", error);
+            res.status(500).json({
+                success: false,
+                message: 'Error cleaning up products'
+            });
+        }
+    };
+
+    // API for exporting all products to a JavaScript object and writing to a file
+    async exportProducts(req, res) {
+        try {
+            // Fetch all products
+            const products = await Product.find({});
+
+            // Create a JavaScript object to hold the products
+            const productsObject = {
+                products: products.map(product => ({
+                    id: product.id,
+                    name: product.name,
+                    short_description: product.short_description,
+                    description: product.description,
+                    rating: product.rating,
+                    images: product.images,
+                    category: product.category,
+                    new_price: product.new_price,
+                    old_price: product.old_price,
+                    discount: product.discount,
+                    review_counts: product.review_counts,
+                    all_time_quantity_sold: product.all_time_quantity_sold,
+                    thumbnail_url: product.thumbnail_url,
+                    available: product.available,
+                    date: product.date
+                }))
+            };
+
+            // Define the file path
+            const filePath = path.join(__dirname, '/products.json');
+
+            console.log("filepath: ", filePath);
+            // Write the products object to a file
+            fs.writeFile(filePath, JSON.stringify(productsObject, null, 2), (err) => {
+                if (err) {
+                    console.error("Error writing file:", err);
+                    return res.status(500).json({
+                        success: false,
+                        message: 'Error exporting products to file'
+                    });
+                }
+
+                console.log("Products exported successfully:", filePath);
+                res.status(200).json({
+                    success: true,
+                    message: 'Products exported successfully',
+                    filePath: filePath
+                });
+            });
+        } catch (error) {
+            console.error("Error exporting products:", error);
+            res.status(500).json({
+                success: false,
+                message: 'Error exporting products'
             });
         }
     };
