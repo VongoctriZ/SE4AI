@@ -38,8 +38,12 @@ const Hero = () => {
         >
           ❮
         </button>
-        <div className="carousel-image-container">
-          <img src={banners[currentIndex]} alt={`Banner ${currentIndex + 1}`} className="carousel-image" />
+        <div className="carousel-track" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+          {banners.map((banner, index) => (
+            <div key={index} className="carousel-image-container">
+              <img src={banner} alt={`Banner ${index + 1}`} className="carousel-image" />
+            </div>
+          ))}
         </div>
         <button
           className={`carousel-button next ${showButtons ? 'visible' : 'hidden'}`}

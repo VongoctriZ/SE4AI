@@ -63,7 +63,7 @@ const ProductDisplay = (props) => {
                     <div className="product-display-right-price-new">{formatPrice(product.new_price)}</div>
                 </div>
 
-                <div className="product-display-right-size">
+                {/* <div className="product-display-right-size">
                     <h2>Select Size</h2>
                     <div className="product-display-right-sizes">
                         {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
@@ -76,7 +76,7 @@ const ProductDisplay = (props) => {
                             </div>
                         ))}
                     </div>
-                </div>
+                </div> */}
 
                 <button onClick={() => { addToCart(product.id) }}>ADD TO CART</button>
                 <p className="product-display-right-category">

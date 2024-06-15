@@ -5,12 +5,19 @@ import './CSS/SearchResults.css';
 
 const SearchResults = () => {
     const { query } = useParams();
+
+    // State for search results and loading indicator
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 12;
+
+    // Sorting state
     const [sortCriteria, setSortCriteria] = useState('name');
 
+    // Fetch search results based on query parameter
     useEffect(() => {
         const fetchSearchResults = async () => {
             try {
@@ -28,16 +35,19 @@ const SearchResults = () => {
         fetchSearchResults();
     }, [query]);
 
+    // Handle page change
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
         window.scrollTo(0, 0);
     };
 
+    // Handle sort change
     const handleSortChange = (event) => {
         setSortCriteria(event.target.value);
-        setCurrentPage(1);
+        setCurrentPage(1); // Reset to first page on sort change
     };
 
+    // Sorting logic for search results
     const sortedProducts = [...searchResults].sort((a, b) => {
         switch (sortCriteria) {
             case 'new_price':
@@ -58,17 +68,21 @@ const SearchResults = () => {
         }
     });
 
+    // Calculate current items based on pagination
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = sortedProducts.slice(startIndex, startIndex + itemsPerPage);
 
+    // Loading state while fetching data
     if (loading) {
         return <div>Loading...</div>;
     }
 
+    // No results found message
     if (searchResults.length === 0) {
         return <div>No results found for "{query}"</div>;
     }
 
+    // Render search results with sorting and pagination controls
     return (
         <div className="search-results-container">
             <div className="search-results-header">

@@ -42,7 +42,7 @@ const Product = () => {
     };
 
     return (
-        <div>
+        <div className='product-container'>
             <Breadcrumbs product={product} />
             <ProductDisplay product={product} rating={averageRating} />
             <div className="product-details">
