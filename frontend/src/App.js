@@ -12,7 +12,7 @@ import Product from './Pages/Product';
 import LoginSignup from './Pages/LoginSignup';
 import Cart from './Pages/Cart';
 import Profile from './Pages/Profile';
-import ProfileInfo from './Pages/ProfileInfo/ProfileInfo';
+import ProfileInfo from './Pages/ProfileInfo';
 import SearchResults from './Pages/SearchResults';
 
 import men_banner from './Components/Assets/banner_mens.png';

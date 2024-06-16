@@ -16,8 +16,8 @@
     font-weight: 500;
     letter-spacing: -0.24px;
     line-height: 100%;
-    align-items: center;
-    margin-bottom: 21px;
+    align-items: left;
+    margin-bottom: 20px;
 }
 
 .profile-title {
@@ -30,6 +30,7 @@
     border: none;
     background-color: #e6e6e6;
     height: 2px;
+    margin-top: 20px;
 }
 
 .form-wrapper {
@@ -103,8 +104,10 @@
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     line-height: 130%;
-    margin-top: 33px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     cursor: pointer;
+    max-width: 30%;
 }
 
 .avatar-upload-container {

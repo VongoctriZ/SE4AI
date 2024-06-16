@@ -135,6 +135,8 @@ Chi tiet:
 
 ---
 
-9:45 16/06/2024 - Update backend requirement
-
-- 'npm install express-validator' trong mục backend trước khi chạy.
+16/06/2024 - Update backend requirement
++ 9:45 
+  - 'npm install express-validator' trong mục backend trước khi chạy.
++ 14:45
+  - update profile info page UI, chưa đồng bộ đc avatar, có lẽ cần backend đoạn này  

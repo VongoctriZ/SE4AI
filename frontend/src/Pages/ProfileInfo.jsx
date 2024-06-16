@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./ProfileInfo.css";
-import profile from "../../Components/Assets/Image_Header/profile.jpg";
-import { ShopContext } from "../../Context/ShopContext";
+import "./CSS/ProfileInfo.css";
+import avatar from "../Components/Assets/Image_Header/avatar.png";
+import profile from "../Components/Assets/Image_Header/profile.jpg";
+import AvatarUpload from "../Components/AvatarUpload/AvatarUpload";
+import { ShopContext } from "../Context/ShopContext";
 
-function EditForm({ user, formData, handleChange, handleBirthdayChange, handleSubmit }) {
+function EditForm({ user, formData, handleChange, handleBirthdayChange, handleSubmit}) {
   return (
     <section className="column">
       <form className="input-container" onSubmit={handleSubmit}>
@@ -33,28 +35,21 @@ function EditForm({ user, formData, handleChange, handleBirthdayChange, handleSu
         </div>  
         <div className="flex-row">
           <label className="input-label" htmlFor="day">Day</label>
-          <input className="birthday-input-field" type="text" id="day" name="birthday.day" aria-label="Day" value={formData.birthday.day} onChange={handleBirthdayChange} />
+          <input className="birthday-input-field" type="text" id="day" name="birthday.day" aria-label="Day"  onChange={handleBirthdayChange} />
           <label className="input-label" htmlFor="month">Month</label>
-          <input className="birthday-input-field" type="text" id="month" name="birthday.month" aria-label="Month" value={formData.birthday.month} onChange={handleBirthdayChange} />
+          <input className="birthday-input-field" type="text" id="month" name="birthday.month" aria-label="Month"  onChange={handleBirthdayChange} />
           <label className="input-label" htmlFor="year">Year</label>
-          <input className="birthday-input-field" type="text" id="year" name="birthday.year" aria-label="Year" value={formData.birthday.year} onChange={handleBirthdayChange} />
+          <input className="birthday-input-field" type="text" id="year" name="birthday.year" aria-label="Year"  onChange={handleBirthdayChange} />
         </div>
-        <button className="submit-button" type="submit">Save Changes</button>
+        <button className="submit-button" 
+                type="submit"
+                onClick={handleSubmit}>
+        Save Changes
+        </button>
       </form>
     </section>
   );
 }
-
-const AvatarUpload = () => {
-  return (
-    <section className="avatar-upload-container">
-      <div className="avatar-wrapper">
-        <img loading="lazy" src={profile} className="avatar" alt="User avatar" />
-        <button className="upload-button" type="button">Load avatar</button>
-      </div>
-    </section>
-  );
-};
 
 const ProfileInfo = () => {
   const { user } = useContext(ShopContext);
@@ -71,10 +66,12 @@ const ProfileInfo = () => {
 
   useEffect(() => {
     if (user) {
+      const maskedPassword = user.password ? "*".repeat(user.password.length) : "";
+
       setFormData({
         fullName: user.fullName,
         email: user.email,
-        password: "",
+        password: maskedPassword,
         address: user.address,
         phoneNumber: user.phoneNumber,
         gender: user.gender,
@@ -107,7 +104,7 @@ const ProfileInfo = () => {
     e.preventDefault();
     console.log("Form data submitted:", formData);
 
-    const response = await fetch("http://localhost:4000/user/update", {
+    const response = await fetch("http://localhost:4000/user/update/profile-info", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -126,6 +123,11 @@ const ProfileInfo = () => {
     }
   };
 
+  const [avatarUrl, setAvatarUrl] = useState(localStorage.getItem("auth-token") ? (avatar) : (profile) );
+  const handleSaveAvatar = (newAvatarUrl) => {
+    setAvatarUrl(newAvatarUrl); // Update the avatar URL in the parent component's state
+  };
+
   return (
     <div className="container">
       <header className="profile-header">
@@ -141,7 +143,10 @@ const ProfileInfo = () => {
             handleBirthdayChange={handleBirthdayChange}
             handleSubmit={handleSubmit}
           />
-          <AvatarUpload />
+          <AvatarUpload 
+          defaultAvatar={avatarUrl}
+          onSave={handleSaveAvatar}
+          />
         </section>
       </main>
     </div>
