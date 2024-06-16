@@ -140,3 +140,21 @@ Chi tiet:
   - 'npm install express-validator' trong mục backend trước khi chạy.
 + 14:45
   - update profile info page UI, chưa đồng bộ đc avatar, có lẽ cần backend đoạn này  
+
+---
+
+16/06/2024
+
+Task cuoi cung
+
+- AI: de xuat cho 1 user cu the
+  - Chon mo hinh nhe nhat
+  - Chuan bi data
+  - Tao api va frontend tuong tu `Best Sellers`
+  - Deadline: 5 ngay ---> (21/06/2024)
+  - Phu trach: ca nhom (ngoai tru Huy)
+
+- Use case: thanh toan
+  - Deadline: 2 ngay
+  - Phu trach: Huy
+
