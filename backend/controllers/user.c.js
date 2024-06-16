@@ -78,6 +78,8 @@ class UserController {
                     Id: newUser.Id,
                     email: newUser.email,
                     fullName: newUser.fullName,
+                    address: newUser.address,
+                    password: newUser.password,
                 }
             });
         } catch (error) {
@@ -119,6 +121,8 @@ class UserController {
                 Id: user.Id,
                 email: user.email,
                 fullName: user.fullName,
+                address: user.address,
+                password: user.password,
             }
         });
     }

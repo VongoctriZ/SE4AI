@@ -36,11 +36,11 @@ const ShopContextProvider = (props) => {
     // Fetch search results based on query
     const fetchSearchResults = useCallback(async (query) => {
         try {
-            console.log("query: ",query);
+            console.log("query: ", query);
             const response = await fetch(`http://localhost:4000/product/search?q=${query}`);
             const data = await response.json();
             setSearchResults(data);
-            console.log("Search Results fetched: ",data);
+            console.log("Search Results fetched: ", data);
         } catch (error) {
             console.error("Error fetching search results:", error);
         }
@@ -107,6 +107,7 @@ const ShopContextProvider = (props) => {
         fetchCart();
         const userData = JSON.parse(localStorage.getItem('user'));
         setUser(userData);
+        console.log("user data: ",userData);
     }, [fetchCart]);
 
     const addToCart = async (itemId) => {

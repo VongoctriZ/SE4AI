@@ -149,8 +149,6 @@ class ProductController {
         }
     };
 
-
-
     // API for getting all products
     async allProducts(req, res) {
         try {
@@ -220,7 +218,6 @@ class ProductController {
             });
         }
     }
-
 
     // API for deleting a product
     async removeProduct(req, res) {
