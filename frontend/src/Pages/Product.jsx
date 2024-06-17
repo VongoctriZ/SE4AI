@@ -26,7 +26,7 @@ const Product = () => {
     // console.log("avg rating: ",averageRating);
 
     if (!product) {
-        return <div>Product not found</div>;
+        return <div className='product-not-found'>Product not found</div>;
     }
 
     const handleDescriptionClick = () => {

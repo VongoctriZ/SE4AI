@@ -5,9 +5,11 @@
     color: #5e5e5e;
     font-size: 16px;
     font-weight: 600;
-    margin: 60px 120px;
+    margin: 0px 120px 50px;
     text-transform: capitalize;
-    font-family: 'Roboto', sans-serif; /* Added font-family */
+    font-family: 'Roboto', sans-serif;
+    /* Added font-family */
+    background-color: #f5f5fa;
 }
 
 @media (max-width:1280px) {

@@ -134,7 +134,7 @@
     font-size: 16px;
     font-weight: 600;
     color: white;
-    background: #FF4141;
+    background: #FF7235;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -142,7 +142,7 @@
 }
 
 .product-display-right button:hover {
-    background: #ff7373;
+    background: #f05918;
 }
 
 .product-display-right-category {

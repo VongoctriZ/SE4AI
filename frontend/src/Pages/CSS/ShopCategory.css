@@ -1,8 +1,13 @@
+.shop-category{
+    background-color: white;
+}
+
 .shop-category-banner {
     display: block;
-    margin: 30px auto;
+    margin: auto;
     width: 82%;
     border-radius: 10px;
+    background-color: white;
 }
 
 .shop-category-indexSort {

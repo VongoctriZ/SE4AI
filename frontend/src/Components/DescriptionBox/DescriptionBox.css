@@ -1,5 +1,5 @@
 .description-box {
-    margin: 20px;
+    margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -12,7 +12,7 @@
     margin-right: auto;
     /* Center align */
     overflow: hidden;
-    position: relative;
+    position: relative;    
 }
 
 .description-box p {

@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Search from "../Search/Search";
 
-const Header = () => {  
+const Header = () => {
 
   const [menu, setMenu] = useState('');
   const { getTotalCartItems } = useContext(ShopContext);
@@ -115,6 +115,7 @@ const Header = () => {
 
     </div>
   );
+
 };
 
 export default Header;

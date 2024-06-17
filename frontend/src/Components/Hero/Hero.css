@@ -19,9 +19,7 @@
 
 .carousel-track {
     display: flex;
-    transition: transform 1s ease;
-    /* width: 300%; */
-    /* Adjust this if you have more or fewer banners */
+    transition: transform 0.5s ease;
 }
 
 .carousel-image-container {
