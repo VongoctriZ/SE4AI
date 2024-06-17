@@ -1,7 +1,8 @@
 .cart-items {
-    margin: 50px auto;
-    max-width: 1200px;
-    padding: 0 20px;
+    margin: auto;
+    /* max-width: 1200px; */
+    padding: 50px 120px;
+    background-color: white;
 }
 
 .cart-items hr {
@@ -44,6 +45,9 @@
 .cart-icon-remove-icon {
     width: 20px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cart-items-quantity {
@@ -59,7 +63,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin: 50px 0;
+    margin: auto;
 }
 
 .cart-items-total {

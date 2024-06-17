@@ -40,7 +40,7 @@ const ShopContextProvider = (props) => {
             const response = await fetch(`http://localhost:4000/product/search?q=${query}`);
             const data = await response.json();
             setSearchResults(data);
-            console.log("Search Results fetched: ", data);
+            console.log("Search Results fetched: ", data.length);
         } catch (error) {
             console.error("Error fetching search results:", error);
         }
@@ -81,7 +81,7 @@ const ShopContextProvider = (props) => {
                 });
 
                 const data = await response.json();
-                console.log("Products In Cart: ", data);
+                console.log("Products In Cart: ", data.length);
 
                 // Initialize cartItems with productId and quantity
                 const cartItems = {};
@@ -163,7 +163,7 @@ const ShopContextProvider = (props) => {
         console.log('---------------> testing :')
         let totalItem = 0;
         for (const item in cartItems) {
-            console.log('item:', item, cartItems[item])
+            // console.log('item:', item, cartItems[item])
             if (cartItems[item] > 0) {
                 totalItem += cartItems[item];
             }
