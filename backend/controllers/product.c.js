@@ -4,6 +4,25 @@ const fs = require('fs');
 const path = require('path');
 class ProductController {
 
+    // binding
+    constructor() {
+        this.updateProductId = this.updateProductId.bind(this);
+        this.updateProductName = this.updateProductName.bind(this);
+        this.updateProductNewPrice = this.updateProductNewPrice.bind(this);
+        this.updateProductOldPrice = this.updateProductOldPrice.bind(this);
+        this.updateProductDiscount = this.updateProductDiscount.bind(this);
+        this.updateProductRating = this.updateProductRating.bind(this);
+        this.updateProductThumbnailUrl = this.updateProductThumbnailUrl.bind(this);
+        this.updateProductShortDescription = this.updateProductShortDescription.bind(this);
+        this.updateProductDescription = this.updateProductDescription.bind(this);
+        this.updateProductReviewCounts = this.updateProductReviewCounts.bind(this);
+        this.updateProductAllTimeQuantitySold = this.updateProductAllTimeQuantitySold.bind(this);
+        this.updateProductAvailable = this.updateProductAvailable.bind(this);
+        this.updateProductImages = this.updateProductImages.bind(this);
+        this.updateProductCategory = this.updateProductCategory.bind(this);
+        this.updateProductDate = this.updateProductDate.bind(this);
+    }
+
     // API for adding or updating a product
     async addProduct(req, res) {
         try {
@@ -268,15 +287,6 @@ class ProductController {
     async popularInWomen(req, res, next) {
         try {
             // find top 4 of the most popular products in the women section by rating (descending order)
-            // let products = await Product.find({ category: "women" }).sort({ rating: -1 }).limit(4);
-            // console.log("Popular in women fetched:", products);
-            // res.json(products);
-
-            // Product.find({}).limit(4)
-            //     .then((products) => {
-            //         res.json(products)
-            //     })
-            //     .catch(next);
 
             const products = await Product.find({ "category.0": "women" })
                 .sort({ rating: -1 })
@@ -432,6 +442,113 @@ class ProductController {
             });
         }
     };
+
+    // Generic method to update a single attribute
+    async updateAttribute(req, res, attribute) {
+        try {
+            console.log("request body: ", req.body);
+            const productId = req.body.id;
+            const newValue = req.body[attribute];
+
+            if (!newValue) {
+                return res.status(400).json({
+                    success: false,
+                    message: `New value for ${attribute} is required`,
+                });
+            };
+
+            const updateData = {};
+            updateData[attribute] = newValue;
+
+            const updatedProduct = await Product.findOneAndUpdate(
+                { id: productId },
+                updateData,
+                { new: true, runValidators: true }
+            );
+
+            if (!updatedProduct) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Product not found',
+                });
+            };
+
+            res.status(200).json({
+                success: true,
+                product: updatedProduct,
+            });
+
+
+        } catch (error) {
+            console.error(`Error updating ${attribute}:`, error);
+            res.status(500).json({
+                success: false,
+                message: `Error updating ${attribute}`,
+            });
+        }
+    };
+
+    // Individual controllers for each attribute
+    async updateProductId(req, res) {
+        return this.updateAttribute(req, res, 'id');
+    };
+
+    async updateProductName(req, res) {
+        return this.updateAttribute(req, res, 'name');
+    };
+
+    async updateProductNewPrice(req, res) {
+        return this.updateAttribute(req, res, 'new_price');
+    };
+
+    async updateProductOldPrice(req, res) {
+        return this.updateAttribute(req, res, 'old_price');
+    };
+
+    async updateProductDiscount(req, res) {
+        return this.updateAttribute(req, res, 'discount');
+    };
+
+    async updateProductRating(req, res) {
+        return this.updateAttribute(req, res, 'rating');
+    };
+
+    async updateProductThumbnailUrl(req, res) {
+        return this.updateAttribute(req, res, 'thumbnail_url');
+    };
+
+    async updateProductShortDescription(req, res) {
+        return this.updateAttribute(req, res, 'short_description');
+    };
+
+    async updateProductDescription(req, res) {
+        return this.updateAttribute(req, res, 'description');
+    };
+
+    async updateProductReviewCounts(req, res) {
+        return this.updateAttribute(req, res, 'review_counts');
+    };
+
+    async updateProductAllTimeQuantitySold(req, res) {
+        return this.updateAttribute(req, res, 'all_time_quantity_sold');
+    };
+
+    async updateProductAvailable(req, res) {
+        return this.updateAttribute(req, res, 'available');
+    };
+
+    async updateProductImages(req, res) {
+        return this.updateAttribute(req, res, 'images');
+    };
+
+    async updateProductCategory(req, res) {
+        return this.updateAttribute(req, res, 'category');
+    };
+
+    async updateProductDate(req, res) {
+        return this.updateAttribute(req, res, 'date');
+    };
+
 
     // API for exporting all products to a JavaScript object and writing to a file
     async exportProducts(req, res) {
