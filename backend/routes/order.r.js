@@ -6,7 +6,7 @@ const OrderController = require('../controllers/order.c');
 router.post('/create', OrderController.createOrder);
 
 // Get all orders
-router.get('/allorders',OrderController.allOrders);
+router.get('/allorders', OrderController.allOrders);
 
 // Get all orders for a user
 router.get('/user/:userId', OrderController.getUserOrders);
@@ -21,5 +21,8 @@ router.post('/update/status', OrderController.updateOrderStatus);
 router.delete('/:orderId', OrderController.deleteOrder);
 
 router.post('/removeall', OrderController.removeAllOrders);
+
+// randomly create orders for users
+router.post('/random', OrderController.randomOrders);
 
 module.exports = router;

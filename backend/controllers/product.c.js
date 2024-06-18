@@ -2,6 +2,8 @@ const { validationResult } = require('express-validator');
 const Product = require('../models/product.m')
 const fs = require('fs');
 const path = require('path');
+const faker = require('faker');
+
 class ProductController {
 
     // binding
@@ -549,7 +551,6 @@ class ProductController {
         return this.updateAttribute(req, res, 'date');
     };
 
-
     // API for exporting all products to a JavaScript object and writing to a file
     async exportProducts(req, res) {
         try {
@@ -606,6 +607,47 @@ class ProductController {
             });
         }
     };
+
+    // randomly assign values for some attributes of products
+    async randomValues() {
+        try {
+            // fetch all products
+            const products = await Product.find({});
+
+            // Iterate over each product
+            for (const product of products) {
+                // Generate random values for the attributes
+                const newPrice = faker.finance.amount(50000, 500000, 0); // Generates a price between 50,000 and 500,000 with 0 decimal places
+                const oldPrice = faker.finance.amount(50000, 500000, 0); // Generates a price between 50,000 and 500,000 with 0 decimal places
+
+                const discount = faker.datatype.number({ min: 0, max: 100 });
+                const rating = faker.datatype.number({ min: 1, max: 5 });
+                const quantitySold = faker.datatype.number({ min: 10, max: 10000 });
+
+                // Prepare the update data
+                const updateData = {
+                    new_price: newPrice,
+                    old_price: oldPrice,
+                    discount: discount,
+                    rating: rating,
+                    all_time_quantity_sold: quantitySold
+                };
+
+                // Update the product
+                const updatedProduct = await Product.findOneAndUpdate(
+                    { _id: product._id },
+                    updateData,
+                    { new: true, runValidators: true }
+                );
+
+                console.log(`Updated product: ${updatedProduct.name}`);
+            }
+
+            console.log('Update process completed');
+        } catch (error) {
+            console.error('Error during update process:', error);
+        }
+    }
 };
 
 module.exports = new ProductController();

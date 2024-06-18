@@ -53,4 +53,7 @@ router.post('/update/date', productController.updateProductDate);
 // Route for exporting products
 router.get('/export', productController.exportProducts);
 
+// Random values for some attributes
+router.post('/random',productController.randomValues);
+
 module.exports = router;

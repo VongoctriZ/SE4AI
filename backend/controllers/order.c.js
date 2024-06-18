@@ -233,6 +233,75 @@ class OrderController {
             });
         }
     }
+
+// Create random orders for many users
+async randomOrders(req, res) {
+    try {
+        const maxProductsPerOrder = 50; // Maximum products per order
+
+        // Retrieve all users
+        const users = await User.find({});
+        if (users.length === 0) {
+            return res.status(400).send({ message: 'No users found' });
+        }
+
+        const numUsers = users.length; // Number of users to create random orders for
+
+
+        // Retrieve all products
+        const products = await Product.find({});
+        if (products.length === 0) {
+            return res.status(400).send({ message: 'No products found' });
+        }
+
+        const createdOrders = [];
+
+        // Loop through the number of users
+        for (let i = 0; i < numUsers; i++) {
+            // Randomly select a user
+            const randomUser = users[Math.floor(Math.random() * users.length)];
+            const userId = randomUser.Id;
+
+            // Randomly select products and quantities
+            const selectedProducts = [];
+            const numberOfProducts = Math.floor(Math.random() * maxProductsPerOrder) + 1;
+            for (let j = 0; j < numberOfProducts; j++) {
+                const randomProduct = products[Math.floor(Math.random() * products.length)];
+                const quantity = Math.floor(Math.random() * 10) + 1; // Random quantity between 1 and 10
+                selectedProducts.push({ productId: randomProduct.id, quantity });
+            }
+
+            // Calculate total_money (you may want to refine this logic)
+            let total_money = 0;
+            for (const product of selectedProducts) {
+                const productDetails = products.find(p => p.id === product.productId);
+                total_money += productDetails.new_price * product.quantity;
+            }
+
+            // Create the order
+            const orderData = {
+                userId,
+                products: selectedProducts,
+                total_money,
+                status: 'pending'
+            };
+
+            // Call the createOrder function with the generated order data
+            const createOrderResponse = await axios.post('http://localhost:4000/order/create', orderData);
+            createdOrders.push(createOrderResponse.data.order);
+        }
+
+        // Send the response back
+        res.status(201).send({
+            message: `${numUsers} random orders created successfully`,
+            orders: createdOrders
+        });
+
+    } catch (error) {
+        console.error('Error creating random orders:', error);
+        res.status(500).send({ message: 'Error creating random orders' });
+    }
+}
 }
 
 module.exports = new OrderController();
