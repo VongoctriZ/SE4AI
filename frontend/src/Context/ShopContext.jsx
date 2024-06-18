@@ -195,7 +195,6 @@ const ShopContextProvider = (props) => {
         }
     };
 
-
     const removeAllFromCart = async () => {
         // console.log("Remove all!!!");
         setCartItems({});
@@ -253,6 +252,13 @@ const ShopContextProvider = (props) => {
     const createOrder = async () => {
         if (localStorage.getItem('auth-token')) {
             try {
+                // Check if the cart is empty
+                if (Object.keys(cartItems).length === 0) {
+                    console.log("Cart is empty. Cannot create order.");
+                    alert("Your cart is empty. Please add items to your cart before making an order.");
+                    return 'empty';
+                }
+
                 const userStr = localStorage.getItem('user');
                 const user = JSON.parse(userStr);
                 const userId = Number(user.Id);
@@ -290,24 +296,25 @@ const ShopContextProvider = (props) => {
                 // Fetch the updated orders
                 fetchOrders();
 
-                // remove all items from cart in the database
+                // Remove all items from cart in the database
                 removeAllFromCart();
 
                 // Fetch the updated cart to ensure it's cleared
                 fetchCart();
-
-
+                
+                return 'success';
             } catch (error) {
                 console.error("Error creating order:", error);
+                return 'failed';
             }
         }
     };
 
-    const removeOrder = async(orderId)=>{
+    const removeOrder = async (orderId) => {
 
     };
 
-    const removeAllOrder = async () =>{
+    const removeAllOrder = async () => {
 
     };
 

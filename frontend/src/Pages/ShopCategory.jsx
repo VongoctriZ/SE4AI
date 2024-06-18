@@ -12,7 +12,7 @@ const ShopCategory = (props) => {
   const itemsPerPage = 12;
 
   // State for sorting
-  const [sortCriteria, setSortCriteria] = useState('name'); // Default sort by name
+  const [sortCriteria, setSortCriteria] = useState('new_price'); // Default sort by name
 
   // Filter products by category
   const filteredProducts = allProduct.filter(item => item.category[0] === props.category);
@@ -28,7 +28,7 @@ const ShopCategory = (props) => {
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortCriteria) {
       case 'new_price':
-        return a.new_price - b.new_price;
+        return b.new_price - a.new_price;
       case 'discount':
         return ((a.old_price - a.new_price) / a.old_price) - ((b.old_price - b.new_price) / b.old_price);
       case 'rating':
@@ -97,6 +97,8 @@ const ShopCategory = (props) => {
             image={item.thumbnail_url}
             new_price={item.new_price}
             old_price={item.old_price}
+            rating={item.rating}
+            quantity_sold={item.all_time_quantity_sold}
           />
         ))}
       </div>

@@ -13,7 +13,7 @@ const formatPrice = (price) => {
 
 const CartItems = () => {
     const { removeAllFromCart, createOrder, fetchCart, getTotalCartAmount, allProduct, cartItems, removeFromCart } = useContext(ShopContext);
-    const [orderCreated, setOrderCreated] = useState(false);
+    const [orderCreated, setOrderCreated] = useState('');
 
     useEffect(() => {
         fetchCart();
@@ -21,20 +21,22 @@ const CartItems = () => {
 
     const handleCheckout = async () => {
         try {
-            await createOrder();
-            setOrderCreated(true);
+            const result = await createOrder();
+            setOrderCreated(result);
         } catch (error) {
             console.error("Error creating order:", error);
+            setOrderCreated('failed');
         }
     };
 
     useEffect(() => {
-        if (orderCreated) {
+        if (orderCreated === 'success') {
             fetchCart(); // Ensure cart is updated after order creation
-
-            // Reset cart items or redirect to a different page if needed
-            // For example, redirect to an order confirmation page
             console.log("Order created successfully!");
+        } else if (orderCreated === 'failed') {
+            console.log("Order creation failed. Please try again.");
+        } else if (orderCreated === 'empty') {
+            console.log("Your cart is empty. Please add items to your cart before making an order.");
         }
     }, [orderCreated, fetchCart]);
 
@@ -79,7 +81,6 @@ const CartItems = () => {
                 )}
             </div>
 
-
             <div className="cart-items-down">
                 <div className="cart-items-total">
                     <h1>Cart Totals</h1>
@@ -100,7 +101,9 @@ const CartItems = () => {
                         </div>
                     </div>
                     <button onClick={handleCheckout}>CHECKOUT</button>
-                    {orderCreated && <p>Order created successfully!</p>}
+                    {orderCreated === 'success' && <p>Order created successfully!</p>}
+                    {orderCreated === 'failed' && <p>Order creation failed. Please try again.</p>}
+                    {orderCreated === 'empty' && <p>Your cart is empty. Please add items to your cart before making an order.</p>}
                 </div>
                 <div className="cart-items-promocode">
                     <p>If you have a promo code, Enter it here</p>
