@@ -34,7 +34,16 @@ const BestSellers = () => {
             <hr />
             <div className="best-sellers-item">
                 {bestSellerProducts.map((item, i) => (
-                    <Item key={i} id={item.id} name={item.name} image={item.thumbnail_url} new_price={item.new_price} old_price={item.old_price} />
+                    <Item
+                        key={i}
+                        id={item.id}
+                        name={item.name}
+                        image={item.thumbnail_url}
+                        new_price={item.new_price}
+                        old_price={item.old_price}
+                        rating={item.rating}
+                        quantity_sold={item.all_time_quantity_sold}
+                    />
                 ))}
             </div>
         </div>

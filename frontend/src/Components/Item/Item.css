@@ -12,7 +12,8 @@
     transition: transform 0.6s ease, box-shadow 0.6s ease;
     font-family: 'Roboto', sans-serif;
     position: relative;
-    padding-bottom: 40px; /* Space for the price section */
+    padding-bottom: 80px;
+    /* Adjusted space for the new details section */
 }
 
 .item img {
@@ -22,21 +23,29 @@
 }
 
 .item-name {
-    margin: 6px 10px; /* Added margin for some padding inside the container */
+    margin: 6px 10px;
     color: #374151;
     font-size: 16px;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limit the text to 2 lines */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.rating-star {
+    margin: 8px 0;
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+}
+
 .item-prices {
     position: absolute;
-    bottom: 10px; /* Distance from the bottom border */
+    bottom: 40px;
+    /* Adjusted for new details section */
     left: 0;
     right: 0;
     display: flex;
@@ -45,7 +54,7 @@
 }
 
 .item-price-new {
-    color: #374151;
+    color: #ff4141;
     font-size: 18px;
     font-weight: 600;
     font-family: 'Roboto', sans-serif;
@@ -53,9 +62,27 @@
 
 .item-price-old {
     color: #8c8c8c;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     text-decoration: line-through;
+    font-family: 'Roboto', sans-serif;
+}
+
+.item-details {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    font-size: 14px;
+    color: #374151;
+    font-family: 'Roboto', sans-serif;
+}
+
+.item-rating,
+.item-sold {
+    margin: 0;
     font-family: 'Roboto', sans-serif;
 }
 
@@ -77,8 +104,13 @@
         font-size: 14px;
     }
 
-    .item-price-new, .item-price-old {
+    .item-price-new,
+    .item-price-old {
         font-size: 16px;
+    }
+
+    .item-details {
+        font-size: 12px;
     }
 }
 
@@ -95,7 +127,12 @@
         font-size: 12px;
     }
 
-    .item-price-new, .item-price-old {
+    .item-price-new,
+    .item-price-old {
         font-size: 14px;
+    }
+
+    .item-details {
+        font-size: 10px;
     }
 }

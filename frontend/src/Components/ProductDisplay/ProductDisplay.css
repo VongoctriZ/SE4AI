@@ -16,11 +16,8 @@
     flex-direction: column;
     gap: 10px;
     height: 700px;
-    /* Set the same height as the main image */
     width: 150px;
-    /* Set the width to match the width of the side images */
     overflow-y: auto;
-    /* Enable scrolling if there are many images */
     border: 2px solid #ccc;
     border-radius: 5px;
     padding: 10px;
@@ -29,7 +26,6 @@
 
 .product-display-img-list img {
     width: 100%;
-    /* Ensure the images take the full width of the bar */
     height: auto;
     cursor: pointer;
     border: 2px solid #ccc;
@@ -85,10 +81,18 @@
 
 .product-display-right-prices {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    /* Changed to column to stack prices and sold */
+    gap: 10px;
+    /* Adjusted gap */
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 40px;
+}
+
+.product-display-right-price {
+    display: flex;
+    gap: 20px;
 }
 
 .product-display-right-price-old {
@@ -100,32 +104,9 @@
     color: #ff4141;
 }
 
-.product-display-right-size {
-    margin-bottom: 20px;
-}
-
-.product-display-right-sizes {
-    display: flex;
-    gap: 10px;
-}
-
-.size-option {
-    padding: 10px 20px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.size-option:hover {
-    border-color: #ff4141;
-    background-color: #f8f8f8;
-}
-
-.size-option.selected {
-    border-color: #ff4141;
-    background-color: #ff4141;
-    color: white;
+.product-display-sold {
+    font-size: 18px;
+    color: #374151;
 }
 
 .product-display-right button {
@@ -165,7 +146,6 @@
 
     .product-display-img-bar {
         height: 510px;
-        /* Adjust the height for smaller screens */
     }
 
     .product-display-main-img {
@@ -213,14 +193,11 @@
 
     .product-display-img-bar {
         height: auto;
-        /* Adjust height for smaller screens */
         max-height: 400px;
-        /* Set a max height */
     }
 
     .product-display-img-list img {
         width: 100%;
-        /* Adjust width for smaller screens */
         height: auto;
     }
 
@@ -306,7 +283,6 @@
 
     .product-display-img-bar {
         height: auto;
-        /* Adjust height for smaller screens */
     }
 
     .product-display-img-list {

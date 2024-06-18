@@ -54,13 +54,21 @@ const ProductDisplay = (props) => {
                             color={i < roundedRating ? '#ffc107' : '#e4e5e9'}
                         />
                     ))}
-                    {/* <p>({product.review_counts})</p> */}
+                    <p>({product.review_counts})</p>
+
                 </div>
+
                 <div className="product-display-right-prices">
+
+                    <div className="product-display-right-price-new">{formatPrice(product.new_price)}</div>
+
                     {product.old_price !== product.new_price && (
                         <div className="product-display-right-price-old">{formatPrice(product.old_price)}</div>
                     )}
-                    <div className="product-display-right-price-new">{formatPrice(product.new_price)}</div>
+
+                    <div className="product-display-sold">
+                        <p>Sold: {product.all_time_quantity_sold}</p>
+                    </div>
                 </div>
 
                 {/* <div className="product-display-right-size">
