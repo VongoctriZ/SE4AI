@@ -1,6 +1,8 @@
 const maxItemInCart = 300;
 const jwt = require('jsonwebtoken');
 // const bcrypt = require('bcrypt');
+const fs = require('fs');
+const path = require('path');
 const User = require('../models/user.m');
 const Cart = require('../models/cart.m')
 
@@ -230,7 +232,62 @@ class UserController {
                 message: 'Error removing user',
             });
         }
-    }
+    };
+
+    async removeAllUsers(req, res) {
+        try {
+            const result = await User.deleteMany({});
+            console.log(`${result.deletedCount} users removed`);
+            res.status(200).json({
+                success: true,
+                message: `${result.deletedCount} users removed`,
+            });
+        } catch (error) {
+            console.log("Error removing all users:", error);
+            res.status(500).json({
+                success: false,
+                message: 'Error removing all users',
+            });
+        }
+    };
+
+    // API for exporting all products to a JavaScript object and writing to a file
+    async exportAttr(req, res) {
+        try {
+            // Fetch all products
+            const data = await User.find({}).select('Id');
+
+            const attr = data.map(record => record.Id);
+
+            // Define the file path
+            const filePath = path.join(__dirname, '/attr.json');
+
+            console.log("filepath: ", filePath);
+
+            fs.writeFile(filePath, JSON.stringify(attr, null, 2), (err) => {
+                if (err) {
+                    console.error("Error writing file:", err);
+                    return res.status(500).json({
+                        success: false,
+                        message: 'Error exporting attribute to file'
+                    });
+                }
+
+                console.log("Attributes exported successfully:", filePath);
+                res.status(200).json({
+                    success: true,
+                    message: 'Attributes exported successfully',
+                    filePath: filePath
+                });
+            });
+        } catch (error) {
+            console.error("Error exporting attributes:", error);
+            res.status(500).json({
+                success: false,
+                message: 'Error exporting attributes'
+            });
+        }
+    };
 }
 
 module.exports = new UserController();

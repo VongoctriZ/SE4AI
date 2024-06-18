@@ -14,4 +14,8 @@ router.get('/allusers', userController.allUsers);
 
 router.post('/removeuser', userController.removeUser);
 
+router.post('/removeallusers', userController.removeAllUsers);
+
+router.get('/export', userController.exportAttr);
+
 module.exports = router;
