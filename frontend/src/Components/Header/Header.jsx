@@ -89,7 +89,7 @@ const Header = () => {
                 <Link to="/profile" className="menu-link">My account</Link>
               </MenuItem>
               <MenuItem onClick={handleClose}>
-                <Link to="/cart" className="menu-link">Cart</Link>
+                <Link to="/orders" className="menu-link">Orders</Link>
               </MenuItem>
               <MenuItem
                 onClick={() => {

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './CartItems.css';
 import { ShopContext } from '../../Context/ShopContext';
 import remove_icon from '../Assets/cart_cross_icon.png';
@@ -12,11 +12,33 @@ const formatPrice = (price) => {
 };
 
 const CartItems = () => {
-    const { getTotalCartAmount, getTotalCartItems, allProduct, cartItems, removeFromCart } = useContext(ShopContext);
+    const { removeAllFromCart, createOrder, fetchCart, getTotalCartAmount, allProduct, cartItems, removeFromCart } = useContext(ShopContext);
+    const [orderCreated, setOrderCreated] = useState(false);
 
-    console.log("All Products: ", allProduct);
-    console.log("Cart Items: ", cartItems);
-    // console.log("Total Cart Items: ", getTotalCartItems);
+    useEffect(() => {
+        fetchCart();
+    }, [fetchCart]);
+
+    const handleCheckout = async () => {
+        try {
+            await createOrder();
+            setOrderCreated(true);
+        } catch (error) {
+            console.error("Error creating order:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (orderCreated) {
+            fetchCart(); // Ensure cart is updated after order creation
+
+            // Reset cart items or redirect to a different page if needed
+            // For example, redirect to an order confirmation page
+            console.log("Order created successfully!");
+        }
+    }, [orderCreated, fetchCart]);
+
+    console.log("Render CartItems");
 
     return (
         <div className="cart-items">
@@ -31,27 +53,32 @@ const CartItems = () => {
             <hr />
 
             <div className="cart-items-scroll">
-                {allProduct.map((e) => {
-                    if (cartItems[e.id] > 0) {
-                        console.log(e.id);
+                {Object.keys(cartItems).length === 0 ? (
+                    <p>Your cart is currently empty.</p>
+                ) : (
+                    allProduct.map((e) => {
+                        if (cartItems[e.id] > 0) {
+                            console.log(e.id);
 
-                        return (
-                            <div key={e.id}>
-                                <div className="cart-items-format cart-items-format-main">
-                                    <img src={e.thumbnail_url} alt="" className='cart-icon-product-icon' />
-                                    <p>{e.name}</p>
-                                    <p>{formatPrice(e.new_price)}</p>
-                                    <button className='cart-items-quantity'>{cartItems[e.id]}</button>
-                                    <p>{formatPrice(e.new_price * cartItems[e.id])}</p>
-                                    <img src={remove_icon} onClick={() => { removeFromCart(e.id) }} alt="" className="cart-icon-remove-icon" />
+                            return (
+                                <div key={e.id}>
+                                    <div className="cart-items-format cart-items-format-main">
+                                        <img src={e.thumbnail_url} alt="" className='cart-icon-product-icon' />
+                                        <p>{e.name}</p>
+                                        <p>{formatPrice(e.new_price)}</p>
+                                        <button className='cart-items-quantity'>{cartItems[e.id]}</button>
+                                        <p>{formatPrice(e.new_price * cartItems[e.id])}</p>
+                                        <img src={remove_icon} onClick={() => { removeFromCart(e.id) }} alt="" className="cart-icon-remove-icon" />
+                                    </div>
+                                    <hr />
                                 </div>
-                                <hr />
-                            </div>
-                        );
-                    }
-                    return null;
-                })}
+                            );
+                        }
+                        return null;
+                    })
+                )}
             </div>
+
 
             <div className="cart-items-down">
                 <div className="cart-items-total">
@@ -72,7 +99,8 @@ const CartItems = () => {
                             <h3>{formatPrice(getTotalCartAmount())}</h3>
                         </div>
                     </div>
-                    <button>CHECKOUT</button>
+                    <button onClick={handleCheckout}>CHECKOUT</button>
+                    {orderCreated && <p>Order created successfully!</p>}
                 </div>
                 <div className="cart-items-promocode">
                     <p>If you have a promo code, Enter it here</p>

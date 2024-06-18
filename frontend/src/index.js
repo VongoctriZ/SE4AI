@@ -6,6 +6,9 @@ import reportWebVitals from './reportWebVitals';
 import ShopContextProvider from './Context/ShopContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+console.log("Reload!!!");
+
 root.render(
   // <React.StrictMode>
   //   <App />

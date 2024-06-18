@@ -11,6 +11,7 @@ import ShopCategory from './Pages/ShopCategory';
 import Product from './Pages/Product';
 import LoginSignup from './Pages/LoginSignup';
 import Cart from './Pages/Cart';
+import Orders from './Pages/Orders';  
 import Profile from './Pages/Profile';
 import ProfileInfo from './Pages/ProfileInfo';
 import SearchResults from './Pages/SearchResults';
@@ -26,6 +27,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Header />
+        
         <Routes>
           <Route path='/' element={<Shop />} />
           <Route path='/men' element={
@@ -49,6 +51,7 @@ function App() {
             </ShopContextProvider>
           } />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/orders' element={<Orders />} />
           <Route path='/user/login' element={<LoginSignup />} />
           <Route path='/user/signup' element={<LoginSignup />} />
           <Route path='/user/reset_password' element={<LoginSignup />} />
@@ -56,6 +59,7 @@ function App() {
           <Route path='/profile/info' element={<ProfileInfo />} />
           <Route path='/search/:query' element={<SearchResults />} /> {/* Updated to directly render SearchResults */}
         </Routes>
+
         <Footer />
       </BrowserRouter>
     </div>

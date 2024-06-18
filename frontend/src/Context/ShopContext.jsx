@@ -3,18 +3,12 @@ import React, { createContext, useEffect, useState, useCallback } from "react";
 export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props) => {
-    // console.log("ShopContextProvider: ", props);
-
     const [allProduct, setAllProduct] = useState([]);
-
-    // fectch all comments
     const [allComments, setAllComments] = useState([]);
-
     const [cartItems, setCartItems] = useState({});
     const [user, setUser] = useState();
-
-    // for search engine
     const [searchResults, setSearchResults] = useState([]);
+    const [allOrders, setAllOrders] = useState([]);
 
     // Fetch products based on category or all products
     const fetchProducts = useCallback(async () => {
@@ -46,13 +40,11 @@ const ShopContextProvider = (props) => {
         }
     }, []);
 
-
-    // fetch comments
+    // Fetch comments
     const fetchComments = useCallback(async () => {
         try {
             const response = await fetch('http://localhost:4000/comment/allcomments');
             const data = await response.json();
-            // console.log("data: ",data);
             setAllComments(data);
             console.log("All Comments fetched");
         } catch (error) {
@@ -81,38 +73,76 @@ const ShopContextProvider = (props) => {
                 });
 
                 const data = await response.json();
-                console.log("Products In Cart: ", data.length);
+                console.log("Products In Cart: ", data);
 
                 // Initialize cartItems with productId and quantity
-                const cartItems = {};
+                const newCartItems = {};
                 data.forEach(product => {
-                    cartItems[product.productId] = product.quantity;
+                    newCartItems[product.productId] = product.quantity;
                 });
 
                 // Update state with the cartItems
-                setCartItems(cartItems);
-                console.log("Cart items: ", cartItems);
+                setCartItems(newCartItems);
+                console.log("Cart items: ", newCartItems);
+
+                // Update local storage
+                localStorage.setItem('cartItems', JSON.stringify(newCartItems));
             } catch (error) {
                 console.error("Error fetching cart:", error);
             }
         }
     }, []);
 
+    // Fetch orders of current user
+    const fetchOrders = useCallback(async () => {
+        if (localStorage.getItem('auth-token')) {
+            try {
+                const userStr = localStorage.getItem('user');
+                const user = JSON.parse(userStr);
+                const userId = user.Id;
+
+                console.log("User ID: ", userId);
+
+                const response = await fetch(`http://localhost:4000/order/user/${userId}`, {
+                    headers: {
+                        'auth-token': `${localStorage.getItem('auth-token')}`
+                    }
+                });
+
+                const data = await response.json();
+                setAllOrders(data.orders);
+                console.log("User Orders fetched: ", data.orders);
+            } catch (error) {
+                console.error("Error fetching orders:", error);
+            }
+        }
+    }, []);
+
     useEffect(() => {
+        // Fetch initial data
         fetchProducts();
         fetchComments();
     }, [fetchProducts, fetchComments]);
 
     useEffect(() => {
+        // Fetch cart data and user data
         fetchCart();
         const userData = JSON.parse(localStorage.getItem('user'));
         setUser(userData);
-        console.log("user data: ",userData);
+        console.log("user data: ", userData);
     }, [fetchCart]);
+
+    useEffect(() => {
+        // Fetch user orders
+        fetchOrders();
+    }, [fetchOrders]);
 
     const addToCart = async (itemId) => {
         console.log("add to cart: ", itemId);
         setCartItems((prev) => ({ ...prev, [itemId]: (prev[itemId] || 0) + 1 }));
+        // Update local storage
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
         if (localStorage.getItem('auth-token')) {
             try {
                 await fetch('http://localhost:4000/cart/addtocart', {
@@ -130,9 +160,10 @@ const ShopContextProvider = (props) => {
                 console.error("Error adding to cart:", error);
             }
         }
-    }
+    };
 
     const removeFromCart = async (itemId) => {
+        // console.log("Remove here!!!");
         setCartItems((prev) => {
             const newCartItems = { ...prev };
             if (newCartItems[itemId] > 1) {
@@ -142,6 +173,10 @@ const ShopContextProvider = (props) => {
             }
             return newCartItems;
         });
+
+        // Update local storage
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
         if (localStorage.getItem('auth-token')) {
             try {
                 await fetch('http://localhost:4000/cart/removefromcart', {
@@ -153,17 +188,46 @@ const ShopContextProvider = (props) => {
                     },
                     body: JSON.stringify({ itemId: itemId }),
                 });
+
             } catch (error) {
                 console.error("Error removing from cart:", error);
             }
         }
-    }
+    };
+
+
+    const removeAllFromCart = async () => {
+        // console.log("Remove all!!!");
+        setCartItems({});
+
+        // Update local storage
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+        if (localStorage.getItem('auth-token')) {
+            try {
+                const userStr = localStorage.getItem('user');
+                const user = JSON.parse(userStr);
+                const userId = Number(user.Id);
+
+                await fetch('http://localhost:4000/cart/removeallfromcart', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'auth-token': `${localStorage.getItem('auth-token')}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: userId }),
+                });
+
+            } catch (error) {
+                console.error("Error removing all items from cart:", error);
+            }
+        }
+    };
 
     const getTotalCartItems = () => {
-        console.log('---------------> testing :')
         let totalItem = 0;
         for (const item in cartItems) {
-            // console.log('item:', item, cartItems[item])
             if (cartItems[item] > 0) {
                 totalItem += cartItems[item];
             }
@@ -186,15 +250,91 @@ const ShopContextProvider = (props) => {
         return totalAmount;
     };
 
+    const createOrder = async () => {
+        if (localStorage.getItem('auth-token')) {
+            try {
+                const userStr = localStorage.getItem('user');
+                const user = JSON.parse(userStr);
+                const userId = Number(user.Id);
+
+                const orderData = {
+                    userId,
+                    products: Object.keys(cartItems).map(productId => ({
+                        productId: Number(productId),
+                        quantity: cartItems[productId]
+                    })),
+                    total_money: getTotalCartAmount(),
+                    status: "pending"
+                };
+
+                console.log("Order Data: ", orderData);
+
+                const response = await fetch('http://localhost:4000/order/create', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'auth-token': `${localStorage.getItem('auth-token')}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData),
+                });
+
+                const data = await response.json();
+                console.log("Order created successfully:", data);
+
+                // Clear the cart after creating the order
+                setCartItems({});
+                localStorage.setItem('cartItems', JSON.stringify({}));
+                console.log("Reset Cart Items to empty!!!");
+
+                // Fetch the updated orders
+                fetchOrders();
+
+                // remove all items from cart in the database
+                removeAllFromCart();
+
+                // Fetch the updated cart to ensure it's cleared
+                fetchCart();
 
 
-    const contextValue = { getTotalCartItems, getTotalCartAmount, addToCart, removeFromCart, allProduct, allComments, cartItems, user, searchResults, fetchSearchResults };
+            } catch (error) {
+                console.error("Error creating order:", error);
+            }
+        }
+    };
+
+    const removeOrder = async(orderId)=>{
+
+    };
+
+    const removeAllOrder = async () =>{
+
+    };
+
+    const contextValue = {
+        getTotalCartItems,
+        getTotalCartAmount,
+        addToCart,
+        removeFromCart,
+        removeAllFromCart,
+        allProduct,
+        allComments,
+        cartItems,
+        user,
+        searchResults,
+        fetchSearchResults,
+        fetchCart,
+        allOrders,
+        fetchOrders,
+        createOrder
+    };
+
 
     return (
         <ShopContext.Provider value={contextValue}>
             {props.children}
         </ShopContext.Provider>
-    )
-}
+    );
+};
 
 export default ShopContextProvider;

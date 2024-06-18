@@ -8,7 +8,7 @@ const CommentBox = ({ comments, displayFlag }) => {
   const [expandedComments, setExpandedComments] = useState({});
   const [showAllComments, setShowAllComments] = useState(false);
 
-  const shrinkLength = 150;
+  const shrinkLength = 500;
   const displayComments = 5;
 
   const formatDate = (dateString) => {
