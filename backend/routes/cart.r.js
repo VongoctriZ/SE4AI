@@ -4,11 +4,13 @@ const fetchUser = require('../middleware/fetch-user');
 
 const cartController = require('../controllers/cart.c');
 
-router.use('/addtocart', fetchUser, cartController.addToCart);
+router.post('/addtocart', fetchUser, cartController.addToCart);
 
-router.use('/getcart', fetchUser, cartController.getCart);
+router.post('/getcart', fetchUser, cartController.getCart);
 
-router.use('/removefromcart', fetchUser, cartController.removeFromCart);
+router.post('/removefromcart', fetchUser, cartController.removeFromCart);
+
+router.post('/removeallfromcart', fetchUser, cartController.removeAll);
 
 // Add a route for converting cart design
 router.post('/convert-cart-design', cartController.convertCartDesign);

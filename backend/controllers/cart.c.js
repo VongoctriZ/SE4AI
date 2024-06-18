@@ -13,8 +13,8 @@ class CartController {
 
             if (!user) {
                 return res.status(404).send({ message: 'User not found' });
-            }else{
-                console.log("user: ",user);
+            } else {
+                console.log("user: ", user);
             }
 
             // Find the user's cart or create a new one if it doesn't exist
@@ -76,10 +76,41 @@ class CartController {
             }
 
             await cart.save();
+            console.log("Product removed from cart successfully");
+
             res.send({ message: 'Product removed from cart successfully' });
         } catch (error) {
+            console.log("Error removing product from cart");
             console.error(error);
             res.status(500).send({ message: 'Error removing product from cart' });
+        }
+    }
+
+    // Remove all items from the cart
+    async removeAll(req, res) {
+        console.log("Remove all items from the cart if user with Id: ", req.body.userId);
+        try {
+            // Find the user
+            const user = await User.findOne({ _id: req.user.id });
+            if (!user) {
+                return res.status(404).send({ message: 'User not found' });
+            }
+
+            // Find the user's cart
+            let cart = await Cart.findOne({ id: user.cartId });
+            if (!cart) {
+                return res.status(404).send({ message: 'Cart not found' });
+            }
+
+            // Remove all products from cart
+            cart.products = [];
+            await cart.save();
+
+            console.log("All items removed from cart successfully");
+            res.send({ message: 'All items removed from cart successfully' });
+        } catch (error) {
+            console.error("Error removing all items from cart", error);
+            res.status(500).send({ message: 'Error removing all items from cart' });
         }
     }
 
@@ -99,7 +130,7 @@ class CartController {
             if (!cart) {
                 return res.status(404).send({ message: 'Cart not found' });
             }
-            console.log("Products In Cart: ",cart.products);
+            console.log("Products In Cart: ", cart.products);
 
             res.json(cart.products);
         } catch (error) {
@@ -108,8 +139,8 @@ class CartController {
         }
     }
 
-     // Method to convert cart items from old design to new design
-     async convertCartDesign(req, res) {
+    // Method to convert cart items from old design to new design
+    async convertCartDesign(req, res) {
         try {
             // Find all carts that still use the old design
             const carts = await Cart.find({ 'productIds.0': { $type: 'number' } });

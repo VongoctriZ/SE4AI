@@ -17,11 +17,11 @@ const CartSchema = new Schema({
         {
             productId: {
                 type: Number,
-                // required: true,
+                required: true,
             },
             quantity: {
                 type: Number,
-                // required: true,
+                required: true,
                 default: 0, // Default quantity is 1
             }
         }
