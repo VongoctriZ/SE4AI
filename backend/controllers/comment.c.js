@@ -140,12 +140,12 @@ class CommentController {
         try {
             // Fetch all products
             const products = await Product.find({});
-            
+
             // Iterate over each product
             for (const product of products) {
                 // Count the number of comments for the current product
                 const commentCount = await Comment.countDocuments({ product_id: product.id });
-                
+
                 // Update the product's review count
                 await Product.findByIdAndUpdate(product._id, { review_counts: commentCount }, { new: true });
             }
