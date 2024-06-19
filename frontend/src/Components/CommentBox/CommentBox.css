@@ -5,12 +5,73 @@
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* max-width: 800px; */
-    /* Added max-width to limit the comment box width */
     margin-left: auto;
     /* Center align */
     margin-right: auto;
     /* Center align */
+}
+
+.new-comment-form {
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: auto;
+}
+
+.new-comment-form h3 {
+    margin-bottom: 1rem;
+    font-size: 20px;
+    color: #333;
+}
+
+.new-comment-form .rating {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.new-comment-form .rating svg {
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.new-comment-form .rating svg:hover {
+    transform: scale(1.2);
+}
+
+.new-comment-form textarea {
+    width: 100%;
+    /* Adjust width to account for padding and border */
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    /* Ensure padding and border are included in the element's total width and height */
+}
+
+.new-comment-form input[type="file"] {
+    margin-bottom: 1rem;
+}
+
+.new-comment-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.new-comment-form button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
 .comment {

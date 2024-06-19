@@ -7,6 +7,13 @@ const CommentBox = ({ comments, displayFlag }) => {
   const [showComments, setShowComments] = useState(displayFlag === 'comments');
   const [expandedComments, setExpandedComments] = useState({});
   const [showAllComments, setShowAllComments] = useState(false);
+  const [newComment, setNewComment] = useState({
+    rating: 0,
+    content: '',
+    images: [],
+    created_by: { id: 1, full_name: 'Current User' }, // Example user data
+    create_at: new Date().toISOString()
+  });
 
   const shrinkLength = 500;
   const displayComments = 5;
@@ -32,8 +39,59 @@ const CommentBox = ({ comments, displayFlag }) => {
     setShowAllComments((prevShowAll) => !prevShowAll);
   };
 
+  const handleRatingChange = (rating) => {
+    setNewComment({ ...newComment, rating });
+  };
+
+  const handleContentChange = (e) => {
+    setNewComment({ ...newComment, content: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    const images = files.map(file => URL.createObjectURL(file));
+    setNewComment({ ...newComment, images });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle the form submission, e.g., send the new comment to the server
+    console.log('New Comment Submitted:', newComment);
+    // Reset form
+    setNewComment({
+      rating: 0,
+      content: '',
+      images: [],
+      created_by: { id: 1, full_name: 'Current User' },
+      create_at: new Date().toISOString()
+    });
+  };
+
   return (
     <div className="comment-box">
+      <div className="new-comment-form">
+        <h3>Leave a Comment</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="rating">
+            {Array.from({ length: 5 }, (_, i) => (
+              <FaStar
+                key={i}
+                color={i < newComment.rating ? '#ffc107' : '#e4e5e9'}
+                onClick={() => handleRatingChange(i + 1)}
+              />
+            ))}
+          </div>
+          <textarea
+            value={newComment.content}
+            onChange={handleContentChange}
+            placeholder="Write your comment here..."
+            required
+          />
+          <input type="file" multiple onChange={handleImageChange} />
+          <button type="submit">Submit Comment</button>
+        </form>
+      </div>
+
       {showComments &&
         displayedComments.map((comment, index) => {
           const isExpanded = expandedComments[index];
