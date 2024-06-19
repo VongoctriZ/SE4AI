@@ -134,8 +134,12 @@ class ProductController {
             }
 
             // Create a new product object
+
+            const latestProduct = await Product.findOne().sort({ id: -1 });
+            const newId = latestProduct ? latestProduct.id + 1 : 1;
+
             const product = new Product({
-                id,
+                id: newId,
                 name,
                 short_description: short_description || '',
                 description: description || '',
@@ -144,7 +148,7 @@ class ProductController {
                 category,
                 new_price,
                 old_price,
-                discount: discount || 0,
+                discount: discount || ((old_price-new_price)/old_price),
                 review_counts: review_counts || 0,
                 all_time_quantity_sold: all_time_quantity_sold || 0,
                 thumbnail_url: thumbnail_url || '',
