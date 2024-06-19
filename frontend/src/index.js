@@ -7,7 +7,7 @@ import ShopContextProvider from './Context/ShopContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-console.log("Reload!!!");
+// console.log("Reload!!!");
 
 root.render(
   // <React.StrictMode>
