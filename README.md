@@ -158,3 +158,16 @@ Task cuoi cung
   - Deadline: 2 ngay
   - Phu trach: Huy
 
+---
+22:35 19/06/2024
+
+- cap nhat use case Add Product trong admin: hosting anh bang imgur (online) thay vi tren may local
+  - cac link huong dan di kem (khong quan trong nen tui ko ghi chi tiet, khi nao can se trinh bay sau):
+    - [How To Get Imgur API Key](https://www.youtube.com/watch?v=Xu8zhInwn8A)
+    - [Postman](https://www.postman.com/)
+    - [imgur](https://imgur.com/)
+  - Anh da test:
+    - name: ml
+    - category: men
+    - *anh dau tien khi sort by date*
+  
