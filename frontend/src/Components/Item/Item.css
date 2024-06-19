@@ -13,7 +13,6 @@
     font-family: 'Roboto', sans-serif;
     position: relative;
     padding-bottom: 80px;
-    /* Adjusted space for the new details section */
 }
 
 .item img {
@@ -36,7 +35,11 @@
 }
 
 .rating-star {
-    margin: 8px 0;
+    position: absolute;
+    top: 80%;
+    /* Adjust based on your design */
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: center;
     gap: 2px;
@@ -45,7 +48,6 @@
 .item-prices {
     position: absolute;
     bottom: 40px;
-    /* Adjusted for new details section */
     left: 0;
     right: 0;
     display: flex;
