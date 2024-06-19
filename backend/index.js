@@ -43,11 +43,17 @@ app.get("/", (req, res) => {
 // Create upload endpoint for images
 app.use("/images", express.static("upload/images"));
 
-const upload = require("./middleware/upload");
+// const upload = require("./middleware/upload");
+
+// use imgurUpload
+const { upload, uploadToImgur } = require("./middleware/imgurUpload");
+
+require('dotenv').config();
+
 
 app.use('/images', express.static('upload/images'));
 
-app.post('/upload', upload.single('product'), (req, res) => {
+app.post('/upload', upload.single('product'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({
       success: 0,
@@ -55,11 +61,39 @@ app.post('/upload', upload.single('product'), (req, res) => {
     });
   }
 
-  res.json({
-    success: 1,
-    image_url: `http://localhost:${port}/images/${req.file.filename}`,
-  });
-  
+  // res.json({
+  //   success: 1,
+  //   image_url: `http://localhost:${port}/images/${req.file.filename}`,
+  // });
+
+
+
+  try {
+
+    const imageUrl = await uploadToImgur(req.file);
+
+    res.json({
+
+      success: 1,
+
+      image_url: imageUrl,
+
+    });
+
+  } catch (error) {
+
+    console.error('Error uploading to Imgur:', error);
+
+    res.status(500).json({
+
+      success: 0,
+
+      message: 'Error uploading image',
+
+    });
+
+  }
+
 });
 
 
