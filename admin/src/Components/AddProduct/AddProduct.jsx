@@ -4,6 +4,7 @@ import insertPicture from '../../assets/insertPicture.png';
 
 const AddProduct = () => {
     const [image, setImage] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [productDetails, setProductDetails] = useState({
         name: "",
         description: "",
@@ -22,51 +23,50 @@ const AddProduct = () => {
     };
 
     const Add_Product = async () => {
-        let responseData;
+        setLoading(true);
+        try {
+            let responseData;
 
-        if (image) {
-            const formData = new FormData();
-            formData.append('product', image);
+            if (image) {
+                const formData = new FormData();
+                formData.append('product', image);
 
-            await fetch('http://localhost:4000/upload', {
+                const uploadResponse = await fetch('http://localhost:4000/upload', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                    },
+                    body: formData,
+                });
+                responseData = await uploadResponse.json();
+
+                if (responseData.success) {
+                    productDetails.thumbnail_url = responseData.image_url;
+                }
+            }
+
+            const productResponse = await fetch('http://localhost:4000/product/addproduct', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
+                    'Content-Type': 'application/json',
                 },
-                body: formData,
-            })
-                .then((resp) => resp.json())
-                .then((data) => { responseData = data; });
-
-            if (responseData.success) {
-                productDetails.thumbnail_url = responseData.image_url;
-            }
-        }
-
-        await fetch('http://localhost:4000/product/addproduct', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(productDetails),
-        })
-            .then((resp) => resp.json())
-            .then((data) => {
-                if (data.success) {
-                    // Hiển thị form thông báo thành công
-                    alert("Product Added Successfully");
-
-                    // Chuyển hướng về trang home
-                    window.location.href = '/addproduct';
-                } else {
-                    alert("Product Addition Failed!!!");
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert("An error occurred while adding the product.");
+                body: JSON.stringify(productDetails),
             });
+            const productData = await productResponse.json();
+
+            if (productData.success) {
+                alert("Product Added Successfully");
+                window.location.href = '/addproduct';
+            } else {
+                alert("Product Addition Failed!!!");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert("An error occurred while adding the product.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -128,7 +128,9 @@ const AddProduct = () => {
                     />
                 </div>
 
-                <button onClick={() => { Add_Product() }} className="addproduct-btn">Add</button>
+                <button onClick={Add_Product} className="addproduct-btn" disabled={loading}>
+                    {loading ? 'Adding...' : 'Add'}
+                </button>
             </div>
         </div>
     );
