@@ -8,6 +8,7 @@ const AddProduct = () => {
     const [productDetails, setProductDetails] = useState({
         name: "",
         description: "",
+        short_description: "", // Added new attribute
         category: "",
         new_price: "",
         old_price: "",
@@ -82,14 +83,19 @@ const AddProduct = () => {
                     <input value={productDetails.description} onChange={changeHandler} type="text" name='description' placeholder='Type here' />
                 </div>
 
+                <div className="addproduct-itemfield">
+                    <p>Short Description</p>
+                    <input value={productDetails.short_description} onChange={changeHandler} type="text" name='short_description' placeholder='Type here' />
+                </div>
+
                 <div className="addproduct-price">
                     <div className="addproduct-itemfield">
                         <p>New Price</p>
-                        <input value={productDetails.old_price} onChange={changeHandler} type="text" name='old_price' placeholder='Type here' />
+                        <input value={productDetails.new_price} onChange={changeHandler} type="text" name='new_price' placeholder='Type here' />
                     </div>
                     <div className="addproduct-itemfield">
                         <p>Old Price</p>
-                        <input value={productDetails.new_price} onChange={changeHandler} type="text" name='new_price' placeholder='Type here' />
+                        <input value={productDetails.old_price} onChange={changeHandler} type="text" name='old_price' placeholder='Type here' />
                     </div>
                 </div>
 
