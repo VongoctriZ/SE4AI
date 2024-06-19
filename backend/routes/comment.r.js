@@ -21,4 +21,10 @@ router.put('/:id', fetchUser, commentController.updateComment);
 // Delete a comment
 router.delete('/:id', fetchUser, commentController.deleteComment);
 
+// Clean up comments of not found users
+router.post('/cleanup', commentController.cleanUp);
+
+// Route to update product review counts
+router.post('/update-review-counts', commentController.updateReviewCounts);
+
 module.exports = router;

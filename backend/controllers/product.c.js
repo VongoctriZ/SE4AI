@@ -617,12 +617,17 @@ class ProductController {
             // Iterate over each product
             for (const product of products) {
                 // Generate random values for the attributes
-                const newPrice = faker.finance.amount(50000, 500000, 0); // Generates a price between 50,000 and 500,000 with 0 decimal places
-                const oldPrice = faker.finance.amount(50000, 500000, 0); // Generates a price between 50,000 and 500,000 with 0 decimal places
+                let newPrice, oldPrice;
+
+                // Ensure newPrice is cheaper than oldPrice
+                do {
+                    newPrice = faker.finance.amount(50000, 500000, 0); // Generates a price between 50,000 and 500,000 with 0 decimal places
+                    oldPrice = faker.finance.amount(50000, 500000, 0); // Generates a price between 50,000 and 500,000 with 0 decimal places
+                } while (newPrice >= oldPrice); // Repeat until newPrice is cheaper than oldPrice
 
                 const discount = faker.datatype.number({ min: 0, max: 100 });
                 const rating = faker.datatype.number({ min: 1, max: 5 });
-                const quantitySold = faker.datatype.number({ min: 10, max: 10000 });
+                const quantitySold = faker.datatype.number({ min: 10, max: 1000 });
 
                 // Prepare the update data
                 const updateData = {
