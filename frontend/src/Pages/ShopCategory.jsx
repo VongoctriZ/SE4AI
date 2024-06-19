@@ -30,7 +30,7 @@ const ShopCategory = (props) => {
       case 'new_price':
         return b.new_price - a.new_price;
       case 'discount':
-        return ((a.old_price - a.new_price) / a.old_price) - ((b.old_price - b.new_price) / b.old_price);
+        return ((b.old_price - b.new_price) / b.old_price) - ((a.old_price - a.new_price) / a.old_price);
       case 'rating':
         return b.rating - a.rating;
       case 'review_counts':
