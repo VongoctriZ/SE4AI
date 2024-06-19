@@ -616,14 +616,14 @@ class ProductController {
 
             // Iterate over each product
             for (const product of products) {
-                // Generate random values for the attributes
-                let newPrice, oldPrice;
+                let newPrice = 0;
+                let oldPrice = 0;
 
                 // Ensure newPrice is cheaper than oldPrice
-                do {
-                    newPrice = faker.finance.amount(50000, 500000, 0); // Generates a price between 50,000 and 500,000 with 0 decimal places
-                    oldPrice = faker.finance.amount(50000, 500000, 0); // Generates a price between 50,000 and 500,000 with 0 decimal places
-                } while (newPrice >= oldPrice); // Repeat until newPrice is cheaper than oldPrice
+                while (newPrice >= oldPrice) {
+                    newPrice = parseFloat(faker.finance.amount(50000, 500000, 0)); // Generates a price between 50,000 and 500,000 with 2 decimal places
+                    oldPrice = parseFloat(faker.finance.amount(50000, 500000, 0)); // Generates a price between 50,000 and 500,000 with 2 decimal places
+                }
 
                 const discount = faker.datatype.number({ min: 0, max: 100 });
                 const rating = faker.datatype.number({ min: 1, max: 5 });
@@ -646,6 +646,7 @@ class ProductController {
                 );
 
                 console.log(`Updated product: ${updatedProduct.name}`);
+                console.log(`Update data: ${updatedProduct.new_price} - ${updatedProduct.old_price}`);
             }
 
             console.log('Update process completed');
