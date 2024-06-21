@@ -171,3 +171,7 @@ Task cuoi cung
     - category: men
     - *anh dau tien khi sort by date*
   
+  - New mission: (22h40-T6-21-06-2024)
+  - Toàn/Cường/Trí: Cải tiến và tìm thêm model.
+  - Huy: Tạo sinh data, re-train.
+  - Hân: Test trang web và đọc yêu cầu của PA để thảo luận với nhóm.
