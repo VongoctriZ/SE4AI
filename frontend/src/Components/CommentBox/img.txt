@@ -15,10 +15,37 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
   const [newComment, setNewComment] = useState({
     rating: 0,
     content: '',
+    images: [], // Store image URLs
     product_id: product_id,
     created_by: user ? { id: user.Id, full_name: user.fullName } : { id: null, full_name: '' },
     create_at: new Date().toISOString(),
+    files: [], // Store selected files for upload
   });
+
+  // State for image preview
+  const [imagePreview, setImagePreview] = useState(null);
+
+  // Loading state
+  const [loading, setLoading] = useState(false);
+
+  // Function to handle image selection
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setNewComment(prevComment => ({
+      ...prevComment,
+      // images: [], // Clear previous images if any
+      files: files,
+    }));
+
+    // Show image preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImagePreview(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
 
   // Function to handle rating change
   const handleRatingChange = (rating) => {
@@ -28,6 +55,97 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
   // Function to handle content change
   const handleContentChange = (e) => {
     setNewComment({ ...newComment, content: e.target.value });
+  };
+
+  // Function to upload images
+  const uploadImages = async () => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      newComment.files.forEach(file => formData.append('image', file));
+
+      const response = await fetch('http://localhost:4000/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        return data.image_url; // Assuming 'image_url' is returned by your upload endpoint
+      } else {
+        throw new Error('Image upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Upload images if any
+      let imageUrls = [];
+      if (newComment.files.length > 0) {
+        imageUrls = await uploadImages(); // Wait for image upload to complete
+      }
+
+      // Update new comment with image URLs
+      const updatedComment = {
+        ...newComment,
+        images: imageUrls,
+      };
+
+      // Call API to create comment
+      const response = await fetch('http://localhost:4000/comment/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedComment)
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        console.log('Comment created successfully:', data.comment);
+        setNewComment({
+          rating: 0,
+          content: '',
+          images: [],
+          product_id: product_id,
+          created_by: user ? { id: user.Id, full_name: user.fullName } : { id: null, full_name: '' },
+          create_at: new Date().toISOString(),
+          files: [],
+        }); // Reset form
+      } else {
+        throw new Error('Failed to create comment');
+      }
+    } catch (error) {
+      console.error('Error creating comment:', error);
+      // Handle error as needed
+    }
+  };
+
+
+  const formatDate = (dateString) => {
+    try {
+      if (!dateString) return ''; // Handle empty dateString gracefully
+
+      const date = new Date(dateString);
+
+      if (isNaN(date.getTime())) {
+        throw new Error('Invalid date');
+      }
+
+      return format(date, 'yyyy-MM-dd HH:mm');
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return ''; // Return empty string or handle error as per your application's requirement
+    }
   };
 
   // Function to toggle expand/collapse of comments
@@ -47,56 +165,6 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
   // Function to toggle show all comments
   const toggleShowAllComments = () => {
     setShowAllComments((prevShowAll) => !prevShowAll);
-  };
-
-  const formatDate = (dateString) => {
-    try {
-      if (!dateString) return ''; // Handle empty dateString gracefully
-
-      const date = new Date(dateString);
-
-      if (isNaN(date.getTime())) {
-        throw new Error('Invalid date');
-      }
-
-      return format(date, 'yyyy-MM-dd HH:mm');
-    } catch (error) {
-      console.error('Error formatting date:', error);
-      return ''; // Return empty string or handle error as per your application's requirement
-    }
-  };
-
-  // Function to handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Call API to create comment
-      const response = await fetch('http://localhost:4000/comment/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newComment)
-      });
-      const data = await response.json();
-
-      if (data.success) {
-        console.log('Comment created successfully:', data.comment);
-        setNewComment({
-          rating: 0,
-          content: '',
-          product_id: product_id,
-          created_by: user ? { id: user.Id, full_name: user.fullName } : { id: null, full_name: '' },
-          create_at: new Date().toISOString(),
-        }); // Reset form
-      } else {
-        throw new Error('Failed to create comment');
-      }
-    } catch (error) {
-      console.error('Error creating comment:', error);
-      // Handle error as needed
-    }
   };
 
   return (
@@ -119,8 +187,33 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
             placeholder="Write your comment here..."
             required
           />
-          <button type="submit">
-            Add Comment
+          <div className="addproduct-itemfield">
+            <p>Insert Image</p>
+            <label htmlFor="file-input" className="addproduct-thumbnail-label">
+              {imagePreview ? (
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="addproduct-thumbnail-img"
+                />
+              ) : (
+                <img
+                  src={insertPicture}
+                  alt="Insert Placeholder"
+                  className="addproduct-placeholder-img"
+                />
+              )}
+            </label>
+            <input
+              onChange={handleImageChange}
+              type="file"
+              name="image"
+              id="file-input"
+              hidden
+            />
+          </div>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Adding...' : 'Add Comment'}
           </button>
         </form>
       </div>
@@ -157,7 +250,15 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
                   )}
                 </p>
               </div>
-              {/* Removed image display */}
+              <div className="images">
+                {comment.images && comment.images.length > 0 && (
+                  <div>
+                    {comment.images.map((image, i) => (
+                      <img key={i} src={image} alt={`comment-${index}-image-${i}`} />
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}
