@@ -16,7 +16,7 @@ const roundRating = (rating) => {
 };
 
 const Item = (props) => {
-    console.log("Props: ", props);
+
     return (
         <div className="item">
             <Link to={`/product/${props.id}`} className="item-link">

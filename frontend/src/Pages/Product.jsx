@@ -64,7 +64,7 @@ const Product = () => {
                     {displayContent === 'description' ? (
                         <DescriptionBox {...product} displayFlag={displayContent} />
                     ) : (
-                        <CommentBox comments={comments} displayFlag={displayContent} />
+                        <CommentBox comments={comments} displayFlag={displayContent} product_id={productId} />
                     )}
                 </div>
             </div>

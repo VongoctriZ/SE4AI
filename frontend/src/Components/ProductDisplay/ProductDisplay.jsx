@@ -17,6 +17,7 @@ const roundRating = (rating) => {
 
 const ProductDisplay = (props) => {
     const { product } = props;
+    console.log("Current Product: ", product);
     const { addToCart } = useContext(ShopContext);
     const [mainImage, setMainImage] = useState(product.images[0].large_url);
     const [selectedSize, setSelectedSize] = useState(null);

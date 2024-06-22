@@ -1,59 +1,30 @@
 const port = 4000;
-// import express.js framework, allow to create the server and define routes
 const express = require("express");
-// create an instance of the Express application
 const app = express();
-// import Mongoose, a MongoDB object modeling tool designed to work in an asynchronous environment
 const mongoose = require("mongoose");
-// import JSON Web Token (JWT) library for generating and verifying tokens for authentication
 const jwt = require("jsonwebtoken");
-
-// Imports the Node.js 'path' module, which provides utilities for working with file and directory paths
-const path = require("path");
-// Imports CORS (Cross-Origin Resource Sharing) middleware for enabling cross-origin requests.
 const cors = require("cors");
-
 const routes = require("./routes");
+const { upload, uploadToImgur } = require("./middleware/imgurUpload");
+require('dotenv').config();
 
-const { type } = require("express/lib/response");
-const { log } = require("console");
-
-// add middleware to parse JSON bodes of incoming requests.
-// This middleware makes 'req.body' available for JSON request payloads
+// add middleware to parse JSON bodies of incoming requests.
 app.use(express.json());
-// add CORS middleware to enable cross-origin requests. This allow the frontend, hosted on a different domain or port,
-// to make requests to this server.
+// add CORS middleware to enable cross-origin requests.
 app.use(cors());
 
 // Database Connection with MongoDB
-mongoose.connect("mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/shoper", {
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true,
-}
-);
+mongoose.connect("mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/shoper");
 
 // API Creation
-
 app.get("/", (req, res) => {
   res.send("Express App is running");
 });
 
-// Image Storage Engine
-
 // Create upload endpoint for images
-app.use("/images", express.static("upload/images"));
+app.post('/upload', upload.single('image'), async (req, res) => {
 
-// const upload = require("./middleware/upload");
-
-// use imgurUpload
-const { upload, uploadToImgur } = require("./middleware/imgurUpload");
-
-require('dotenv').config();
-
-
-app.use('/images', express.static('upload/images'));
-
-app.post('/upload', upload.single('product'), async (req, res) => {
+  console.log("upload req: ", req);
   if (!req.file) {
     return res.status(400).json({
       success: 0,
@@ -61,43 +32,22 @@ app.post('/upload', upload.single('product'), async (req, res) => {
     });
   }
 
-  // res.json({
-  //   success: 1,
-  //   image_url: `http://localhost:${port}/images/${req.file.filename}`,
-  // });
-
-
-
   try {
-
     const imageUrl = await uploadToImgur(req.file);
-
     res.json({
-
       success: 1,
-
       image_url: imageUrl,
-
     });
-
   } catch (error) {
-
     console.error('Error uploading to Imgur:', error);
-
     res.status(500).json({
-
       success: 0,
-
       message: 'Error uploading image',
-
     });
-
   }
-
 });
 
-
-// Route 
+// Routes 
 routes(app);
 
 // server listening
