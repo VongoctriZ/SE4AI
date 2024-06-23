@@ -19,6 +19,8 @@ const CartItems = () => {
         fetchCart();
     }, [fetchCart]);
 
+    console.log("Cart Items: ", cartItems);
+
     const handleCheckout = async () => {
         try {
             const result = await createOrder();

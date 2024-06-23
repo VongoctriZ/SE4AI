@@ -24,7 +24,13 @@ router.delete('/:id', fetchUser, commentController.deleteComment);
 // Clean up comments of not found users
 router.post('/cleanup', commentController.cleanUp);
 
+// Endpoint to remove duplicate comments
+router.post('/remove-duplicates', commentController.removeDuplicateComments);
+
 // Route to update product review counts
 router.post('/update-review-counts', commentController.updateReviewCounts);
+
+// random value for date
+router.post('/update-date', commentController.updateDate);
 
 module.exports = router;

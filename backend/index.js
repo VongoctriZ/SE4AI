@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const routes = require("./routes");
 const { upload, uploadToImgur } = require("./middleware/imgurUpload");
-require('dotenv').config();
+// require('dotenv').config();
 
 // add middleware to parse JSON bodies of incoming requests.
 app.use(express.json());

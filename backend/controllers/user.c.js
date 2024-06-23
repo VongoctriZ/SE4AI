@@ -251,10 +251,10 @@ class UserController {
         }
     };
 
-    // API for exporting all products to a JavaScript object and writing to a file
+    // API for exporting all users to a JavaScript object and writing to a file
     async exportAttr(req, res) {
         try {
-            // Fetch all products
+            // Fetch all users
             const data = await User.find({}).select('Id');
 
             const attr = data.map(record => record.Id);
@@ -286,6 +286,34 @@ class UserController {
                 success: false,
                 message: 'Error exporting attributes'
             });
+        }
+    };
+
+    async updateDate(req, res) {
+        try {
+            // Generate random date function (within a given range)
+            function getRandomDate(start, end) {
+                return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+            }
+
+            // Get all users
+            const users = await User.find({});
+
+            // Update each User with a random createdAt date
+            const bulkOps = users.map(User => ({
+                updateOne: {
+                    filter: { _id: User._id },
+                    update: { $set: { createdAt: getRandomDate(new Date(2024, 0, 1), new Date()) } }
+                }
+            }));
+
+            // Perform bulk write operation to update all users
+            const result = await User.bulkWrite(bulkOps);
+
+            res.status(200).json({ success: true, message: `Updated ${result.modifiedCount} users successfully.` });
+        } catch (error) {
+            console.error('Error updating date:', error);
+            res.status(500).json({ success: false, message: 'Error updating date' });
         }
     };
 }

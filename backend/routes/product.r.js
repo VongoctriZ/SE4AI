@@ -56,4 +56,11 @@ router.get('/export', productController.exportProducts);
 // Random values for some attributes
 router.post('/random',productController.randomValues);
 
+// update ratings from comments
+router.post('/update-rating-from-comments',productController.updateProductRatingsFromComments);
+
+// random value for date
+router.post('/update-date', productController.updateDate);
+
+
 module.exports = router;

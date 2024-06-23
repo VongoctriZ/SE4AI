@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
-const Product = require('../models/product.m')
+const Product = require('../models/product.m');
+const Comment = require('../models/comment.m');
 const fs = require('fs');
 const path = require('path');
 const faker = require('faker');
@@ -148,7 +149,7 @@ class ProductController {
                 category,
                 new_price,
                 old_price,
-                discount: discount || ((old_price-new_price)/old_price),
+                discount: discount || ((old_price - new_price) / old_price),
                 review_counts: review_counts || 0,
                 all_time_quantity_sold: all_time_quantity_sold || 0,
                 thumbnail_url: thumbnail_url || '',
@@ -657,7 +658,81 @@ class ProductController {
         } catch (error) {
             console.error('Error during update process:', error);
         }
-    }
+    };
+
+    // Update ratings from comments
+    async updateProductRatingsFromComments(req, res) {
+        try {
+            // Aggregate to calculate average ratings for each product and round to 1 decimal place
+            const ratings = await Comment.aggregate([
+                {
+                    $group: {
+                        _id: "$product_id",
+                        averageRating: { $avg: "$rating" }
+                    }
+                },
+                {
+                    $project: {
+                        averageRating: { $round: ["$averageRating", 1] }
+                    }
+                }
+            ]);
+
+            console.log("Ratings calculated:", ratings.length);
+
+            const batchSize = 100; // Adjust batch size as necessary
+            for (let i = 0; i < ratings.length; i += batchSize) {
+                const batch = ratings.slice(i, i + batchSize);
+                const bulkOps = batch.map(rating => ({
+                    updateOne: {
+                        filter: { id: rating._id },
+                        update: { rating: rating.averageRating }
+                    }
+                }));
+
+                await Product.bulkWrite(bulkOps);
+            }
+
+            res.status(200).json({
+                success: true,
+                message: 'Product ratings updated successfully.',
+            });
+        } catch (error) {
+            console.error('Error updating product ratings:', error);
+            res.status(500).json({ success: false, message: 'Error updating product ratings' });
+        }
+    };
+
+
+    async updateDate(req, res) {
+        try {
+            // Generate random date function (within a given range)
+            function getRandomDate(start, end) {
+                return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+            }
+
+            // Get all products
+            const products = await Product.find({});
+
+            // Update each comment with a random createdAt date
+            const bulkOps = products.map(comment => ({
+                updateOne: {
+                    filter: { _id: comment._id },
+                    update: { $set: { date: getRandomDate(new Date(2024, 0, 1), new Date()) } }
+                }
+            }));
+
+            // Perform bulk write operation to update all products
+            const result = await Product.bulkWrite(bulkOps);
+
+            res.status(200).json({ success: true, message: `Updated ${result.modifiedCount} products successfully.` });
+        } catch (error) {
+            console.error('Error updating date:', error);
+            res.status(500).json({ success: false, message: 'Error updating date' });
+        }
+    };
+
+
 };
 
 module.exports = new ProductController();

@@ -25,4 +25,7 @@ router.post('/removeall', OrderController.removeAllOrders);
 // randomly create orders for users
 router.post('/random', OrderController.randomOrders);
 
+// randomly value for date
+router.post('/update-date', OrderController.updateDate);
+
 module.exports = router;

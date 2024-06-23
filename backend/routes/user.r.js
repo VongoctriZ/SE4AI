@@ -18,4 +18,6 @@ router.post('/removeallusers', userController.removeAllUsers);
 
 router.get('/export', userController.exportAttr);
 
+router.post('/update-date', userController.updateDate);
+
 module.exports = router;

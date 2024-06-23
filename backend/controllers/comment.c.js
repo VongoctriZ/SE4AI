@@ -135,6 +135,52 @@ class CommentController {
         }
     }
 
+    async removeDuplicateComments(req, res) {
+        try {
+            // Aggregate to find duplicates based on productId and created_by
+            const duplicates = await Comment.aggregate([
+                {
+                    $group: {
+                        _id: {
+                            productId: "$product_id",
+                            createdBy: "$created_by"
+                        },
+                        count: { $sum: 1 },
+                        ids: { $push: "$_id" }
+                    }
+                },
+                {
+                    $match: {
+                        count: { $gt: 1 }
+                    }
+                }
+            ]);
+
+            console.log("Duplicates found:", duplicates.length);
+
+            // Flatten the ids array and remove the first id of each group
+            const idsToDelete = duplicates.flatMap(group => group.ids.slice(1));
+
+            if (idsToDelete.length > 0) {
+                // Delete the duplicate comments
+                const deleteResult = await Comment.deleteMany({ _id: { $in: idsToDelete } });
+
+                res.status(200).json({
+                    success: true,
+                    message: `Duplicates removed successfully. ${deleteResult.deletedCount} comments removed.`,
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: 'No duplicate comments found.'
+                });
+            }
+        } catch (error) {
+            console.error('Error removing duplicate comments:', error);
+            res.status(500).json({ success: false, message: 'Error removing duplicate comments' });
+        }
+    };
+
     // Method to update product review counts
     async updateReviewCounts(req, res) {
         try {
@@ -155,7 +201,35 @@ class CommentController {
             console.error('Error updating review counts:', error);
             res.status(500).json({ success: false, message: 'Error updating review counts' });
         }
-    }
+    };
+
+    async updateDate(req, res) {
+        try {
+            // Generate random date function (within a given range)
+            function getRandomDate(start, end) {
+                return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+            }
+
+            // Get all comments
+            const comments = await Comment.find({});
+
+            // Update each comment with a random createdAt date
+            const bulkOps = comments.map(comment => ({
+                updateOne: {
+                    filter: { _id: comment._id },
+                    update: { $set: { create_at: getRandomDate(new Date(2024, 0, 1), new Date()) } }
+                }
+            }));
+
+            // Perform bulk write operation to update all comments
+            const result = await Comment.bulkWrite(bulkOps);
+
+            res.status(200).json({ success: true, message: `Updated ${result.modifiedCount} comments successfully.` });
+        } catch (error) {
+            console.error('Error updating date:', error);
+            res.status(500).json({ success: false, message: 'Error updating date' });
+        }
+    };
 
 }
 
