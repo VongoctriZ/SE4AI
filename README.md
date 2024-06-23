@@ -178,3 +178,11 @@ Task cuoi cung
   - Toàn/Cường/Trí: Cải tiến và tìm thêm model.
   - Huy: Tạo sinh data, re-train.
   - Hân: Test trang web và đọc yêu cầu của PA để thảo luận với nhóm.
+
+---
+
+23:30 23/06/2024
+
+- Cap nhat tien do:
+  - Model AI (svd)
+    - output cai thien sau khi huan luyen tren 7000 do hang.
