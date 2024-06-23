@@ -333,6 +333,34 @@ class OrderController {
             res.status(500).json({ success: false, message: 'Error updating date' });
         }
     };
+
+    // Parse all orders, update quantity sold if status is 'accepted'
+    async parseOrdersAndUpdateQuantity(req, res) {
+        try {
+            // Fetch all orders
+            const orders = await Order.find({});
+
+            // Iterate through each order
+            for (const order of orders) {
+                // Check if order status is 'accepted'
+                if (order.status === 'accepted') {
+                    // Update product quantities sold
+                    await this.updateProductsQuantitySold(order.products);
+                }
+            }
+
+            res.status(200).json({
+                success: true,
+                message: 'Parsed all orders and updated product quantities where necessary.'
+            });
+        } catch (error) {
+            console.error('Error parsing orders and updating quantity:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Error parsing orders and updating quantity.'
+            });
+        }
+    };
 }
 
 module.exports = new OrderController();

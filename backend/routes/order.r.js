@@ -28,4 +28,7 @@ router.post('/random', OrderController.randomOrders);
 // randomly value for date
 router.post('/update-date', OrderController.updateDate);
 
+// Route to parse all orders and update product quantity if status is 'accepted'
+router.post('/parseAndUpdateQuantity', OrderController.parseOrdersAndUpdateQuantity.bind(OrderController));
+
 module.exports = router;
