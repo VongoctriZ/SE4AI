@@ -12,7 +12,7 @@ class OrderController {
     // Create a new order
     async createOrder(req, res) {
         try {
-            const { userId, products, total_money, status = "accepted" } = req.body;
+            const { userId, products, total_money, status = "pending" } = req.body;
 
             console.log("Request Data: ", req.body);
 
@@ -125,12 +125,20 @@ class OrderController {
                 });
             }
 
-            // Check if the status is already 'accepted'
-            if (attribute === 'status' && currentOrder.status === 'accepted') {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Order status is already accepted, no update performed',
-                });
+            // Check if the status is already 'accepted' or 'rejected'
+            if (attribute === 'status') {
+                if (currentOrder.status === 'accepted') {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Order status is already accepted, no update performed',
+                    });
+                }
+                else if (currentOrder.status === 'rejected') {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Order status is already rejected, no update performed',
+                    });
+                }
             }
 
             const updateData = {};
