@@ -5,13 +5,15 @@ import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutl
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 function Sidebar() {
   return (
     <div className="sidebar">
       <Link to={'/dashboard'} style={{ textDecoration: "none" }}>
         <div className="sidebar-items">
-          <AddShoppingCartOutlinedIcon fontSize="large"></AddShoppingCartOutlinedIcon>
+          <DashboardIcon fontSize="large"></DashboardIcon>
           <p>Dashboard</p>
         </div>
 
@@ -41,6 +43,12 @@ function Sidebar() {
         <div className="sidebar-items">
           <GroupOutlinedIcon fontSize="large"></GroupOutlinedIcon>
           <p>List User</p>
+        </div>
+      </Link>
+      <Link to={'/listorder'} style={{ textDecoration: "none" }}>
+        <div className="sidebar-items">
+          <ReceiptIcon fontSize="large"></ReceiptIcon>
+          <p>List Order</p>
         </div>
       </Link>
 

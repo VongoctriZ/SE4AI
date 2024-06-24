@@ -6,6 +6,7 @@ import AddProduct from '../../Components/AddProduct/AddProduct'
 import AddUser from '../../Components/AddUser/AddUser'
 import ListProduct from '../../Components/ListProduct/ListProduct'
 import ListUser from '../../Components/ListUser/ListUser'
+import ListOrder from '../../Components/ListOrder/ListOrder'
 import Dashboard from '../../Components/Dashboard/Dashboard'
 
 const Admin = () => {
@@ -18,6 +19,7 @@ const Admin = () => {
         <Route path='/adduser' element={<AddUser />} />
         <Route path='/listproduct' element={<ListProduct />} />
         <Route path='/listuser' element={<ListUser />} />
+        <Route path='/listorder' element={<ListOrder />} />
       </Routes>
     </div>
   )

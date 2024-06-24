@@ -18,6 +18,7 @@
     "@mui/x-data-grid": "^7.6.2",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
+    "date-fns": "^3.6.0",
     "express-fileupload": "^1.5.0",
     "form-data": "^4.0.0",
     "imgur": "^2.4.2",
