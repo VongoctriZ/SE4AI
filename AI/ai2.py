@@ -218,9 +218,9 @@ def validate(matrices, factors=200, iterations=20, regularization=0.01, show_pro
     coo_train, csr_train, csr_val = matrices['coo_train'], matrices['csr_train'], matrices['csr_val']
 
     model = implicit.als.AlternatingLeastSquares(factors=factors,
-                                                 iterations=iterations,
-                                                 regularization=regularization,
-                                                 random_state=42)
+                                                iterations=iterations,
+                                                regularization=regularization,
+                                                random_state=42)
 
 #     # Debugging the input matrices
 #     print("coo_train shape:", coo_train.shape, "non-zero elements:", coo_train.nnz)
@@ -272,9 +272,9 @@ csr_train = coo_train.tocsr()
 
 def train(coo_train, factors=200, iterations=15, regularization=0.01, show_progress=True):
     model = implicit.als.AlternatingLeastSquares(factors=factors,
-                                                 iterations=iterations,
-                                                 regularization=regularization,
-                                                 random_state=42)
+                                                iterations=iterations,
+                                                regularization=regularization,
+                                                random_state=42)
     model.fit(coo_train, show_progress=show_progress)
     return model
 
@@ -297,11 +297,11 @@ def predict(model, csr_train, user_id_map, item_id_map, submission_name="submiss
             article_ids = [str(item_id_map[item_id]) for item_id in user_items]  # Convert item IDs to strings
             preds.append((customer_id, ' '.join(article_ids)))
 
-    df_preds = pd.DataFrame(preds, columns=['user_id', 'item_predict'])
-    df_preds.to_csv(submission_name, index=False)
+    # df_preds = pd.DataFrame(preds, columns=['user_id', 'item_predict'])
+    # df_preds.to_csv(submission_name, index=False)
 
     # display(df_preds.head())
-    print(df_preds.shape)
+    # print(df_preds.shape)
 
     return df_preds
 
@@ -336,7 +336,7 @@ import joblib
 
 # Save the model and mappings
 joblib.dump(model, 'als_model.pkl')
-joblib.dump(user_id_mapping, 'user_id_mapping.pkl')
-joblib.dump(item_id_mapping, 'item_id_mapping.pkl')
-joblib.dump(inverse_user_id_mapping, 'inverse_user_id_mapping.pkl')
-joblib.dump(inverse_item_id_mapping, 'inverse_item_id_mapping.pkl')
+# joblib.dump(user_id_mapping, 'user_id_mapping.pkl')
+# joblib.dump(item_id_mapping, 'item_id_mapping.pkl')
+# joblib.dump(inverse_user_id_mapping, 'inverse_user_id_mapping.pkl')
+# joblib.dump(inverse_item_id_mapping, 'inverse_item_id_mapping.pkl')

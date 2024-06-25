@@ -5,6 +5,8 @@
     align-items: center;
     min-height: 100vh;
     background-color: #f4f4f4;
+    margin: 40px auto;
+    position: relative;
     /* Light grey background for contrast */
 }
 
@@ -19,13 +21,12 @@
     /* Adjusted padding for a cleaner look */
     border-radius: 10px;
     background: white;
-    position: relative;
+    position: fixed;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     /* Softer shadow */
     height: auto;
     /* Allow height to adjust based on content */
 }
-
 /* Item field styling */
 .addproduct-itemfield {
     width: 100%;
@@ -146,11 +147,13 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 600px) {
+@media (max-width: 1200px) {
     .add-product {
         padding: 20px;
         /* Reduced padding on small screens */
     }
+
+    
 
     .addproduct-price {
         flex-direction: column;
