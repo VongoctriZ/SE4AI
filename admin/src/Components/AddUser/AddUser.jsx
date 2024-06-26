@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './AddUser.css';
 
 const AddUser = () => {
-    const [userDetails, setProductDetails] = useState({
+    const [userDetails, setUserDetails] = useState({
         fullName: "",
         address: "",
         phoneNumber: "",
@@ -12,7 +12,7 @@ const AddUser = () => {
     });
 
     const changeHandler = (e) => {
-        setProductDetails({ ...userDetails, [e.target.fullName]: e.target.value });
+        setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
     };
 
     const Add_User = async () => {

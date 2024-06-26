@@ -43,6 +43,11 @@
     margin-top: 5px;
 }
 
+.addproduct-itemfield input:focus {
+    border-color: #6079ff;
+    /* Blue border on focus */
+}
+
 /* Selector styling */
 .add-product-selector {
     padding: 10px;
