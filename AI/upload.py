@@ -5,7 +5,6 @@ mongodb_uri = 'mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/
 database_name = 'shoper'
 collection_name = 'recommendations'
 
-
 def upload_recommendations_to_mongodb(data, mongodb_uri, database_name, collection_name):
     # Format the data according to the schema
     recommendations = []
@@ -24,6 +23,21 @@ def upload_recommendations_to_mongodb(data, mongodb_uri, database_name, collecti
     db = client[database_name]
     collection = db[collection_name]
 
-    # Insert the formatted data into MongoDB
-    collection.insert_many(recommendations)
-    print(f"Uploaded {len(recommendations)} recommendations to MongoDB.")
+    try:
+        # Delete old recommendations for a clean update
+        collection.delete_many({})
+        print("Removed old recommendations from MongoDB.")
+
+        # Insert the formatted data into MongoDB
+        if recommendations:
+            collection.insert_many(recommendations)
+            print(f"Uploaded {len(recommendations)} recommendations to MongoDB.")
+        else:
+            print("No new recommendations to upload.")
+
+    except Exception as e:
+        print(f"Error uploading recommendations to MongoDB: {e}")
+
+    finally:
+        # Close MongoDB client connection
+        client.close()

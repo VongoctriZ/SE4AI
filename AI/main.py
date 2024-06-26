@@ -2,7 +2,7 @@
 from pymongo import MongoClient
 from data import get_dataset
 from recommendation_system import generate_recommendations
-from a import upload_recommendations_to_mongodb
+from upload import upload_recommendations_to_mongodb
 import time
 
 mongodb_uri = 'mongodb+srv://huy94:qVG1QgHHccmC3eI5@clothes.4eaglhc.mongodb.net/shoper'

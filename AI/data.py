@@ -45,6 +45,6 @@ def get_dataset():
     products = fetch_all_products()
     df = format_orders_to_csv(orders, products)
 
-    df.to_csv("data.csv",index=False)
+    # df.to_csv("data.csv",index=False)
     
     return df

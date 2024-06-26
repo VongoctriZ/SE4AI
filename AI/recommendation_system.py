@@ -136,7 +136,7 @@ def predict(model, csr_train, user_id_map, item_id_map, submission_name="submiss
             preds.append((customer_id, ' '.join(article_ids)))
 
     df_preds = pd.DataFrame(preds, columns=['user_id', 'item_predict'])
-    df_preds.to_csv(submission_name, index=False)
+    # df_preds.to_csv(submission_name, index=False)
 
     return df_preds
 
@@ -157,9 +157,10 @@ def generate_recommendations(dataset):
     model = train(coo_train, **best_params)
     
     csr_train = coo_train.tocsr()
-    df_preds = predict(model, csr_train, user_id_mapping, item_id_mapping, N=10)
+    df_preds = predict(model, csr_train, user_id_mapping, item_id_mapping, N=12)
     # print("prediction: ")
-    df_preds.to_csv('predictions.csv',index=False)
+    # df_preds.to_csv('predictions.csv',index=False)
+    
     # print(df_preds)
     # inverse_user_id_mapping = {idx: user_id for user_id, idx in user_id_mapping.items()}
     # inverse_item_id_mapping = {idx: item_id for item_id, idx in item_id_mapping.items()}
