@@ -39,7 +39,7 @@ class ProductController {
             }
 
             // Extract product data from request body
-            const {
+            var {
                 id,
                 name,
                 short_description,
@@ -138,6 +138,20 @@ class ProductController {
 
             const latestProduct = await Product.findOne().sort({ id: -1 });
             const newId = latestProduct ? latestProduct.id + 1 : 1;
+
+            if (!images) {
+                console.log("Images is null!!!");
+                images = [];
+            }
+            images[0] = {
+                base_url: thumbnail_url,
+                large_url: thumbnail_url,
+                medium_url: thumbnail_url,
+                small_url: thumbnail_url,
+                thumbnail_url: thumbnail_url,
+            }
+
+            console.log("images ", images);
 
             const product = new Product({
                 id: newId,
