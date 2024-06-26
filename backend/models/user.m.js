@@ -32,7 +32,8 @@ const UserSchema = new mongoose.Schema({
     },
     cartId: {
         type: Number, // Reference to the custom cart ID
-        unique: true, // Ensure each user has a unique cart
+        // unique: true, // Ensure each user has a unique cart
+        default: null,
     },
     createdAt: {
         type: Date,

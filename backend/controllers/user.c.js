@@ -49,14 +49,13 @@ class UserController {
             newUser.password = hashedPassword;
             newUser.address = address;
 
-            await newUser.save();
+            // await newUser.save();
 
             try {
                 // Create a new cart for the user
                 const lastCart = await Cart.findOne().sort({ id: -1 });
                 const lastCartId = lastCart ? lastCart.id : 0;
                 let newCart = new Cart({ id: lastCartId + 1, userId: newUser.Id });
-
                 await newCart.save();
 
                 newUser.cartId = newCart.id;
