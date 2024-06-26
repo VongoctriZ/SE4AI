@@ -1,5 +1,4 @@
-/* Recommendations.css */
-.recommendations {
+/* .recommendations {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,5 +95,101 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
+    }
+} */
+
+
+.recommendations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    height: 90vh;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.recommendations h1 {
+    color: #171717;
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.recommendations hr {
+    width: 200px;
+    height: 6px;
+    border-radius: 10px;
+    background: #252525;
+}
+
+.recommendations-slider {
+    width: 80%;
+    margin: 50px auto;
+}
+
+@media (max-width: 1280px) {
+    .recommendations {
+        height: 70vh;
+    }
+
+    .recommendations h1 {
+        font-size: 40px;
+    }
+
+    .recommendations hr {
+        width: 160px;
+        height: 4px;
+    }
+
+    .recommendations-slider {
+        width: 90%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .recommendations {
+        height: 60vh;
+    }
+
+    .recommendations h1 {
+        font-size: 30px;
+    }
+
+    .recommendations hr {
+        width: 120px;
+        height: 3px;
+    }
+
+    .recommendations-slider {
+        width: 95%;
+    }
+}
+
+@media (max-width: 800px) {
+    .recommendations {
+        height: 50vh;
+        gap: 6px;
+    }
+
+    .recommendations h1 {
+        font-size: 20px;
+    }
+
+    .recommendations hr {
+        width: 100px;
+    }
+
+    .recommendations-slider {
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .recommendations {
+        height: 90vh;
+    }
+
+    .recommendations-slider {
+        width: 100%;
     }
 }
