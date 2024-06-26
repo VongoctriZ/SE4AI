@@ -38,8 +38,13 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
     }));
   };
 
-  // Sort comments by rating
-  const sortedComments = [...comments].sort((a, b) => b.rating - a.rating);
+  // Sort comments by rating, then by creation time
+  const sortedComments = [...comments].sort((a, b) => {
+    if (b.rating === a.rating) {
+      return new Date(b.create_at) - new Date(a.create_at);
+    }
+    return b.rating - a.rating;
+  });
 
   // Display only a subset of comments based on showAllComments state
   const displayedComments = showAllComments ? sortedComments : sortedComments.slice(0, 5);
