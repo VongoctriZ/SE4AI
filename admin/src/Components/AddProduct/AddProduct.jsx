@@ -30,7 +30,7 @@ const AddProduct = () => {
 
             if (image) {
                 const formData = new FormData();
-                formData.append('product', image);
+                formData.append('image', image);
 
                 const uploadResponse = await fetch('http://localhost:4000/upload', {
                     method: 'POST',
@@ -39,10 +39,18 @@ const AddProduct = () => {
                     },
                     body: formData,
                 });
+
+                if (!uploadResponse.ok) {
+                    const errorText = await uploadResponse.text();
+                    throw new Error(errorText);
+                }
+
                 responseData = await uploadResponse.json();
 
                 if (responseData.success) {
                     productDetails.thumbnail_url = responseData.image_url;
+                } else {
+                    console.log("Failed to upload to Imgur!!!");
                 }
             }
 
@@ -54,6 +62,7 @@ const AddProduct = () => {
                 },
                 body: JSON.stringify(productDetails),
             });
+
             const productData = await productResponse.json();
 
             if (productData.success) {
