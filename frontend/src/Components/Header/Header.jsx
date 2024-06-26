@@ -1,4 +1,3 @@
-// Header.js
 import React, { useEffect, useContext, useRef, useState } from "react";
 import "./Header.css";
 import logo from "../Assets/Image_Header/logo.png";
@@ -12,7 +11,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Search from "../Search/Search";
 
 const Header = () => {
-
   const [menu, setMenu] = useState('');
   const { getTotalCartItems } = useContext(ShopContext);
   const [searchQuery, setSearchQuery] = useState('');
@@ -43,6 +41,12 @@ const Header = () => {
   const dropdown_toggle = (e) => {
     menuRef.current.classList.toggle("nav-menu-visible");
     e.target.classList.toggle("open");
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.replace("/");
   };
 
   return (
@@ -91,12 +95,7 @@ const Header = () => {
               <MenuItem onClick={handleClose}>
                 <Link to="/orders" className="menu-link">Orders</Link>
               </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  localStorage.removeItem("auth-token");
-                  window.location.replace("/");
-                }}
-              >
+              <MenuItem onClick={handleLogout}>
                 Logout
               </MenuItem>
             </Menu>
@@ -112,10 +111,8 @@ const Header = () => {
           </Button>
         )}
       </div>
-
     </div>
   );
-
 };
 
 export default Header;
