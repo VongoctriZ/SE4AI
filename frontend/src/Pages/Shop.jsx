@@ -13,7 +13,7 @@ const Shop = () => {
         <div>
             {/* <SideBar/> */}
             <Hero />
-            <Recommendations />
+            {/* <Recommendations /> */}
             <BestSellers />
             {/* <Popular /> */}
             {/* <Offers /> */}
