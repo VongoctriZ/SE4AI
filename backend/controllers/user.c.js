@@ -176,8 +176,8 @@ class UserController {
         const { fullName, phoneNumber, email, password, confirmPassword, address, Id } = req.body;
 
 
-        if (!password){
-            return res.status(400).json({sucess: false, errors: "Password is required"});
+        if (!password) {
+            return res.status(400).json({ sucess: false, errors: "Password is required" });
         }
 
         // Validate required fields
