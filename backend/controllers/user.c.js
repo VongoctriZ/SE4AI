@@ -172,10 +172,6 @@ class UserController {
     //     }
     // }
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
     async signUp(req, res) {
         const { fullName, phoneNumber, email, password, confirmPassword, address, Id } = req.body;
 
