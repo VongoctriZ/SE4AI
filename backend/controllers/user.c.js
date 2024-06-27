@@ -104,14 +104,18 @@ class UserController {
             return res.status(400).json({ success: false, errors: "Passwords do not match" });
         }
 
-        let newUser;
-
         try {
+            // Check if email already exists
+            const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                return res.status(400).json({ success: false, errors: "User with the provided email already exists" });
+            }
+
+            let newUser;
             if (Id) {
                 // If an ID is provided, check if it already exists
                 const existingUser = await User.findOne({ Id });
                 if (existingUser) {
-                    // If a user with the provided ID exists, return an error
                     return res.status(400).json({ success: false, errors: "User with the provided ID already exists" });
                 }
                 newUser = new User({ Id });
@@ -123,32 +127,27 @@ class UserController {
             }
 
             // Hash the password
-            const hashedPassword = password;
+            const hashedPassword = password; // Replace with actual hashing logic
 
-            // Create new user
+            // Assign other user details
             newUser.fullName = fullName;
             newUser.phoneNumber = phoneNumber;
             newUser.email = email;
             newUser.password = hashedPassword;
             newUser.address = address;
 
-            // await newUser.save();
+            // Create a new cart for the user
+            const lastCart = await Cart.findOne().sort({ id: -1 });
+            const lastCartId = lastCart ? lastCart.id : 0;
+            const newCart = new Cart({ id: lastCartId + 1, userId: newUser.Id });
 
-            try {
-                // Create a new cart for the user
-                const lastCart = await Cart.findOne().sort({ id: -1 });
-                const lastCartId = lastCart ? lastCart.id : 0;
-                let newCart = new Cart({ id: lastCartId + 1, userId: newUser.Id });
-                await newCart.save();
+            await newCart.save();
 
-                newUser.cartId = newCart.id;
+            // Assign the new cartId to the user
+            newUser.cartId = newCart.id;
 
-                await newUser.save();
-
-            } catch (error) {
-                console.error("Error saving cart:", error);
-                return res.status(500).json({ success: false, errors: "Error creating cart for user" });
-            }
+            // Save the new user
+            await newUser.save();
 
             const payload = {
                 user: {
@@ -167,8 +166,8 @@ class UserController {
                 }
             });
         } catch (error) {
-            console.error("Error saving user:", error);
-            res.status(500).json({ success: false, errors: "Error creating user" });
+            console.error("Error saving user or cart:", error);
+            res.status(500).json({ success: false, errors: "Error creating user or cart" });
         }
     }
 
