@@ -151,7 +151,7 @@ class ProductController {
                 thumbnail_url: thumbnail_url,
             }
 
-            console.log("images ", images);
+            // console.log("images ", images);
 
             const product = new Product({
                 id: newId,
@@ -230,25 +230,25 @@ class ProductController {
         try {
             const categoryQuery = req.query.q;
 
-            console.log("query: ", categoryQuery);
+            // console.log("query: ", categoryQuery);
 
             // If categoryQuery is a single string, convert it to an array
             const categories = Array.isArray(categoryQuery) ? categoryQuery : [categoryQuery];
 
-            console.log("Categories: ", categories);
+            // console.log("Categories: ", categories);
 
             // Use regex to make the search case insensitive for each category
             const regexArray = categories.map(category => new RegExp(`^${category}$`, 'i'));
 
-            console.log("regexArray: ", regexArray);
+            // console.log("regexArray: ", regexArray);
 
             // Find products that have any matching categories in their category array
             const products = await Product.find({
                 category: { $elemMatch: { $in: regexArray } }
             });
 
-            console.log(`Products fetched for categories: ${categories}`);
-            console.log("Total fetched products: ", products.length);
+            // console.log(`Products fetched for categories: ${categories}`);
+            // console.log("Total fetched products: ", products.length);
             res.status(200).json(products);
         } catch (error) {
             console.error(`Error fetching products for categories ${categoryQuery}:`, error);
@@ -313,7 +313,7 @@ class ProductController {
                 .sort({ rating: -1 })
                 .limit(4);
 
-            console.log("Popular in women fetched:", products);
+            // console.log("Popular in women fetched:", products);
             res.json(products);
 
             console.log("Fetched Completely!!!")
@@ -331,7 +331,7 @@ class ProductController {
     async newCollections(req, res) {
         try {
             let products = await Product.find({}).sort({ date: -1 }).limit(4);
-            console.log("New collections fetched:", products);
+            // console.log("New collections fetched:", products);
             res.status(200).json(products);
         } catch (error) {
             console.error("Error fetching new collections:", error);
@@ -349,7 +349,7 @@ class ProductController {
                 .sort({ all_time_quantity_sold: -1 })
                 .limit(4);
 
-            console.log("Best-seller products fetched:", products);
+            // console.log("Best-seller products fetched:", products);
             res.status(200).json(products);
         } catch (error) {
             console.error("Error fetching best-seller products:", error);
@@ -449,7 +449,7 @@ class ProductController {
             // Insert unique products back into the database
             await Product.insertMany(uniqueProducts);
 
-            console.log("Duplicate products removed. Unique products count:", uniqueProducts.length);
+            // console.log("Duplicate products removed. Unique products count:", uniqueProducts.length);
             res.status(200).json({
                 success: true,
                 message: "Duplicate products removed successfully",
@@ -467,7 +467,7 @@ class ProductController {
     // Generic method to update a single attribute
     async updateAttribute(req, res, attribute) {
         try {
-            console.log("request body: ", req.body);
+            // console.log("request body: ", req.body);
             const productId = req.body.id;
             const newValue = req.body[attribute];
 
@@ -600,7 +600,7 @@ class ProductController {
             // Define the file path
             const filePath = path.join(__dirname, '/products.json');
 
-            console.log("filepath: ", filePath);
+            // console.log("filepath: ", filePath);
             // Write the products object to a file
             fs.writeFile(filePath, JSON.stringify(productsObject, null, 2), (err) => {
                 if (err) {
@@ -664,8 +664,8 @@ class ProductController {
                     { new: true, runValidators: true }
                 );
 
-                console.log(`Updated product: ${updatedProduct.name}`);
-                console.log(`Update data: ${updatedProduct.new_price} - ${updatedProduct.old_price}`);
+                // console.log(`Updated product: ${updatedProduct.name}`);
+                // console.log(`Update data: ${updatedProduct.new_price} - ${updatedProduct.old_price}`);
             }
 
             console.log('Update process completed');
