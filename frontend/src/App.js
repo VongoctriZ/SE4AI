@@ -55,8 +55,8 @@ function App() {
           <Route path='/user/login' element={<LoginSignup />} />
           <Route path='/user/signup' element={<LoginSignup />} />
           <Route path='/user/reset_password' element={<LoginSignup />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/profile/info' element={<ProfileInfo />} />
+          {/* <Route path='/profile' element={<Profile />} /> */}
+          <Route path='/profile' element={<ProfileInfo />} />
           <Route path='/search/:query' element={<SearchResults />} /> {/* Updated to directly render SearchResults */}
         </Routes>
 

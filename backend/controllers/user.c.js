@@ -299,49 +299,56 @@ class UserController {
     }
 
     async update(req, res) {
-        const { fullName, email, password } = req.body;
-
-        let toUpdateUser;
+        const { fullName, email, password, phoneNumber, address } = req.body;
+    
         try {
-            toUpdateUser = await User.findById(req.user.Id);
+            const toUpdateUser = await User.findById(req.user.Id);
             if (!toUpdateUser) {
                 return res.status(404).json({ message: "User not found" });
             }
             console.log("User found:", req.body);
-        } catch (error) {
-            console.error("Error finding user:", error);
-            return res.status(500).json({ message: "Error finding user" });
-        }
-
-        if (fullName) {
-            toUpdateUser.fullName = fullName;
-            console.log("Full name updated");
-        }
-
-        if (email) {
-            toUpdateUser.email = email;
-            console.log("Email updated");
-        }
-
-        if (password) {
-            // Ensure password is hashed before saving
-            // const hashedPassword = await bcrypt.hash(password, 10);
-            toUpdateUser.password = password;
-            console.log("Password updated");
-        }
-
-        try {
+    
+            if (fullName) {
+                toUpdateUser.fullName = fullName;
+                console.log("Full name updated");
+            }
+    
+            if (email) {
+                toUpdateUser.email = email;
+                console.log("Email updated");
+            }
+    
+            if (password) {
+                const hashedPassword = await bcrypt.hash(password, 10);
+                toUpdateUser.password = hashedPassword;
+                console.log("Password updated");
+            }
+    
+            if (phoneNumber) {
+                toUpdateUser.phoneNumber = phoneNumber;
+                console.log("Phone number updated");
+            }
+    
+            if (address) {
+                toUpdateUser.address = address;
+                console.log("Address updated");
+            }
+    
             console.log("Attempting to save user...");
             await toUpdateUser.save();
             console.log('User saved successfully');
             res.json({
                 user: {
                     fullName: toUpdateUser.fullName,
-                    email: toUpdateUser.email
+                    email: toUpdateUser.email,
+                    password: toUpdateUser.password,
+                    phoneNumber: toUpdateUser.phoneNumber,
+                    address: toUpdateUser.address,
                 }
             });
+    
         } catch (error) {
-            console.error("Error saving user:", error);
+            console.error("Error updating user:", error);
             res.status(500).json({ message: "Error updating user" });
         }
     }

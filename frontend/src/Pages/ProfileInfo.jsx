@@ -104,10 +104,10 @@ const ProfileInfo = () => {
     e.preventDefault();
     console.log("Form data submitted:", formData);
 
-    const response = await fetch("http://localhost:4000/user/update/profile-info", {
+    const response = await fetch("http://localhost:4000/user/update", {
       method: "POST",
       headers: {
-        Accept: "application/json",
+        "Accept": "application/json",
         "auth-token": localStorage.getItem("auth-token"),
         "Content-Type": "application/json",
       },
@@ -143,10 +143,10 @@ const ProfileInfo = () => {
             handleBirthdayChange={handleBirthdayChange}
             handleSubmit={handleSubmit}
           />
-          {/* <AvatarUpload
+          <AvatarUpload
             defaultAvatar={avatarUrl}
             onSave={handleSaveAvatar}
-          /> */}
+          />
         </section>
       </main>
     </div>
