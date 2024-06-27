@@ -170,10 +170,6 @@ const LoginSignup = () => {
           )}
         </div>
 
-        {state !== "Forgot Password"
-          ? (<button onClick={() => { state === "Login" ? login() : signup() }}>Continue</button>)
-          : (<button onClick={resetPassword}>Reset Password</button>)
-        }
         {state === "Sign Up"
           ? (
             <>
@@ -199,6 +195,11 @@ const LoginSignup = () => {
               Remembered your password? <span onClick={() => { changeState("Login") }}>Login here</span>
             </p>
           )}
+
+        {state !== "Forgot Password"
+          ? (<button onClick={() => { state === "Login" ? login() : signup() }}>Continue</button>)
+          : (<button onClick={resetPassword}>Reset Password</button>)
+        }
       </div>
     </div>
   );
