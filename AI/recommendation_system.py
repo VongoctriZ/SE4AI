@@ -77,9 +77,9 @@ def validate(matrices, factors=200, iterations=20, regularization=0.01, show_pro
     coo_train, csr_train, csr_val = matrices['coo_train'], matrices['csr_train'], matrices['csr_val']
 
     model = implicit.als.AlternatingLeastSquares(factors=factors,
-                                                 iterations=iterations,
-                                                 regularization=regularization,
-                                                 random_state=42)
+                                                iterations=iterations,
+                                                regularization=regularization,
+                                                random_state=42)
 
     model.fit(csr_train, show_progress=show_progress)
 
@@ -107,9 +107,9 @@ def optimize_params(df):
 
 def train(coo_train, factors=200, iterations=15, regularization=0.01, show_progress=True):
     model = implicit.als.AlternatingLeastSquares(factors=factors,
-                                                 iterations=iterations,
-                                                 regularization=regularization,
-                                                 random_state=42)
+                                                iterations=iterations,
+                                                regularization=regularization,
+                                                random_state=42)
     model.fit(coo_train, show_progress=show_progress)
     return model
 

@@ -535,10 +535,6 @@ class ProductController {
         return this.updateAttribute(req, res, 'date');
     };
 
-
-
-
-
     // Update ratings from comments
     async updateProductRatingsFromComments(req, res) {
         try {
@@ -581,10 +577,6 @@ class ProductController {
             res.status(500).json({ success: false, message: 'Error updating product ratings' });
         }
     };
-
-
-
-
 };
 
 module.exports = new ProductController();

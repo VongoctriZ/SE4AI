@@ -16,6 +16,4 @@ const RecommendationSchema = new Schema({
     }
 });
 
-const Recommendation = mongoose.model('Recommendation', RecommendationSchema);
-
-module.exports = Recommendation;
+module.exports = mongoose.model('Recommendation', RecommendationSchema);;
