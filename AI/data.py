@@ -1,5 +1,3 @@
-import os
-import json
 import requests
 import pandas as pd
 import numpy as np
@@ -45,6 +43,5 @@ def get_dataset():
     products = fetch_all_products()
     df = format_orders_to_csv(orders, products)
 
-    # df.to_csv("data.csv",index=False)
     
     return df

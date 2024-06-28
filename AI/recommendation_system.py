@@ -1,4 +1,3 @@
-# recommendation_system.py
 
 import os
 import numpy as np
@@ -11,9 +10,7 @@ import time
 
 os.environ['OPENBLAS_NUM_THREADS'] = '1'
 
-# def load_data(file_path):
 def load_data(dataset):
-    # df = pd.read_csv(file_path)
     df = dataset
     df.rename(columns={'product_id': 'item_id'}, inplace=True)
     df['t_dat'] = pd.to_datetime(df['t_dat']).dt.date
@@ -30,7 +27,6 @@ def assign_random_dates(df, start_date='2024-01-01', end_date='2024-12-31'):
     return df
 
 def preprocess_data(df):
-    # df = assign_random_dates(df)
     df = df.drop_duplicates(['t_dat', 'user_id', 'item_id'])
     
     user_id_mapping = {user_id: idx for idx, user_id in enumerate(df['user_id'].unique())}
@@ -122,7 +118,6 @@ def predict(model, csr_train, user_id_map, item_id_map, submission_name="submiss
     batch_size = 2000
     to_generate = np.arange(len(user_id_map))
     
-    # Create inverse mappings for user_id and item_id
     inverse_user_id_mapping = {idx: user_id for user_id, idx in user_id_map.items()}
     inverse_item_id_mapping = {idx: item_id for item_id, idx in item_id_map.items()}
     
@@ -136,7 +131,6 @@ def predict(model, csr_train, user_id_map, item_id_map, submission_name="submiss
             preds.append((customer_id, ' '.join(article_ids)))
 
     df_preds = pd.DataFrame(preds, columns=['user_id', 'item_predict'])
-    # df_preds.to_csv(submission_name, index=False)
 
     return df_preds
 
@@ -148,28 +142,15 @@ def convert_back(df, inverse_user_id_mapping, inverse_item_id_mapping):
     )
     return df
 
-# def generate_recommendations(input_file, output_file):
 def generate_recommendations(dataset):
     df = load_data(dataset)
-    # df = dataset
     df, coo_train, user_id_mapping, item_id_mapping = preprocess_data(df)
     best_params, best_map12 = optimize_params(df)
     model = train(coo_train, **best_params)
     
     csr_train = coo_train.tocsr()
     df_preds = predict(model, csr_train, user_id_mapping, item_id_mapping, N=12)
-    # print("prediction: ")
-    # df_preds.to_csv('predictions.csv',index=False)
     
-    # print(df_preds)
-    # inverse_user_id_mapping = {idx: user_id for user_id, idx in user_id_mapping.items()}
-    # inverse_item_id_mapping = {idx: item_id for item_id, idx in item_id_mapping.items()}
-    
-    # df_converted_back = convert_back(df_preds, inverse_user_id_mapping, inverse_item_id_mapping)
-    # print("results: ")
-    # print(df_converted_back)
-    # df_converted_back.to_csv(output_file, index=False)
-    # print(f"Recommendations saved to {output_file}")
 
     recommendations = df_preds
     
