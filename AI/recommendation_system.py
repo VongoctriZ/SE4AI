@@ -1,4 +1,3 @@
-
 import os
 import numpy as np
 import pandas as pd
@@ -8,25 +7,38 @@ from implicit.evaluation import mean_average_precision_at_k
 import schedule
 import time
 
+# Setting environment variable for OpenBLAS to use a single thread
 os.environ['OPENBLAS_NUM_THREADS'] = '1'
 
 def load_data(dataset):
-    df = dataset
+    """
+    Load and preprocess dataset: rename columns and convert date format.
+    """
+    df = dataset.copy()
     df.rename(columns={'product_id': 'item_id'}, inplace=True)
     df['t_dat'] = pd.to_datetime(df['t_dat']).dt.date
     return df
 
 def random_date(start, end, n):
+    """
+    Generate n random dates between start and end.
+    """
     date_range = pd.date_range(start, end)
     return np.random.choice(date_range, n)
 
 def assign_random_dates(df, start_date='2024-01-01', end_date='2024-12-31'):
+    """
+    Assign random dates to the dataframe within the specified date range.
+    """
     start = pd.to_datetime(start_date)
     end = pd.to_datetime(end_date)
     df['t_dat'] = random_date(start, end, df.shape[0])
     return df
 
 def preprocess_data(df):
+    """
+    Preprocess data: drop duplicates, map user and item IDs, create COO matrix.
+    """
     df = df.drop_duplicates(['t_dat', 'user_id', 'item_id'])
     
     user_id_mapping = {user_id: idx for idx, user_id in enumerate(df['user_id'].unique())}
@@ -47,6 +59,9 @@ def preprocess_data(df):
     return df, coo_train, user_id_mapping, item_id_mapping
 
 def to_user_item_coo(df, user_id_map, item_id_map):
+    """
+    Create a COO matrix from the dataframe using user and item mappings.
+    """
     row = df['user_id'].map(user_id_map).values
     col = df['item_id'].map(item_id_map).values
     data = np.ones(df.shape[0])
@@ -54,12 +69,18 @@ def to_user_item_coo(df, user_id_map, item_id_map):
     return coo
 
 def split_data(df, validation_days=7):
+    """
+    Split the data into training and validation sets based on the last validation_days days.
+    """
     validation_cut = df['t_dat'].max() - pd.Timedelta(days=validation_days)
     df_train = df[df['t_dat'] < validation_cut]
     df_val = df[df['t_dat'] >= validation_cut]
     return df_train, df_val
 
 def get_val_matrices(df, validation_days=7):
+    """
+    Generate training and validation matrices.
+    """
     df_train, df_val = split_data(df, validation_days=validation_days)
 
     user_id_map = {user_id: idx for idx, user_id in enumerate(df['user_id'].unique())}
@@ -74,6 +95,9 @@ def get_val_matrices(df, validation_days=7):
     return {'coo_train': coo_train, 'csr_train': csr_train, 'csr_val': csr_val}
 
 def validate(matrices, factors=200, iterations=20, regularization=0.01, show_progress=True):
+    """
+    Train the ALS model and evaluate using mean average precision at k (MAP@12).
+    """
     coo_train, csr_train, csr_val = matrices['coo_train'], matrices['csr_train'], matrices['csr_val']
 
     model = implicit.als.AlternatingLeastSquares(factors=factors,
@@ -88,12 +112,15 @@ def validate(matrices, factors=200, iterations=20, regularization=0.01, show_pro
     return map12
 
 def optimize_params(df):
+    """
+    Find the best parameters for the ALS model using a grid search.
+    """
     best_map12 = 0
     best_params = {}
     
-    for factors in [40, 50, 60, 100, 200, 500, 1000]:
+    for factors in [40, 50, 60, 100, 200, 500]:
         for iterations in [3, 12, 14, 15, 20]:
-            for regularization in [0.01]:
+            for regularization in [0.01, 0.02]:
                 try:
                     matrices = get_val_matrices(df)
                     map12 = validate(matrices, factors, iterations, regularization, show_progress=False)
@@ -106,6 +133,9 @@ def optimize_params(df):
     return best_params, best_map12
 
 def train(coo_train, factors=200, iterations=15, regularization=0.01, show_progress=True):
+    """
+    Train the ALS model with the given parameters.
+    """
     model = implicit.als.AlternatingLeastSquares(factors=factors,
                                                 iterations=iterations,
                                                 regularization=regularization,
@@ -113,7 +143,10 @@ def train(coo_train, factors=200, iterations=15, regularization=0.01, show_progr
     model.fit(coo_train, show_progress=show_progress)
     return model
 
-def predict(model, csr_train, user_id_map, item_id_map, submission_name="submissions.csv", N=10):
+def predict(model, csr_train, user_id_map, item_id_map, N=10):
+    """
+    Generate recommendations for each user.
+    """
     preds = []
     batch_size = 2000
     to_generate = np.arange(len(user_id_map))
@@ -134,8 +167,10 @@ def predict(model, csr_train, user_id_map, item_id_map, submission_name="submiss
 
     return df_preds
 
-
 def convert_back(df, inverse_user_id_mapping, inverse_item_id_mapping):
+    """
+    Convert user_id and item_predict columns back to their original IDs.
+    """
     df['user_id'] = df['user_id'].map(inverse_user_id_mapping)
     df['item_predict'] = df['item_predict'].apply(
         lambda x: ' '.join(str(inverse_item_id_mapping.get(int(item), 'UNKNOWN')) for item in x.split())
@@ -143,6 +178,9 @@ def convert_back(df, inverse_user_id_mapping, inverse_item_id_mapping):
     return df
 
 def generate_recommendations(dataset):
+    """
+    Main function to generate recommendations from the dataset.
+    """
     df = load_data(dataset)
     df, coo_train, user_id_mapping, item_id_mapping = preprocess_data(df)
     best_params, best_map12 = optimize_params(df)
@@ -150,7 +188,6 @@ def generate_recommendations(dataset):
     
     csr_train = coo_train.tocsr()
     df_preds = predict(model, csr_train, user_id_mapping, item_id_mapping, N=12)
-    
 
     recommendations = df_preds
     
