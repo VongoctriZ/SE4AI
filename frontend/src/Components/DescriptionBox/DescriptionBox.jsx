@@ -28,9 +28,7 @@ const DescriptionBox = ({ description, displayFlag }) => {
     );
 };
 
-// Function to parse and render the description content
 const parseDescriptionContent = (content) => {
-    // Split the content into paragraphs
     const paragraphs = content.split('</p>').filter(Boolean);
     return paragraphs.map((paragraph, index) => (
         <p key={index} dangerouslySetInnerHTML={{ __html: paragraph + '</p>' }} />

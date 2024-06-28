@@ -4,7 +4,7 @@ import { ShopContext } from '../Context/ShopContext';
 import Breadcrumbs from '../Components/Breadcrumbs/Breadcrumbs';
 import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
 import DescriptionBox from '../Components/DescriptionBox/DescriptionBox';
-import CommentBox from '../Components/CommentBox/CommentBox'; // Import the CommentBox component
+import CommentBox from '../Components/CommentBox/CommentBox'; 
 import './CSS/Product.css';
 
 const Product = () => {
@@ -23,7 +23,6 @@ const Product = () => {
         }
     }, [comments]);
 
-    // console.log("avg rating: ",averageRating);
 
     if (!product) {
         return <div className='product-not-found'>Product not found</div>;
@@ -68,7 +67,6 @@ const Product = () => {
                     )}
                 </div>
             </div>
-            {/* <RelatedProducts /> */}
         </div>
     );
 };

@@ -12,14 +12,13 @@ const formatPrice = (price) => {
 };
 
 const CartItems = () => {
-    const { removeAllFromCart, createOrder, fetchCart, getTotalCartAmount, allProduct, cartItems, removeFromCart } = useContext(ShopContext);
+    const {createOrder, fetchCart, getTotalCartAmount, allProduct, cartItems, removeFromCart } = useContext(ShopContext);
     const [orderCreated, setOrderCreated] = useState('');
 
     useEffect(() => {
         fetchCart();
     }, [fetchCart]);
 
-    console.log("Cart Items: ", cartItems);
 
     const handleCheckout = async () => {
         try {
@@ -42,7 +41,6 @@ const CartItems = () => {
         }
     }, [orderCreated, fetchCart]);
 
-    console.log("Render CartItems");
 
     return (
         <div className="cart-items">
@@ -58,7 +56,6 @@ const CartItems = () => {
 
             <div className="cart-items-scroll">
                 {
-                    // Object.keys(cartItems).length === 0 ? 
                     (orderCreated === 'empty' || orderCreated === 'success') ?
                         (
                             <p>Your cart is currently empty.</p>

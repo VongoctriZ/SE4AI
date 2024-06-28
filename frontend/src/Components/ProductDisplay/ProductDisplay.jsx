@@ -17,16 +17,12 @@ const roundRating = (rating) => {
 
 const ProductDisplay = (props) => {
     const { product } = props;
-    console.log("Current Product: ", product);
     const { addToCart } = useContext(ShopContext);
     const [mainImage, setMainImage] = useState(product.images[0].large_url);
-    const [selectedSize, setSelectedSize] = useState(null);
 
     const roundedRating = roundRating(product.rating);
 
-    const handleSizeClick = (size) => {
-        setSelectedSize(size);
-    };
+
 
     return (
         <div className="product-display">
@@ -72,20 +68,7 @@ const ProductDisplay = (props) => {
                     </div>
                 </div>
 
-                {/* <div className="product-display-right-size">
-                    <h2>Select Size</h2>
-                    <div className="product-display-right-sizes">
-                        {['S', 'M', 'L', 'XL', 'XXL'].map(size => (
-                            <div
-                                key={size}
-                                className={`size-option ${selectedSize === size ? 'selected' : ''}`}
-                                onClick={() => handleSizeClick(size)}
-                            >
-                                {size}
-                            </div>
-                        ))}
-                    </div>
-                </div> */}
+
 
                 <button onClick={() => { addToCart(product.id) }}>ADD TO CART</button>
                 <p className="product-display-right-category">

@@ -6,9 +6,7 @@
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-left: auto;
-    /* Center align */
     margin-right: auto;
-    /* Center align */
 }
 
 .new-comment-form {
@@ -43,7 +41,6 @@
 
 .new-comment-form textarea {
     width: 100%;
-    /* Adjust width to account for padding and border */
     height: 100px;
     padding: 10px;
     margin-bottom: 1rem;
@@ -51,7 +48,6 @@
     border-radius: 5px;
     font-size: 14px;
     box-sizing: border-box;
-    /* Ensure padding and border are included in the element's total width and height */
 }
 
 .new-comment-form input[type="file"] {
@@ -94,9 +90,7 @@
 
 .comment:hover {
     background-color: #e9ecef;
-    /* Added hover effect */
     transform: scale(1.01);
-    /* Slightly enlarge on hover */
 }
 
 .user-info {
@@ -142,7 +136,6 @@
 
 .show-more:hover {
     text-decoration: underline;
-    /* Added underline on hover */
 }
 
 .images {
@@ -156,12 +149,10 @@
     border-radius: 5px;
     border: 1px solid #ddd;
     transition: transform 0.3s;
-    /* Added transition for hover effect */
 }
 
 .images img:hover {
     transform: scale(1.1);
-    /* Slightly enlarge on hover */
 }
 
 .toggle-comments-btn {
@@ -176,13 +167,11 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s, transform 0.3s;
-    /* Added transform transition */
 }
 
 .toggle-comments-btn:hover {
     background: #0056b3;
     transform: scale(1.05);
-    /* Slightly enlarge on hover */
 }
 
 @media (max-width: 1280px) {

@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -12,7 +11,6 @@ import Product from './Pages/Product';
 import LoginSignup from './Pages/LoginSignup';
 import Cart from './Pages/Cart';
 import Orders from './Pages/Orders';  
-import Profile from './Pages/Profile';
 import ProfileInfo from './Pages/ProfileInfo';
 import SearchResults from './Pages/SearchResults';
 
@@ -55,9 +53,8 @@ function App() {
           <Route path='/user/login' element={<LoginSignup />} />
           <Route path='/user/signup' element={<LoginSignup />} />
           <Route path='/user/reset_password' element={<LoginSignup />} />
-          {/* <Route path='/profile' element={<Profile />} /> */}
           <Route path='/profile' element={<ProfileInfo />} />
-          <Route path='/search/:query' element={<SearchResults />} /> {/* Updated to directly render SearchResults */}
+          <Route path='/search/:query' element={<SearchResults />} /> 
         </Routes>
 
         <Footer />

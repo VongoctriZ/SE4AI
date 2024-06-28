@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import './CSS/ShopCategory.css';
 import { ShopContext } from '../Context/ShopContext';
-import dropdown_icon from '../Components/Assets/dropdown_icon.png';
 import Item from '../Components/Item/Item';
 
 const ShopCategory = (props) => {
@@ -18,7 +17,6 @@ const ShopCategory = (props) => {
   const filteredProducts = allProduct.filter(item => item.category[0] === props.category);
 
   useEffect(() => {
-    console.log("Filtered Products:", filteredProducts);
   }, [filteredProducts]);
 
   // Calculate total pages for filtered products
@@ -46,7 +44,6 @@ const ShopCategory = (props) => {
   });
 
   useEffect(() => {
-    console.log("Sorted Products:", sortedProducts);
   }, [sortedProducts]);
 
   // Calculate the items to display for the current page
@@ -54,7 +51,6 @@ const ShopCategory = (props) => {
   const currentItems = sortedProducts.slice(startIndex, startIndex + itemsPerPage);
 
   useEffect(() => {
-    console.log("Current Items:", currentItems);
   }, [currentItems]);
 
   // Handler for changing pages

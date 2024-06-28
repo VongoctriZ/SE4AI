@@ -3,7 +3,6 @@ import { FaStar } from 'react-icons/fa';
 import './CommentBox.css';
 import { format } from 'date-fns';
 import { ShopContext } from '../../Context/ShopContext';
-import insertPicture from '../Assets/insertPicture.png';
 
 const CommentBox = ({ comments, displayFlag, product_id }) => {
   const [showComments, setShowComments] = useState(displayFlag === 'comments');
@@ -11,7 +10,6 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
   const [showAllComments, setShowAllComments] = useState(false);
   const { user } = useContext(ShopContext);
 
-  // State for new comment
   const [newComment, setNewComment] = useState({
     rating: 0,
     content: '',
@@ -20,7 +18,6 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
     create_at: new Date().toISOString(),
   });
 
-  // Function to handle rating change
   const handleRatingChange = (rating) => {
     setNewComment({ ...newComment, rating });
   };
@@ -130,7 +127,6 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
         </form>
       </div>
 
-      {/* Displaying comments */}
       {showComments &&
         displayedComments.map((comment, index) => {
           const isExpanded = expandedComments[index];
@@ -162,12 +158,10 @@ const CommentBox = ({ comments, displayFlag, product_id }) => {
                   )}
                 </p>
               </div>
-              {/* Removed image display */}
             </div>
           );
         })}
 
-      {/* Toggle show all comments button */}
       {sortedComments.length > 5 && (
         <button onClick={toggleShowAllComments} className="toggle-comments-btn">
           {showAllComments ? 'Show Less' : 'Show All Comments'}

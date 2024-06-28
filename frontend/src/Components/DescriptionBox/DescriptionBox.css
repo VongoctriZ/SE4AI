@@ -5,12 +5,8 @@
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* max-width: 800px; */
-    /* Added max-width to limit the description box width */
     margin-left: auto;
-    /* Center align */
     margin-right: auto;
-    /* Center align */
     overflow: hidden;
     position: relative;    
 }
@@ -33,7 +29,6 @@
 
 .show-more:hover {
     text-decoration: underline;
-    /* Added underline on hover */
 }
 
 @media (max-width: 1280px) {

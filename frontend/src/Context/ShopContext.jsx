@@ -60,7 +60,6 @@ const ShopContextProvider = (props) => {
                 const user = JSON.parse(userStr);
                 const userId = user.Id;
 
-                console.log("User ID: ", userId);
 
                 const response = await fetch('http://localhost:4000/cart/getcart', {
                     method: 'POST',
@@ -73,7 +72,6 @@ const ShopContextProvider = (props) => {
                 });
 
                 const data = await response.json();
-                console.log("Products In Cart: ", data);
 
                 // Initialize cartItems with productId and quantity
                 const newCartItems = {};
@@ -83,7 +81,6 @@ const ShopContextProvider = (props) => {
 
                 // Update state with the cartItems
                 setCartItems(newCartItems);
-                console.log("Cart items: ", newCartItems);
 
                 // Update local storage
                 localStorage.setItem('cartItems', JSON.stringify(newCartItems));
@@ -101,7 +98,6 @@ const ShopContextProvider = (props) => {
                 const user = JSON.parse(userStr);
                 const userId = user.Id;
 
-                console.log("User ID: ", userId);
 
                 const response = await fetch(`http://localhost:4000/order/user/${userId}`, {
                     headers: {
@@ -129,7 +125,6 @@ const ShopContextProvider = (props) => {
         fetchCart();
         const userData = JSON.parse(localStorage.getItem('user'));
         setUser(userData);
-        console.log("user data: ", userData);
     }, [fetchCart]);
 
     useEffect(() => {
@@ -273,7 +268,6 @@ const ShopContextProvider = (props) => {
                     status: "pending"
                 };
 
-                console.log("Order Data: ", orderData);
 
                 const response = await fetch('http://localhost:4000/order/create', {
                     method: 'POST',
@@ -301,7 +295,7 @@ const ShopContextProvider = (props) => {
 
                 // Fetch the updated cart to ensure it's cleared
                 fetchCart();
-                
+
                 return 'success';
             } catch (error) {
                 console.error("Error creating order:", error);
@@ -310,13 +304,8 @@ const ShopContextProvider = (props) => {
         }
     };
 
-    const removeOrder = async (orderId) => {
 
-    };
 
-    const removeAllOrder = async () => {
-
-    };
 
     const contextValue = {
         getTotalCartItems,

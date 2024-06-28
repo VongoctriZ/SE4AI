@@ -38,10 +38,7 @@ const Header = () => {
     console.log("searched query: ", searchQuery); // Log searchQuery when it changes
   }, [searchQuery]);
 
-  const dropdown_toggle = (e) => {
-    menuRef.current.classList.toggle("nav-menu-visible");
-    e.target.classList.toggle("open");
-  };
+
 
   const handleLogout = () => {
     localStorage.clear();
