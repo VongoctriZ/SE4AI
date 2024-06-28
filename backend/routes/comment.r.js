@@ -30,7 +30,5 @@ router.post('/remove-duplicates', commentController.removeDuplicateComments);
 // Route to update product review counts
 router.post('/update-review-counts', commentController.updateReviewCounts);
 
-// random value for date
-router.post('/update-date', commentController.updateDate);
 
 module.exports = router;

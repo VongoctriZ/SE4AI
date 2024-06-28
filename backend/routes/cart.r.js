@@ -12,8 +12,6 @@ router.post('/removefromcart', fetchUser, cartController.removeFromCart);
 
 router.post('/removeallfromcart', fetchUser, cartController.removeAll);
 
-// Add a route for converting cart design
-router.post('/convert-cart-design', cartController.convertCartDesign);
 
 // clean up: remove cart of not found user (maybe deleted user)
 router.post('/cleanup', cartController.cleanUp);

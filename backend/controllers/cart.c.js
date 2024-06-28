@@ -1,9 +1,8 @@
 const User = require('../models/user.m');
 const Cart = require('../models/cart.m');
-const Product = require('../models/product.m'); // Assuming you need this for validation
+const Product = require('../models/product.m');
 
 class CartController {
-    // Add a product to the cart
     async addToCart(req, res) {
         console.log("added", req.body.itemId);
 
@@ -13,8 +12,6 @@ class CartController {
 
             if (!user) {
                 return res.status(404).send({ message: 'User not found' });
-            } else {
-                console.log("user: ", user);
             }
 
             // Find the user's cart or create a new one if it doesn't exist
@@ -50,7 +47,6 @@ class CartController {
 
     // Remove a product from the cart
     async removeFromCart(req, res) {
-        console.log("removed", req.body.itemId);
 
         try {
             // Find the user
@@ -76,11 +72,9 @@ class CartController {
             }
 
             await cart.save();
-            console.log("Product removed from cart successfully");
 
             res.send({ message: 'Product removed from cart successfully' });
         } catch (error) {
-            console.log("Error removing product from cart");
             console.error(error);
             res.status(500).send({ message: 'Error removing product from cart' });
         }
@@ -88,7 +82,6 @@ class CartController {
 
     // Remove all items from the cart
     async removeAll(req, res) {
-        console.log("Remove all items from the cart if user with Id: ", req.body.userId);
         try {
             // Find the user
             const user = await User.findOne({ _id: req.user.id });
@@ -106,7 +99,6 @@ class CartController {
             cart.products = [];
             await cart.save();
 
-            console.log("All items removed from cart successfully");
             res.send({ message: 'All items removed from cart successfully' });
         } catch (error) {
             console.error("Error removing all items from cart", error);
@@ -116,7 +108,6 @@ class CartController {
 
     // Get the user's cart data
     async getCart(req, res) {
-        console.log("get cart: ", req.body);
 
         try {
             // Find the user
@@ -130,7 +121,6 @@ class CartController {
             if (!cart) {
                 return res.status(404).send({ message: 'Cart not found' });
             }
-            console.log("Products In Cart: ", cart.products);
 
             res.json(cart.products);
         } catch (error) {
@@ -139,43 +129,7 @@ class CartController {
         }
     }
 
-    // Method to convert cart items from old design to new design
-    async convertCartDesign(req, res) {
-        try {
-            // Find all carts that still use the old design
-            const carts = await Cart.find({ 'productIds.0': { $type: 'number' } });
 
-            // Iterate through each cart and convert its design
-            for (let cart of carts) {
-                // Initialize a Map to count product IDs
-                const productCountMap = new Map();
-
-                // Count occurrences of each product ID
-                cart.productIds.forEach(productId => {
-                    if (productCountMap.has(productId)) {
-                        productCountMap.set(productId, productCountMap.get(productId) + 1);
-                    } else {
-                        productCountMap.set(productId, 1);
-                    }
-                });
-
-                // Create a new array with objects containing productId and quantity
-                const newProductIds = [];
-                productCountMap.forEach((quantity, productId) => {
-                    newProductIds.push({ productId, quantity });
-                });
-
-                // Update the cart with the new structure
-                cart.productIds = newProductIds;
-                await cart.save();
-            }
-
-            res.send({ message: 'Cart design conversion completed successfully' });
-        } catch (error) {
-            console.error("Error converting cart design:", error);
-            res.status(500).send({ message: 'Error converting cart design' });
-        }
-    }
 
     // api to remove carts where userId not found
     async cleanUp(req, res) {
@@ -214,7 +168,6 @@ class CartController {
                         }
                     } catch (error) {
                         console.error(`Error deleting cart with _id ${cart._id}:`, error);
-                        // Handle specific errors or add rollback logic if needed
                     }
                 }
             }

@@ -139,10 +139,7 @@ class ProductController {
             const latestProduct = await Product.findOne().sort({ id: -1 });
             const newId = latestProduct ? latestProduct.id + 1 : 1;
 
-            if (!images) {
-                console.log("Images is null!!!");
-                images = [];
-            }
+
             images[0] = {
                 base_url: thumbnail_url,
                 large_url: thumbnail_url,
@@ -151,7 +148,6 @@ class ProductController {
                 thumbnail_url: thumbnail_url,
             }
 
-            // console.log("images ", images);
 
             const product = new Product({
                 id: newId,
@@ -211,11 +207,8 @@ class ProductController {
         try {
             const category = req.params.category;
             const products = await Product.find({ "category.0": category });
-            console.log(`Products fetched for category: ${category}`);
-            console.log(`Total products: ${products.length}`);
             res.status(200).json(products);
 
-            console.log("Fetched Compleletely!!!");
         } catch (error) {
             console.error(`Error fetching products for category ${category}:`, error);
             res.status(500).json({
@@ -230,25 +223,20 @@ class ProductController {
         try {
             const categoryQuery = req.query.q;
 
-            // console.log("query: ", categoryQuery);
 
             // If categoryQuery is a single string, convert it to an array
             const categories = Array.isArray(categoryQuery) ? categoryQuery : [categoryQuery];
 
-            // console.log("Categories: ", categories);
 
             // Use regex to make the search case insensitive for each category
             const regexArray = categories.map(category => new RegExp(`^${category}$`, 'i'));
 
-            // console.log("regexArray: ", regexArray);
 
             // Find products that have any matching categories in their category array
             const products = await Product.find({
                 category: { $elemMatch: { $in: regexArray } }
             });
 
-            // console.log(`Products fetched for categories: ${categories}`);
-            // console.log("Total fetched products: ", products.length);
             res.status(200).json(products);
         } catch (error) {
             console.error(`Error fetching products for categories ${categoryQuery}:`, error);
@@ -264,7 +252,6 @@ class ProductController {
         try {
             const result = await Product.findOneAndDelete({ id: req.body.id });
             if (result) {
-                console.log("Product removed:", result);
                 res.status(200).json({
                     success: true,
                     product: result,
@@ -304,34 +291,12 @@ class ProductController {
         }
     };
 
-    // API for getting popular products in the women section
-    async popularInWomen(req, res, next) {
-        try {
-            // find top 4 of the most popular products in the women section by rating (descending order)
 
-            const products = await Product.find({ "category.0": "women" })
-                .sort({ rating: -1 })
-                .limit(4);
-
-            // console.log("Popular in women fetched:", products);
-            res.json(products);
-
-            console.log("Fetched Completely!!!")
-
-        } catch (error) {
-            console.error("Error fetching popular products in women:", error);
-            res.status(500).json({
-                success: false,
-                message: 'Error fetching popular products in women',
-            });
-        }
-    };
 
     // API for getting new collection data
     async newCollections(req, res) {
         try {
             let products = await Product.find({}).sort({ date: -1 }).limit(4);
-            // console.log("New collections fetched:", products);
             res.status(200).json(products);
         } catch (error) {
             console.error("Error fetching new collections:", error);
@@ -349,7 +314,7 @@ class ProductController {
                 .sort({ all_time_quantity_sold: -1 })
                 .limit(4);
 
-            // console.log("Best-seller products fetched:", products);
+            console.log("Best-seller products fetched:", products);
             res.status(200).json(products);
         } catch (error) {
             console.error("Error fetching best-seller products:", error);
@@ -570,109 +535,9 @@ class ProductController {
         return this.updateAttribute(req, res, 'date');
     };
 
-    // API for exporting all products to a JavaScript object and writing to a file
-    async exportProducts(req, res) {
-        try {
-            // Fetch all products
-            const products = await Product.find({});
 
-            // Create a JavaScript object to hold the products
-            const productsObject = {
-                products: products.map(product => ({
-                    id: product.id,
-                    name: product.name,
-                    short_description: product.short_description,
-                    description: product.description,
-                    rating: product.rating,
-                    images: product.images,
-                    category: product.category,
-                    new_price: product.new_price,
-                    old_price: product.old_price,
-                    discount: product.discount,
-                    review_counts: product.review_counts,
-                    all_time_quantity_sold: product.all_time_quantity_sold,
-                    thumbnail_url: product.thumbnail_url,
-                    available: product.available,
-                    date: product.date
-                }))
-            };
 
-            // Define the file path
-            const filePath = path.join(__dirname, '/products.json');
 
-            // console.log("filepath: ", filePath);
-            // Write the products object to a file
-            fs.writeFile(filePath, JSON.stringify(productsObject, null, 2), (err) => {
-                if (err) {
-                    console.error("Error writing file:", err);
-                    return res.status(500).json({
-                        success: false,
-                        message: 'Error exporting products to file'
-                    });
-                }
-
-                console.log("Products exported successfully:", filePath);
-                res.status(200).json({
-                    success: true,
-                    message: 'Products exported successfully',
-                    filePath: filePath
-                });
-            });
-        } catch (error) {
-            console.error("Error exporting products:", error);
-            res.status(500).json({
-                success: false,
-                message: 'Error exporting products'
-            });
-        }
-    };
-
-    // randomly assign values for some attributes of products
-    async randomValues() {
-        try {
-            // fetch all products
-            const products = await Product.find({});
-
-            // Iterate over each product
-            for (const product of products) {
-                let newPrice = 0;
-                let oldPrice = 0;
-
-                // Ensure newPrice is cheaper than oldPrice
-                while (newPrice >= oldPrice) {
-                    newPrice = parseFloat(faker.finance.amount(50000, 500000, 0)); // Generates a price between 50,000 and 500,000 with 2 decimal places
-                    oldPrice = parseFloat(faker.finance.amount(50000, 500000, 0)); // Generates a price between 50,000 and 500,000 with 2 decimal places
-                }
-
-                const discount = faker.datatype.number({ min: 0, max: 100 });
-                const rating = faker.datatype.number({ min: 1, max: 5 });
-                const quantitySold = faker.datatype.number({ min: 10, max: 1000 });
-
-                // Prepare the update data
-                const updateData = {
-                    new_price: newPrice,
-                    old_price: oldPrice,
-                    discount: discount,
-                    rating: rating,
-                    all_time_quantity_sold: quantitySold
-                };
-
-                // Update the product
-                const updatedProduct = await Product.findOneAndUpdate(
-                    { _id: product._id },
-                    updateData,
-                    { new: true, runValidators: true }
-                );
-
-                // console.log(`Updated product: ${updatedProduct.name}`);
-                // console.log(`Update data: ${updatedProduct.new_price} - ${updatedProduct.old_price}`);
-            }
-
-            console.log('Update process completed');
-        } catch (error) {
-            console.error('Error during update process:', error);
-        }
-    };
 
     // Update ratings from comments
     async updateProductRatingsFromComments(req, res) {
@@ -718,33 +583,6 @@ class ProductController {
     };
 
 
-    async updateDate(req, res) {
-        try {
-            // Generate random date function (within a given range)
-            function getRandomDate(start, end) {
-                return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-            }
-
-            // Get all products
-            const products = await Product.find({});
-
-            // Update each comment with a random createdAt date
-            const bulkOps = products.map(comment => ({
-                updateOne: {
-                    filter: { _id: comment._id },
-                    update: { $set: { date: getRandomDate(new Date(2024, 0, 1), new Date()) } }
-                }
-            }));
-
-            // Perform bulk write operation to update all products
-            const result = await Product.bulkWrite(bulkOps);
-
-            res.status(200).json({ success: true, message: `Updated ${result.modifiedCount} products successfully.` });
-        } catch (error) {
-            console.error('Error updating date:', error);
-            res.status(500).json({ success: false, message: 'Error updating date' });
-        }
-    };
 
 
 };

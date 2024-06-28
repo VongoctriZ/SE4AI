@@ -1,7 +1,7 @@
 const axios = require('axios');
 const Order = require('../models/order.m');
 const User = require('../models/user.m');
-const Product = require('../models/product.m'); // Assuming you need this for validation
+const Product = require('../models/product.m');
 
 class OrderController {
 
@@ -14,7 +14,6 @@ class OrderController {
         try {
             const { userId, products, total_money, status = "pending" } = req.body;
 
-            console.log("Request Data: ", req.body);
 
             // Validate user
             const user = await User.findOne({ Id: userId });
@@ -189,8 +188,6 @@ class OrderController {
                 // Fetch the current product details
                 const existingProduct = await Product.findOne({ id: productId });
                 if (existingProduct) {
-                    console.log("Old quantity: ", existingProduct.all_time_quantity_sold);
-                    console.log("Add: ", quantity);
 
                     const newQuantity = existingProduct.all_time_quantity_sold + quantity;
                     await axios.post('http://localhost:4000/product/update/all_time_quantity_sold', {
@@ -225,7 +222,6 @@ class OrderController {
 
     // Remove all orders
     async removeAllOrders(req, res) {
-        console.log("Request body: ", req.body);
         try {
             const result = await Order.deleteMany({});
             console.log(`${result.deletedCount} orders removed`);

@@ -21,8 +21,6 @@ router.post('/removeproduct', productController.removeProduct);
 // Endpoint to remove all products
 router.post('/removeallproducts', productController.removeAllProducts);
 
-// Endpoint to get popular products in the women category
-router.get('/popularinwomen', productController.popularInWomen);
 
 // Endpoint to get new collections
 router.get('/newcollections', productController.newCollections);
@@ -50,16 +48,11 @@ router.post('/update/images', productController.updateProductImages);
 router.post('/update/category', productController.updateProductCategory);
 router.post('/update/date', productController.updateProductDate);
 
-// Route for exporting products
-router.get('/export', productController.exportProducts);
 
-// Random values for some attributes
-router.post('/random', productController.randomValues);
 
 // update ratings from comments
 router.post('/update-rating-from-comments', productController.updateProductRatingsFromComments);
 
-// random value for date
-router.post('/update-date', productController.updateDate);
+
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Recommendation = require('../models/recommendation.m'); // Adjust path as per your file structure
-const Product = require('../models/product.m'); // Adjust path as per your file structure
+const Recommendation = require('../models/recommendation.m');
+const Product = require('../models/product.m');
 const User = require('../models/user.m')
 
 class RecommendationController {
@@ -54,12 +54,10 @@ class RecommendationController {
                 return res.status(404).json({ error: 'Recommendations not found for this user' });
             }
 
-            console.log("Recommendations: ", recommendations);
 
             // Extract the array of recommended_items from recommendations
             const recommendedItems = recommendations.recommended_items;
 
-            console.log("Number of Items: ", recommendedItems.length);
 
             // Fetch product details concurrently using Promise.all
             const productPromises = recommendedItems.map(item =>

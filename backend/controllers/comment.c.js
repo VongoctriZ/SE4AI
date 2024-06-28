@@ -1,6 +1,6 @@
 const User = require('../models/user.m')
 const Comment = require('../models/comment.m');
-const Product = require('../models/product.m'); // Import the Product model
+const Product = require('../models/product.m');
 
 class CommentController {
 
@@ -40,7 +40,6 @@ class CommentController {
                 images: imagePaths
             });
 
-            console.log("new comment: ", newComment);
 
             await newComment.save();
 
@@ -56,7 +55,6 @@ class CommentController {
         try {
             const comments = await Comment.find();
             res.status(200).json(comments);
-            console.log("comments: ", comments);
         } catch (error) {
             console.error("Error fetching comments:", error);
             res.status(500).json({ success: false, errors: "Error fetching comments" });
@@ -117,7 +115,6 @@ class CommentController {
         try {
             // Find all users and retrieve their Ids
             const users = await User.find({});
-            console.log("Total users:", users.length);
 
             // Extract user Ids from the users array
             const userIds = users.map(user => user.Id);
@@ -203,33 +200,7 @@ class CommentController {
         }
     };
 
-    async updateDate(req, res) {
-        try {
-            // Generate random date function (within a given range)
-            function getRandomDate(start, end) {
-                return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-            }
 
-            // Get all comments
-            const comments = await Comment.find({});
-
-            // Update each comment with a random createdAt date
-            const bulkOps = comments.map(comment => ({
-                updateOne: {
-                    filter: { _id: comment._id },
-                    update: { $set: { create_at: getRandomDate(new Date(2024, 0, 1), new Date()) } }
-                }
-            }));
-
-            // Perform bulk write operation to update all comments
-            const result = await Comment.bulkWrite(bulkOps);
-
-            res.status(200).json({ success: true, message: `Updated ${result.modifiedCount} comments successfully.` });
-        } catch (error) {
-            console.error('Error updating date:', error);
-            res.status(500).json({ success: false, message: 'Error updating date' });
-        }
-    };
 
 }
 
