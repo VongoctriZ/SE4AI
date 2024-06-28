@@ -27,7 +27,6 @@ const ListUser = () => {
   }, []);
 
   const removeUser = async (id) => {
-    // console.log("Removing user with id:", id); // Log the id to be removed
     try {
       const response = await fetch('http://localhost:4000/user/removeuser', {
         method: 'POST',
@@ -38,14 +37,12 @@ const ListUser = () => {
         body: JSON.stringify({ _id: id }) // Send _id in the request body
       });
 
-      // console.log("Remove response:", response); // Log the response
 
       if (!response.ok) {
         throw new Error('Failed to remove user');
       }
 
       const result = await response.json();
-      // console.log("Remove result:", result); // Log the result
 
       if (result.success) {
         setAllUsers(prevUsers => prevUsers.filter(user => user.id !== id));

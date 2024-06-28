@@ -1,20 +1,15 @@
-/* ListProduct.css */
 .list-products {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* Chiều cao toàn màn hình để căn giữa theo chiều dọc */
     background-color: #f5f5f5;
-    /* Màu nền tùy chọn */
 }
 
 .list-product-table {
     height: 400px;
     width: 80%;
-    /* Chiều rộng tùy chọn, có thể điều chỉnh */
     max-width: 1200px;
-    /* Để tránh bảng quá lớn trên màn hình rộng */
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;

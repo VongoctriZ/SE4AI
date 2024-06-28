@@ -1,14 +1,11 @@
-/* Container centering */
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 85vh;
-    /* Adjusted to 100vh for full-screen height */
     width: 100%;
 }
 
-/* Add Product Form Styling */
 .add-product {
     margin: 20px auto;
     box-sizing: border-box;
@@ -21,7 +18,6 @@
     box-shadow: 0 1px 3px -2px #000;
 }
 
-/* Item field styling */
 .addproduct-itemfield {
     width: 100%;
     color: #7b7b7b;
@@ -45,15 +41,12 @@
 
 .addproduct-itemfield input:focus {
     border-color: #6079ff;
-    /* Blue border on focus */
 }
 
-/* Selector styling */
 .add-product-selector {
     padding: 10px;
     width: 100%;
     max-width: 120px;
-    /* Adjusted for better responsiveness */
     height: 50px;
     font-size: 14px;
     color: #7b7b7b;
@@ -62,7 +55,6 @@
 }
 
 
-/* Button styling */
 .addproduct-btn {
     width: 160px;
     height: 50px;
@@ -76,14 +68,12 @@
     margin: 30px auto 0;
 }
 
-/* Item field label styling */
 .addproduct-itemfield p {
     font-weight: 1000;
     color: black;
     margin: 0;
 }
 
-/* Responsive adjustments */
 @media (max-width: 600px) {
     .add-product {
         padding: 30px;

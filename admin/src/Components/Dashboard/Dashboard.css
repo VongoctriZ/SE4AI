@@ -6,10 +6,8 @@
 .stats-container {
     display: flex;
     justify-content: center;
-    /* Center the stats container */
     margin-top: 20px;
     width: 100%;
-    /* Ensure the container takes full width */
 }
 
 .stat-card {
@@ -20,7 +18,6 @@
     width: 150px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 0 10px;
-    /* Add margin to create space between cards */
 }
 
 .stat-card h3 {
@@ -47,11 +44,9 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 800px;
-    /* Ensure maximum width */
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Center the content inside this container */
 }
 
 .container {
