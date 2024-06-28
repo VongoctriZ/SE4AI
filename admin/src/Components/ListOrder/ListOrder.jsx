@@ -5,11 +5,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import { format } from 'date-fns';
 
-
+// Helper function to format date
 const formatDate = (dateString) => {
     return format(new Date(dateString), 'yyyy-MM-dd HH:mm');
 };
 
+// Helper function to format price in VND currency
 const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
         style: 'currency',
@@ -19,11 +20,13 @@ const formatPrice = (price) => {
 };
 
 const ListOrder = () => {
+    // State variables
     const [allOrders, setAllOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [snackbarMessage, setSnackbarMessage] = useState('');
 
+    // Function to fetch orders from the backend
     const fetchOrder = async () => {
         try {
             const response = await fetch('http://localhost:4000/order/allorders');
@@ -39,10 +42,12 @@ const ListOrder = () => {
         }
     };
 
+    // Fetch orders on component mount
     useEffect(() => {
         fetchOrder();
     }, []);
 
+    // Function to handle status change of an order
     const statusHandle = async (id, status) => {
         try {
             const response = await fetch('http://localhost:4000/order/update/status', {
@@ -69,14 +74,15 @@ const ListOrder = () => {
         }
     };
 
+    // Function to handle closing of the snackbar
     const handleSnackbarClose = () => {
         setSnackbarMessage('');
     };
 
+    // Define columns for DataGrid
     const columns = [
         { field: 'id', headerName: 'ID', width: 130, align: 'center', headerAlign: 'center' },
         { field: 'userId', headerName: 'User ID', width: 130, align: 'center', headerAlign: 'center' },
-
         {
             field: 'total_money',
             headerName: 'Total Money',
@@ -88,12 +94,12 @@ const ListOrder = () => {
         {
             field: 'createdAt',
             headerName: 'Date',
-            width: 170, align: 'center',
+            width: 170,
+            align: 'center',
             headerAlign: 'center',
             renderCell: (params) => formatDate(params.value)
         },
         { field: 'status', headerName: 'Status', width: 140, align: 'center', headerAlign: 'center' },
-
         {
             field: 'actions',
             headerName: 'Change Status',
@@ -126,16 +132,17 @@ const ListOrder = () => {
         },
     ];
 
+    // Show loading spinner while fetching data
     if (loading) {
         return <CircularProgress />;
     }
 
+    // Show error message if there is an error
     if (error) {
         return <div>Error: {error}</div>;
     }
 
     return (
-        // <div className="list-orders">
         <div style={{ height: 580, width: '100%' }}>
             <DataGrid
                 rows={allOrders}
@@ -143,7 +150,6 @@ const ListOrder = () => {
                 pageSize={5}
                 checkboxSelection={false}
             />
-
             <Snackbar
                 open={!!snackbarMessage}
                 autoHideDuration={6000}
@@ -151,13 +157,6 @@ const ListOrder = () => {
                 message={snackbarMessage}
             />
         </div>
-        //     <Snackbar
-        //         open={!!snackbarMessage}
-        //         autoHideDuration={6000}
-        //         onClose={handleSnackbarClose}
-        //         message={snackbarMessage}
-        //     />
-        // </div>
     );
 };
 
