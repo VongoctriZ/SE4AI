@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Schema for Creating Products
 const ProductSchema = new Schema({
     id: {
         type: Number,
@@ -55,7 +54,6 @@ const ProductSchema = new Schema({
     },
     images: {
         type: Object,
-        // required: true,
         default: null,
     },
     category: {

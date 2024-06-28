@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 
-// Schema for Creating Comments
 const CommentSchema = new mongoose.Schema({
     product_id: {
-        // type: mongoose.Schema.Types.ObjectId, // use id from mongoDB
-        type: Number, // Assuming product_id in CommentSchema is the same type as id in ProductSchema
+        type: Number,
         ref: 'Product',
         required: true,
     },
@@ -35,7 +33,6 @@ const CommentSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        // required: true,
     },
     images: {
         type: [String],

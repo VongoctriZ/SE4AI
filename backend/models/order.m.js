@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-// Schema for Creating Orders
 const OrderSchema = new Schema({
     id: {
         type: Number,

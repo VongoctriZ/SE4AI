@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
-// Define the User schema
 const UserSchema = new mongoose.Schema({
-    Id: {//customized attribute but not ObjectId from MongoDB
+    Id: {
         type: Number,
         required: true,
         unique: true,
@@ -10,34 +9,32 @@ const UserSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
-        trim: true, // Removes whitespace from both ends
+        trim: true,
     },
     email: {
         type: String,
         required: true,
         unique: true,
         trim: true,
-        lowercase: true, // Converts email to lowercase
-        match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.'] // Email format validation
+        lowercase: true,
+        match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.']
     },
     password: {
         type: String,
         required: true,
-        // minlength: 8, // Minimum password length
     },
     phoneNumber: {
         type: String,
         required: true,
-        match: [/^\d+$/, 'Please use a valid phone number.'] // Ensures the phone number contains only digits
+        match: [/^\d+$/, 'Please use a valid phone number.']
     },
     cartId: {
-        type: Number, // Reference to the custom cart ID
-        // unique: true, // Ensure each user has a unique cart
+        type: Number,
         default: null,
     },
     createdAt: {
         type: Date,
-        default: Date.now, // Default to current date and time
+        default: Date.now,
     },
     address: {
         type: String,
@@ -45,7 +42,6 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-// Create the User model
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

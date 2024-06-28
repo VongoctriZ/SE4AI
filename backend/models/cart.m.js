@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Schema for Creating Shopping Carts
 const CartSchema = new Schema({
     id: {
         type: Number,
@@ -11,7 +10,7 @@ const CartSchema = new Schema({
     userId: {
         type: Number,
         required: true,
-        unique: true, // Each user has a unique cart
+        unique: true, 
     },
     products: [
         {
@@ -22,7 +21,7 @@ const CartSchema = new Schema({
             quantity: {
                 type: Number,
                 required: true,
-                default: 0, // Default quantity is 1
+                default: 0, 
             }
         }
     ]

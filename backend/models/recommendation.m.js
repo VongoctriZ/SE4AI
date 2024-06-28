@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Schema for Recommendations
 const RecommendationSchema = new Schema({
     user_id: {
         type: Number,
@@ -17,7 +16,6 @@ const RecommendationSchema = new Schema({
     }
 });
 
-// Model for Recommendations
 const Recommendation = mongoose.model('Recommendation', RecommendationSchema);
 
 module.exports = Recommendation;
