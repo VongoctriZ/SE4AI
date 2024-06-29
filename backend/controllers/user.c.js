@@ -67,6 +67,10 @@ class UserController {
             return res.status(400).json({ sucess: false, errors: "Password is required" });
         }
 
+        if (!email){
+            return res.status(400).json({ sucess: false, errors: "Email is required" });
+        }
+
         // Validate required fields
         if (!fullName || !phoneNumber || !email || !password || !confirmPassword || !address) {
             return res.status(400).json({ success: false, errors: "All fields are required" });
