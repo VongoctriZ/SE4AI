@@ -63,7 +63,7 @@ class UserController {
         const { fullName, phoneNumber, email, password, confirmPassword, address, Id } = req.body;
 
         if (!fullName){
-            return res.status(400).json({sucess:false, errors: "Full Name is required"});
+            return res.status(400).json({success: false, errors: "Full Name is required"});
         }
 
         if (!phoneNumber){
@@ -75,17 +75,17 @@ class UserController {
         }
 
         if (!password) {
-            return res.status(400).json({ sucess: false, errors: "Password is required" });
+            return res.status(400).json({success: false, errors: "Password is required"});
         }
 
         if (!email){
-            return res.status(400).json({ sucess: false, errors: "Email is required" });
+            return res.status(400).json({success: false, errors: "Email is required"});
         }
 
      
         // Validate required fields
         if (!fullName || !phoneNumber || !email || !password || !confirmPassword || !address) {
-            return res.status(400).json({ success: false, errors: "All fields are required" });
+            return res.status(400).json({success: false, errors: "All fields are required" });
         }
 
         // Check if passwords match
