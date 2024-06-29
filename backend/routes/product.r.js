@@ -13,7 +13,7 @@ router.get('/allproducts', productController.allProducts);
 router.get('/category/:category', productController.productsByCategory);
 
 // Route for searching products by category
-router.get('/search', productController.searchProductsByCategory);
+router.get('/search', productController.searchProducts);
 
 // Endpoint to remove a specific product
 router.post('/removeproduct', productController.removeProduct);

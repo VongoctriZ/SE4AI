@@ -218,34 +218,73 @@ class ProductController {
         }
     };
 
-    // API for searching products by category
-    async searchProductsByCategory(req, res) {
+    // // API for searching products by category
+    // async searchProductsByCategory(req, res) {
+    //     try {
+    //         const categoryQuery = req.query.q;
+
+
+    //         // If categoryQuery is a single string, convert it to an array
+    //         const categories = Array.isArray(categoryQuery) ? categoryQuery : [categoryQuery];
+
+
+    //         // Use regex to make the search case insensitive for each category
+    //         const regexArray = categories.map(category => new RegExp(`^${category}$`, 'i'));
+
+
+    //         // Find products that have any matching categories in their category array
+    //         const products = await Product.find({
+    //             category: { $elemMatch: { $in: regexArray } }
+    //         });
+
+    //         res.status(200).json(products);
+    //     } catch (error) {
+    //         console.error(`Error fetching products for categories ${categoryQuery}:`, error);
+    //         res.status(500).json({
+    //             success: false,
+    //             message: `Error fetching products for categories ${categoryQuery}`,
+    //         });
+    //     }
+    // }
+
+    async searchProducts(req, res) {
         try {
-            const categoryQuery = req.query.q;
+            // Extract the search query from the request
+            const searchQuery = req.query.q;
 
+            if (!searchQuery) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'No search query provided',
+                });
+            }
 
-            // If categoryQuery is a single string, convert it to an array
-            const categories = Array.isArray(categoryQuery) ? categoryQuery : [categoryQuery];
+            // Create a case-insensitive regex for the search query
+            const regex = new RegExp(searchQuery, 'i');
 
-
-            // Use regex to make the search case insensitive for each category
-            const regexArray = categories.map(category => new RegExp(`^${category}$`, 'i'));
-
-
-            // Find products that have any matching categories in their category array
+            // Find products where the name or description matches the search query
             const products = await Product.find({
-                category: { $elemMatch: { $in: regexArray } }
+                $or: [
+                    { name: regex },
+                    { description: regex },
+                    // Add more fields as needed
+                ]
             });
 
+            // Respond with the found products
             res.status(200).json(products);
         } catch (error) {
-            console.error(`Error fetching products for categories ${categoryQuery}:`, error);
+            // Log the error for debugging purposes
+            console.error('Error fetching products:', error);
+
+            // Respond with an error message
             res.status(500).json({
                 success: false,
-                message: `Error fetching products for categories ${categoryQuery}`,
+                message: 'Error fetching products',
             });
         }
     }
+
 
     // API for deleting a product
     async removeProduct(req, res) {
