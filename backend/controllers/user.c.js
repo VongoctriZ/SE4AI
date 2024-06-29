@@ -62,6 +62,17 @@ class UserController {
     async signUp(req, res) {
         const { fullName, phoneNumber, email, password, confirmPassword, address, Id } = req.body;
 
+        if (!fullName){
+            return res.status(400).json({sucess:false, errors: "Full Name is required"});
+        }
+
+        if (!phoneNumber){
+            return res.status(400).json({success: false, errors: "Phone Number is required"});
+        }
+
+        if (!email){
+            return res.status(400).json({success: false, errors: "Email is required"});
+        }
 
         if (!password) {
             return res.status(400).json({ sucess: false, errors: "Password is required" });
@@ -71,6 +82,7 @@ class UserController {
             return res.status(400).json({ sucess: false, errors: "Email is required" });
         }
 
+     
         // Validate required fields
         if (!fullName || !phoneNumber || !email || !password || !confirmPassword || !address) {
             return res.status(400).json({ success: false, errors: "All fields are required" });
@@ -78,7 +90,7 @@ class UserController {
 
         // Check if passwords match
         if (password !== confirmPassword) {
-            return res.status(400).json({ success: false, errors: "Passwords do not match" });
+            return res.status(400).json({ success: false, errors: "Password does not match" });
         }
 
         try {
