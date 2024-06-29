@@ -5,12 +5,11 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 const ListProduct = () => {
   const [allProducts, setAllProducts] = React.useState([]);
 
+  // Fetch product data from the server
   const fetchInfo = async () => {
     try {
       const response = await fetch('http://localhost:4000/product/allproducts');
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
+      if (!response.ok) throw new Error('Failed to fetch data');
       const data = await response.json();
       setAllProducts(data);
     } catch (error) {
@@ -18,10 +17,12 @@ const ListProduct = () => {
     }
   };
 
+  // Use useEffect to fetch product data when the component mounts
   React.useEffect(() => {
     fetchInfo();
   }, []);
 
+  // Remove a product by its ID
   const removeProduct = async (id) => {
     try {
       const response = await fetch('http://localhost:4000/product/removeproduct', {
@@ -30,20 +31,19 @@ const ListProduct = () => {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: id })
+        body: JSON.stringify({ id: id }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to remove product');
-      }
+      if (!response.ok) throw new Error('Failed to remove product');
 
-      // Xóa sản phẩm từ state mà không cần gọi lại fetchInfo
-      setAllProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+      // Remove product from state without refetching
+      setAllProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
     } catch (error) {
       console.error('Error removing product:', error);
     }
   };
 
+  // Define columns for the DataGrid
   const columns = [
     { field: 'id', headerName: 'ID', width: 130, align: 'center', headerAlign: 'center' },
     { field: 'name', headerName: 'Name', width: 200, align: 'center', headerAlign: 'center' },
@@ -74,9 +74,10 @@ const ListProduct = () => {
         columns={columns}
         pageSize={5}
         checkboxSelection={false}
+        // Enable virtualization for better performance with large data sets
+        disableVirtualization={false}
       />
     </div>
-
   );
 };
 
